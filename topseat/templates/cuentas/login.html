@@ -1,0 +1,12 @@
+{%extends "base.html"%}
+
+{%block content%}
+<h1>TOP SEAT</h1>
+<p>Formulario para login</p>
+
+<form class ="site-form" action="/cuentas/login/" method="post">
+	{% csrf_token %}
+	{{lgForm}}
+	<input type="Submit" value="Login">.
+</form>
+{%endblock content%}

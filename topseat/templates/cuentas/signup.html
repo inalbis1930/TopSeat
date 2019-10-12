@@ -1,0 +1,12 @@
+{%extends "base.html"%}
+
+{%block content%}
+<h1>TOP SEAT</h1>
+<p>Formulario para signup</p>
+
+<form class ="site-form" action="/cuentas/signup/" method="post">
+	{% csrf_token %}
+	{{sgForm}}
+	<input type="Submit" value="Sign Up">.
+</form>
+{%endblock content%}
