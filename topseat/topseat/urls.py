@@ -22,5 +22,6 @@ app_name='topseat'
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', topseat_views.home,name='home'),
-    url(r'^cuentas/', include('cuentas.urls', namespace='cuentas')),   
+    url(r'^cuentas/', include('cuentas.urls', namespace='cuentas')),
+    url(r'^aplicacion/', include('aplicacion.urls', namespace='aplicacion')),
 ]

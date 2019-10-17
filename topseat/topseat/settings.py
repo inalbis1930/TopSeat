@@ -16,6 +16,7 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
@@ -39,6 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'topseat',
     'cuentas',
+    'aplicacion',
+    'django_google_maps',
+  
 ]
 
 MIDDLEWARE = [
@@ -105,7 +109,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-co'
 
 TIME_ZONE = 'UTC'
 
@@ -120,3 +124,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    os.path.join(os.path.dirname(__file__), '../static').replace('\\','/'),
+]
+
+PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
+STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
+#Google Maps (AIzaSyDcrj0tFoCnUn9BCWalr4Xbz4uH1fGjt7Q)
+EASY_MAPS_GOOGLE_KEY = 'AIzaSyCgRVbcHWYWlj4szLhvJI6BNWdrl_LJxZM'
+GOOGLE_MAPS_API_KEY = 'AIzaSyCgRVbcHWYWlj4szLhvJI6BNWdrl_LJxZM'
