@@ -131,6 +131,3 @@ STATICFILES_DIRS = [
 
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
-#Google Maps (AIzaSyDcrj0tFoCnUn9BCWalr4Xbz4uH1fGjt7Q)
-EASY_MAPS_GOOGLE_KEY = 'AIzaSyCgRVbcHWYWlj4szLhvJI6BNWdrl_LJxZM'
-GOOGLE_MAPS_API_KEY = 'AIzaSyCgRVbcHWYWlj4szLhvJI6BNWdrl_LJxZM'
