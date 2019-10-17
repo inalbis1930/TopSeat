@@ -1,17 +1,18 @@
-{%extends "base.html"%}
-
+{%extends "baseApp.html"%}
 
 {%block content%}
-<p>Formulario para signup</p>
+
+<p>Formulario para Nuevo Viaje</p>
+
 {%if error%}
 <div class="alert">
   <span class="closebtn">&times;</span>  
   <strong>¡Pilas!</strong> {{error}}
 </div>
 {%endif%}
-<form class ="site-form" action="/cuentas/signup/" method="post">
+<form class ="site-form" action="{%url 'aplicacion:crearViaje'%}" method="post">
 	{% csrf_token %}
-	{% for field in sgForm %}
+		{% for field in rtForm %}
       <p class ="c1">
         {{ field.label_tag }}<br>
         {{ field }}
@@ -23,7 +24,7 @@
         {% endfor %}
       </p>
     {% endfor %}
-	{% for field in prForm %}
+	{% for field in nvForm %}
       <p class ="c1">
         {{ field.label_tag }}<br>
         {{ field }}
@@ -35,6 +36,6 @@
         {% endfor %}
       </p>
     {% endfor %}
-	<input type="Submit" value="Sign Up">.
+	<input type="Submit" value="Crear Viaje">.
 </form>
 {%endblock content%}

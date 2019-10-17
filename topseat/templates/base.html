@@ -1,14 +1,23 @@
 {% load staticfiles %}
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <title>TOP SEAT</title>
     <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link rel="stylesheet" href="{% static "css/style.css" %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 </head>
 <body>
+	<div class="topnav">
+	  <a class="active" href="/">Home</a>
+	  <a href="#blog">Blog</a>	
+	  <a href="#about">FAQ</a>
+	</div>
+
+	<div style="padding-left:16px">
+	  <h1>TOP SEAT</h1>
+	</div>
     {% block content %}
 	{% endblock content %}
 </body>

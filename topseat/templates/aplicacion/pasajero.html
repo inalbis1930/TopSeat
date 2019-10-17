@@ -1,0 +1,46 @@
+{%extends "baseApp.html"%}
+
+{%block content%}
+<h3>Pasajero</h3>
+<table id="t01">
+  <tr>
+    <th>Hora</th>
+    <th>Conductor</th> 
+    <th>Cupos</th>
+	<th>Origen</th>
+	<th>Destino</th>
+	<th>Vehiculo</th>
+	<th>Tarifa</th>
+	<th>Seleccion</th>
+	<th>Ver Mapa</th>
+  </tr>
+  {%for item in viajes%}
+   <tr>
+    <td>{{item.hora}}</td>
+    <td>{{item.conductor.username}}</td> 
+    <td>{{item.puestos_d}}</td>
+	<td>{{item.ruta.inicio}}</td>
+	<td>{{item.ruta.fin}}</td>
+	<td>{{item.vehiculo}}</td>
+	<td>{{item.tarifa}}</td>
+	<td style="text-align:center;">
+		<form action="{%url 'aplicacion:verMapa'%}" method="get">
+			{% csrf_token %}
+			<button type="submit" formmethod="get">Seleccionar</button>
+		</form>
+	</td>
+		<td style="text-align:center;">
+		<form action="{%url 'aplicacion:aplicacion_home'%}" method="post">
+			{% csrf_token %}
+			<input type="hidden" name="origen" value="{{item.ruta.inicio }}">
+			<input type="hidden" name="fin" value="{{item.ruta.fin }}">
+			<input type="submit" value="Ver Mapa" class="btn btn-primary">
+		</form>
+	</td>
+  </tr>
+  {%endfor%}
+</table>
+
+<p>Boton Generar Viaje</p>
+
+{%endblock content%}

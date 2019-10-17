@@ -1,0 +1,13 @@
+{%extends "baseApp.html"%}
+
+{%block content%}
+
+<p>Mapa y Opcion de escoger pasajero o conductor</p>
+<form action="/aplicacion/conductor" method="get">
+    <input type="submit" value="Conductor" name="btnConductor" />
+</form>
+<form action="/aplicacion/pasajero" method="get">
+    <input type="submit" value="Pasajero" name="btnPasajero" />
+</form>
+
+{%endblock content%}

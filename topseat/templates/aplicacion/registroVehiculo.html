@@ -1,12 +1,12 @@
-{%extends "base.html"%}
+{%extends "baseApp.html"%}
 
 {%block content%}
 
-<p>Formulario para login</p>
+<p>Formulario para Registrar Vehiculo</p>
 
-<form class ="site-form" action="{%url 'cuentas:login'%}" method="post">
+<form class ="site-form" action="{%url 'aplicacion:registro_vehiculo'%}" method="post">
 	{% csrf_token %}
-	{% for field in lgForm %}
+	{% for field in rvForm %}
       <p class ="c1">
         {{ field.label_tag }}<br>
         {{ field }}
@@ -18,9 +18,6 @@
         {% endfor %}
       </p>
     {% endfor %}
-	{% if request.GET.next%}
-		<input type="hidden" name="next" value="{{request.GET.next}}">
-	{%endif%}
-	<input type="Submit" value="Login">.
+	<input type="Submit" value="Guardar Vehiculo">.
 </form>
 {%endblock content%}

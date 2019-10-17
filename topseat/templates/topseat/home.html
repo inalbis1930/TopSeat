@@ -1,6 +1,12 @@
 {%extends "base.html"%}
 
 {%block content%}
-<h1>TOP SEAT</h1>
-<p>Informacion de la aplicación.</p>
+<form action="/cuentas/login" method="get">
+    <input type="submit" value="Ingreso" 
+         name="Ingreso" />
+</form>
+<form action="/cuentas/signup" method="get">
+    <input type="submit" value="Registro" 
+         name="Registro" />
+</form>
 {%endblock content%}
