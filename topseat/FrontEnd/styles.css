@@ -1,0 +1,511 @@
+body {
+    margin: 0;
+    background: #E7E7E7;
+    font-family: 'Andale Mono', monospace;
+    font-weight: 300;
+}
+
+.menu_bar {
+    display: inline-block;
+    width: 90%;
+    margin: 0 auto;
+}
+
+header {
+    position: relative;
+    margin: 0;
+    background: #B0AEAE;
+}
+
+header::after {
+    content: '';
+    display: table;
+    clear: both;
+}
+
+.menu {
+    width: 100%;
+    align-content: center;
+}
+
+h1 {
+    float: left;
+    margin-top: 20px;
+    margin-bottom: 1px;
+    margin-left: 25px;
+    font-size: 180%;
+}
+
+p {
+    margin-top: 35px;
+    margin-left: 25px;
+    font-size: 10px;
+}
+
+.log_in a {
+    color: rgb(238, 5, 5);
+    text-decoration: none;
+}
+
+.log_in a:hover{
+    text-decoration: underline;
+}
+
+nav {
+    float: right;
+}
+
+nav ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+nav li {
+    display: inline-block;
+    margin-left: 30px;
+    margin-right: 35px;
+    padding-top: 35px;
+    padding-bottom: 10px;
+
+    position: relative;
+}
+
+nav a {
+    color: #444;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 14px;
+}
+
+nav a:hover{
+    color: #444;
+    font-weight: 300;
+}
+
+nav a::before {
+    content: '';
+    display: block;
+    height: 5px;
+    width: 100%;
+    background-color: #D51310;
+
+    position: absolute;
+    top: 0px;
+    width: 0%;
+
+    transition: all ease-in-out 250ms;
+}
+
+nav a:hover::before {
+    width: 100%;
+}
+
+.login_form input[type=text], .login_form input[type=password] {
+    width: 90%;
+    display: inline-block;
+    border: none;
+    margin-top: 5px;
+    background: #f1f1f1;
+
+    padding: 15px 20px;
+    margin: 10px 0;
+    box-sizing: border-box;
+}
+  
+.login_form input[type=text]:focus, .login_form input[type=password]:focus {
+    background-color: #ddd;
+    outline: none;
+}
+
+.signup_form input[type=text], .signup_form input[type=password] {
+    width: 48%;
+    display: inline-block;
+    border: none;
+    margin-top: 5px;
+    background: #f1f1f1;
+
+    padding: 10px 20px;
+    margin: 5px 0;
+    box-sizing: border-box;
+}
+  
+.signup_form input[type=text]:focus, .signup_form input[type=password]:focus {
+    background-color: #ddd;
+    outline: none;
+}
+
+.buttons {
+    position: absolute;
+    top: 85%;
+    left: 50%;
+    font-size: 15px;
+    transform: translate(-50%, -50%);
+    width: 85%;
+    height: 35%;
+    box-sizing: border-box;
+    border-radius: 12px 12px 12px 12px;
+}
+
+.log_in {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 15px;
+    transform: translate(-50%, -50%);
+    width: 480px;
+    height: 380px;
+    box-sizing: border-box;
+    background: rgba(255, 255, 255, 1);
+    border-radius: 12px 12px 12px 12px;
+}
+
+.b_back {
+    border: 3px solid #444;
+    background: none;
+    padding: 15px 25px;
+    font-size: 15px;
+    cursor: pointer;
+    margin: 3px;
+    color: #444;
+    border-radius: 12px 12px 12px 12px;
+    transition: all 0.1s ease 0s;
+}
+
+.b_login {
+    border: 3px solid #D51310;
+    background: #D51310;
+    padding: 15px 25px;
+    margin-top: 30px;
+    font-size: 15px;
+    cursor: pointer;
+    margin: 3px;
+    color: #E7E7E7;
+    border-radius: 12px 12px 12px 12px;
+    transition: all 0.1s ease 0s;  
+}
+
+.b_login:hover {
+    border: 3px solid rgb(236, 40, 37);
+    background: rgb(236, 40, 37);
+    transition: all 0.1s ease 0s;
+}
+
+.b_back:hover {
+    background: #DBDADA;
+    transition: all 0.1s ease 0s;
+}
+
+.login_form {
+    margin-top: 0.5%;
+    padding: 16px;
+    margin-left: 8%;
+}
+
+.sign_up {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 15px;
+    transform: translate(-50%, -50%);
+    width: 480px;
+    height: 380px;
+    box-sizing: border-box;
+    background: rgba(255, 255, 255, 1);
+    border-radius: 12px 12px 12px 12px;
+}
+
+.sign_up a {
+    color: rgb(238, 5, 5);
+    text-decoration: none;
+}
+
+.sign_up a:hover{
+    text-decoration: underline;
+}
+
+.signup_form {
+    display: inline-block;
+    margin-top: 0.5%;
+    padding: 10px;
+    margin-left: 2%;
+}
+
+ select {
+    background: transparent;
+    border: none;
+    font-size: 11px;
+    height: 35px;
+    padding: 10px;
+    width: 48%;
+ }
+ select:focus{ outline: none;}
+
+ .image_container {
+    position: absolute;
+    display: inline-block;
+    background-image: url('img/image2.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    width:1440px; 
+    height:600px;
+    background-size: 100%;
+    
+  }
+
+@media screen and (max-width: 350px) {
+    nav li {
+        display: inline-block;
+        margin-left: 6%;
+        margin-right: 3%;
+        position: relative;
+        align-content: center;
+        top: 0;
+    }
+    
+    .menu_bar {
+        display: inline-block;
+        width: 100%;
+    }
+
+    nav {
+        width: 100%;
+        align-content: center;
+    }
+
+    .log_in {
+        top: 50%;
+        left: 50%;
+        width: 80%;
+        height: 70%;
+    }
+
+    .login_form {
+        margin-top: 1%;
+    }
+
+    .b_back {
+        top: 75%;
+        right: 50%;
+
+        padding: 5% 8%;
+        font-size: 80%;
+        display: inline-block;
+        width: 100%;
+    }
+
+    .b_login {
+        top: 75%;
+        right: 10%;
+
+        padding: 5% 10%;
+        font-size: 80%;
+        display: inline-block;
+        width: 100%;    
+    }
+
+    .sign_up {
+        top: 55%;
+        left: 50%;
+        width: 80%;
+        height: 80%;
+    }
+
+    .signup_form {
+        display: inline-block;
+        margin-top: 0.5%;
+        padding: 10px;
+        margin-left: 2%;
+    }
+
+    .signup_form input[name=psw-repeat]{
+        width: 100%;
+    }
+
+    select {
+        width:100%;
+    }
+
+    .image_container {
+        width: 100%;
+        height: 180px;
+    }
+}
+
+@media screen and (max-width: 400px) and (min-width: 351px) {
+    nav li {
+        display: inline-block;
+        margin-left: 7.5%;
+        margin-right: 3%;
+        position: relative;
+        align-content: center;
+        top: 0;
+    }
+    
+    .menu_bar {
+        display: inline-block;
+        width: 100%;
+
+    }
+
+    nav {
+        width: 100%;
+        align-content: center;
+    }
+
+    .log_in {
+        top: 50%;
+        left: 50%;
+        width: 80%;
+        height: 60%;
+    }
+
+    .login_form {
+        margin-top: 0.5%;
+    }
+
+    .b_back {
+        top: 76%;
+        right: 50%;
+
+        padding: 5% 8%;
+        display: inline-block;
+        width: 100%;
+    }
+
+    .b_login {
+        top: 76%;
+        right: 10%;
+
+        padding: 5% 10%;
+        display: inline-block;
+        width: 100%;    
+    }
+
+    .sign_up {
+        top: 50%;
+        left: 50%;
+        width: 80%;
+        height: 72%;
+    }
+
+    .signup_form {
+        display: inline-block;
+        margin-top: 0.5%;
+        padding: 10px;
+        margin-left: 2%;
+    }
+
+    .signup_form input[name=psw-repeat]{
+        width: 100%;
+    }
+
+    select {
+        width:100%;
+    }
+
+    .image_container {
+        width: 100%;
+        height: 180px;
+    }
+
+    @media screen and (max-height: 900px) and (min-height: 810px) {
+        .sign_up {
+            height: 60%;
+        }
+    }
+    
+}
+
+@media screen and (min-width: 401px) and (max-width: 700px) {
+    nav li {
+        display: inline-block;
+        margin-left: 10%;
+        margin-right: 8px;
+        position: relative;
+        align-content: center;
+        top: 0;
+    }
+    
+    .menu_bar {
+        display: inline-block;
+        width: 100%;
+
+    }
+
+    nav {
+        width: 100%;
+        align-content: center;
+    }
+
+    .log_in {
+        top: 50%;
+        left: 50%;
+        width: 80%;
+        height: 60%;
+    }
+
+    .login_form {
+        margin-top: 5%;
+    }
+
+    .b_back {
+        top: 75%;
+        right: 50%;
+
+        padding: 5% 8%;
+        display: inline-block;
+        width: 100%;
+    }
+
+    .b_login {
+        top: 75%;
+        right: 11%;
+
+        padding: 5% 10%;
+        display: inline-block;
+        width: 100%;
+    }
+
+    .sign_up {
+        top: 50%;
+        left: 50%;
+        width: 80%;
+        height: 65%;
+    }
+
+    .signup_form {
+        display: inline-block;
+        margin-top: 0.5%;
+        padding: 10px;
+        margin-left: 2%;
+    }
+
+    .signup_form input[name=psw-repeat]{
+        width: 100%;
+    }
+
+    select {
+        width:100%;
+    }
+
+    .image_container {
+        width: 100%;
+        height: 180px;
+    }
+}
+
+@media screen and (min-width: 701px){
+    .b_back {
+        position: absolute;
+        right: 10%;
+        top: 25%;
+    }
+
+    .b_login {
+        position: absolute;
+        width: 50%;
+        right: 38%;
+        top: 25%;
+    }
+}

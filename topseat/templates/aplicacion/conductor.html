@@ -24,6 +24,7 @@ for (i = 0; i < close.length; i++) {
 
 
 <h3>Conductor</h3>
+<div style ="overflow-x:auto;">
 <table id="t01">
   <tr>
     <th>Hora</th>
@@ -73,6 +74,7 @@ for (i = 0; i < close.length; i++) {
   </tr>
   {%endfor%}
 </table>
+</div>
 <form action="{%url 'aplicacion:crearViaje'%}" method="get">
 	{% csrf_token %}
 	<button type="submit" formmethod="get">Crear Viaje</button>
@@ -80,6 +82,7 @@ for (i = 0; i < close.length; i++) {
 
 
 <h3>Reservas</h3>
+<div style ="overflow-x:auto;">
 <table id="t01">
   <tr>
     <th>Hora</th>
@@ -106,5 +109,6 @@ for (i = 0; i < close.length; i++) {
   </tr>
   {%endfor%}
 </table>
+</div>
 
 {%endblock content%}
