@@ -10,6 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
+'''
+Configuracion de la aplicacion de TopSeat
+'''
+
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -26,7 +30,7 @@ SECRET_KEY = 'x%jmjv3@$!ot_(%my_xc0kj+ipdj6a!6^v)tqgzf))ft!m%u*e'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['192.168.0.8','inalbis.ddns.net'] #Solo se puede acceder a este servicio mediante estos Hosts.
 
 
 # Application definition
@@ -41,7 +45,6 @@ INSTALLED_APPS = [
     'topseat',
     'cuentas',
     'aplicacion',
-    'django_google_maps',
   
 ]
 
@@ -55,9 +58,13 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'topseat.urls'
+# Este es el archivo que se va a mirar como Raiz de los URL's 
 
-TEMPLATES = [
+ROOT_URLCONF = 'topseat.urls' 
+
+# Ubicacion de las plantillas HTML
+
+TEMPLATES = [  
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [os.path.join(BASE_DIR, 'templates')],
@@ -76,19 +83,19 @@ TEMPLATES = [
 WSGI_APPLICATION = 'topseat.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/1.11/ref/settings/#databases
+
+# Definicion de el tipo de base de datos y nombre de la base de datos
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
-}
-
+} 
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
+# Reglas para la validacion de una contraseña 
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -120,7 +127,7 @@ USE_L10N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
+# Ubicacion de los archivos estaticos tales como imagenes o archivos de estilo como CSS
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
@@ -131,3 +138,8 @@ STATICFILES_DIRS = [
 
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
+
+# Llaves de Google Maps para acceder a los servicios provistos por el API
+
+EASY_MAPS_GOOGLE_KEY = 'AIzaSyCgRVbcHWYWlj4szLhvJI6BNWdrl_LJxZM'
+GOOGLE_MAPS_API_KEY = 'AIzaSyCgRVbcHWYWlj4szLhvJI6BNWdrl_LJxZM'

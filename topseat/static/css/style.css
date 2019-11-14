@@ -1,6 +1,7 @@
 body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
+  padding-bottom: 50px;
 }
 
 .topnav {
@@ -38,6 +39,7 @@ html, body {
         height: 80%;
         margin: 0;
         padding: 0;
+		padding-bottom: 50px;
 }
 
 ul.top {

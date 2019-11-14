@@ -38,9 +38,12 @@ class Viaje(models.Model):
         return " ["+str(self.conductor.username) +"] "+ str(self.ruta)
 
 class Reserva(models.Model):
-    pasajero = models.OneToOneField(User,on_delete=models.SET_NULL,null=True, blank=True)
+    id = models.AutoField(primary_key=True)
+    pasajero = models.ForeignKey(User,on_delete=models.CASCADE)
     viaje = models.OneToOneField(Viaje,on_delete=models.CASCADE)
     cantidadPuestos = models.IntegerField(default=1)
+    def __str__(self):
+        return str(self.viaje) +" {"+self.pasajero.username +"}"
     
 #------------------------Admnistracion--------------------
 

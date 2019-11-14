@@ -1,27 +1,25 @@
-"""topseat URL Configuration
+"""
 
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/1.11/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  url(r'^$', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  url(r'^$', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.conf.urls import url, include
-    2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
+Configuracion de los URL's de la aplicacion "topseat"
+
+Esta contenida las paginas estaticas y las aplicaciones de "cuentas", "aplicacion", "admin"
+
 """
 from django.conf.urls import url, include
 from django.contrib import admin
 from . import views as topseat_views
 
-app_name='topseat'
+app_name='topseat' #Definicion del nombre de la aplicacion para su uso en otros links y Redirects
+
+'''
+Para acceder a un link de esta apliacion se debe ralizar de la siguiente manera:
+    <app_name>:<namespace>
+    Ex. topseat:cuentas
+'''
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^$', topseat_views.home,name='home'),
-    url(r'^cuentas/', include('cuentas.urls', namespace='cuentas')),
-    url(r'^aplicacion/', include('aplicacion.urls', namespace='aplicacion')),
+    url(r'^admin/', admin.site.urls), #Vista de administrador
+    url(r'^$', topseat_views.home,name='home'),#Pagina principal de toda la aplicacion
+    url(r'^cuentas/', include('cuentas.urls', namespace='cuentas')),#Inclusion de los Urls de la aplicacion de cuentas
+    url(r'^aplicacion/', include('aplicacion.urls', namespace='aplicacion')),#Inclusion de los Urls de la aplicacion de cuentas
 ]

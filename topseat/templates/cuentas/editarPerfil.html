@@ -1,0 +1,32 @@
+{%extends "baseApp.html"%}
+
+{%block content%}
+
+<p>Formulario para Editar Perfil</p>
+
+<form class ="site-form" action="{%url 'cuentas:editar_perfil'%}" method="post">
+	{% csrf_token %}
+	{% for field in cgForm %}
+      <p class ="c1">
+        {{ field.label_tag }}<br>
+        {{ field }}
+        {% if field.help_text %}
+          <small style="color: grey">{{ field.help_text }}</small>
+        {% endif %}
+        {% for error in field.errors %}
+          <p style="color: red">{{ error }}</p>
+        {% endfor %}
+      </p>
+    {% endfor %}
+	<input type="Submit" value="Editar">.
+</form>
+
+<form action="{%url 'cuentas:actualizarContrasena'%}" method="get">
+	{% csrf_token %}
+	<button type="submit" formmethod="get">Cambiar Contraseña</button>
+</form>
+<form action="{%url 'cuentas:eliminarPerfil'%}" method="post">
+	{% csrf_token %}
+	<button type="submit" formmethod="post">Eliminar Cuenta</button>
+</form>
+{%endblock content%}

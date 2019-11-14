@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta name="generator"
-    content="HTML Tidy for HTML5 (experimental) for Windows https://github.com/w3c/tidy-html5/tree/c63cc39" />
+    {%load staticfiles%}
+	<script type="text/javascript" src="{% static 'js/closeBtn.js' %}"></script>
     <title>TOP SEAT - App</title>
   </head>
   <body>{% load staticfiles %}
@@ -10,17 +10,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
-  <!--<div class="topnav">
-          <a class="active" href="/">Home</a>
-          <a href="/aplicacion/pasajero">Pasajero</a>
-          <a href="/aplicacion/conductor">Conductor</a>
-          <div class="search-container">
-                <form action="{%url 'cuentas:logout'%}" method = "POST">
-                        {% csrf_token %}
-                  <input type="Submit" value="Logout" name="logout">
-                </form>
-          </div>
-        </div>-->
+
   <ul class="top">
     <li class="top">
       <a href="{%url 'aplicacion:aplicacion_home'%}">Inicio</a>
@@ -34,7 +24,9 @@
     <li style="float:right" class="dropdown">
       <a href="javascript:void(0)" class="dropbtn">Bienvenido, {{rol}} {{usuario}}</a>
       <div class="dropdown-content">
-        <a href="#">Editar Perfil</a>
+        <form action="{%url 'cuentas:editar_perfil'%}" method="get">{% csrf_token %} 
+        <a href="javascript:;" onclick="parentNode.submit();">Editar Perfil</a> 
+        <input type="hidden" name="changeR" value="Cambiar Rol" /></form>
         <form action="{%url 'cuentas:cambiar'%}" method="post">{% csrf_token %} 
         <a href="javascript:;" onclick="parentNode.submit();">Cambiar Rol</a> 
         <input type="hidden" name="changeR" value="Cambiar Rol" /></form>
@@ -50,6 +42,6 @@
     </li>
   </ul>
   <h1>TOP SEAT</h1>
-
+	
   {% block content %} {% endblock content %}</body>
 </html>

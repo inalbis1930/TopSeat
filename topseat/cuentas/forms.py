@@ -5,16 +5,17 @@ from .roles import *
 from . import models
 
 
-class signUpForm(UserCreationForm):
+class ProfileForm(forms.ModelForm):
     Nombre = forms.CharField(max_length=30,required=True)
     Apellido = forms.CharField(max_length=30,required=True)
     correo = forms.EmailField(max_length=254,required=True, help_text='Por favor introduzca su correo institucional de la P.U Javeriana')
     class Meta:
-        model = User
-        fields = ('username','Nombre','Apellido','correo','password1','password2')
-
-class ProfileForm(forms.ModelForm):
-    correo = forms.EmailField(max_length=254,required=True, help_text='Por favor introduzca su correo institucional de la P.U Javeriana')
-    class Meta:
         model = models.Perfil
         fields = ('correo','rol')
+
+class editarUsuario(forms.ModelForm):
+    first_name = forms.CharField(label='Nombre',max_length=30,required=False)
+    last_name = forms.CharField(label='Apellido',max_length=30,required=False)
+    class Meta:
+        model = User
+        fields = ('first_name','last_name')

@@ -1,10 +1,35 @@
 {%extends "baseApp.html"%}
 
 {%block content%}
+
+
+{%if mensaje%}
+<div class="alert success">
+  <span class="closebtn">&times;</span>  
+  <strong>¡Exito!</strong> {{mensaje}}
+</div>
+{%endif%}
+
+<script>
+var close = document.getElementsByClassName("closebtn");
+var i;
+
+for (i = 0; i < close.length; i++) {
+  close[i].onclick = function(){
+    var div = this.parentElement;
+    div.style.opacity = "0";
+    setTimeout(function(){ div.style.display = "none"; }, 600);
+  }
+}
+</script>
+
+
+
 <h3>Pasajero</h3>
 <table id="t01">
   <tr>
     <th>Hora</th>
+	<th>Fecha</th>
     <th>Conductor</th> 
     <th>Cupos</th>
 	<th>Origen</th>
@@ -17,6 +42,7 @@
   {%for item in viajes%}
    <tr>
     <td>{{item.hora}}</td>
+	<td>{{item.fecha}}</td>
     <td>{{item.conductor.username}}</td> 
     <td>{{item.puestos_d}}</td>
 	<td>{{item.ruta.inicio}}</td>
@@ -24,8 +50,9 @@
 	<td>{{item.vehiculo}}</td>
 	<td>{{item.tarifa}}</td>
 	<td style="text-align:center;">
-		<form action="{%url 'aplicacion:verMapa'%}" method="get">
+		<form action="{%url 'aplicacion:confirmarReserva'%}" method="get">
 			{% csrf_token %}
+			<input type="hidden" name="id" value="{{item.id}}">
 			<button type="submit" formmethod="get">Seleccionar</button>
 		</form>
 	</td>
@@ -41,6 +68,33 @@
   {%endfor%}
 </table>
 
-<p>Boton Generar Viaje</p>
+<h3>Reservas</h3>
+<table id="t01">
+  <tr>
+    <th>Hora</th>
+	<th>Fecha</th>
+    <th>Conductor</th> 
+    <th>Cupos</th>
+	<th>Contacto</th>
+	<th>Accion</th>
+  </tr>
+  {%for item in reservas%}
+   <tr>
+    <td>{{item.viaje.hora}}</td>
+	<td>{{item.viaje.fecha}}</td>
+    <td>{{item.viaje.conductor.first_name}} {{item.viaje.conductor.last_name}}</td> 
+    <td>{{item.cantidadPuestos}}</td>
+	<td>{{item.viaje.conductor.email}}</td>
+	<td style="text-align:center;">
+		<form action="{%url 'aplicacion:eliminarReserva'%}" method="post">
+			{% csrf_token %}
+			<input type="hidden" name="id" value="{{item.id}}">
+			<input type="submit" value="Eliminar" class="btn btn-primary">
+		</form>
+	</td>
+  </tr>
+  {%endfor%}
+</table>
+
 
 {%endblock content%}

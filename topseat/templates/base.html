@@ -9,11 +9,28 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 </head>
 <body>
-	<div class="topnav">
+	<!--<div class="topnav">
 	  <a class="active" href="/">Home</a>
 	  <a href="#blog">Blog</a>	
 	  <a href="#about">FAQ</a>
-	</div>
+	</div>-->
+	<ul class="top">
+    <li class="top">
+      <a href="{%url 'home'%}">Inicio</a>
+    </li>
+    <li class="top">
+      <a href="#Blog">Blog</a>
+    </li>
+    <li class="top">
+      <a href="#Faq">Faq</a>
+    </li>
+    <li style="float:right" class="dropdown">
+		<a href ="{%url 'cuentas:signup'%}">Registro</a>
+    </li>
+	<li style="float:right" class="dropdown">
+		<a href ="{%url 'cuentas:login'%}">Ingreso</a>
+    </li>
+  </ul>
 
 	<div style="padding-left:16px">
 	  <h1>TOP SEAT</h1>
