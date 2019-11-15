@@ -43,9 +43,9 @@
 			<a href="javascript:;" onclick="parentNode.submit();">Registrar Vehiculo</a> 
 			<input type="hidden" name="changeR" value="Cambiar Rol" /></form>
 			{%endif%}
-			<form action="{%url 'aplicacion:aplicacion_home' %}" method="post">{% csrf_token %} 
+			<form action="{%url 'aplicacion:aplicacion_home' %}" method="get">{% csrf_token %} 
 			<a href="javascript:;" onclick="parentNode.submit();">Historial De Viajes</a> 
-			<input type="hidden" name="cerrar" value="Cerrar Sesion" /></form>
+			<input type="hidden" name="Historial" value="Historial" /></form>
 			<form action="{%url 'cuentas:logout' %}" method="post">{% csrf_token %} 
 			<a href="javascript:;" onclick="parentNode.submit();">Cerrar Sesion</a> 
 			<input type="hidden" name="cerrar" value="Cerrar Sesion" /></form>
