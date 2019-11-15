@@ -43,7 +43,7 @@ for (i = 0; i < close.length; i++) {
    <tr>
     <td>{{item.hora}}</td>
 	<td>{{item.fecha}}</td>
-    <td>{{item.conductor.username}}</td> 
+    <td>{{item.conductor.usuario.first_name}} {{item.conductor.usuario.last_name}}</td> 
     <td>{{item.puestos_d}}</td>
 	<td>{{item.ruta.inicio}}</td>
 	<td>{{item.ruta.fin}}</td>
@@ -96,9 +96,9 @@ for (i = 0; i < close.length; i++) {
    <tr>
     <td>{{item.viaje.hora}}</td>
 	<td>{{item.viaje.fecha}}</td>
-    <td>{{item.pasajero.username}}</td> 
+    <td>{{item.pasajero.usuario.first_name}} {{item.pasajero.usuario.last_name}}</td> 
     <td>{{item.cantidadPuestos}}</td>
-	<td>{{item.pasajero.email}}</td>
+	<td ><a href="https://api.whatsapp.com/send?phone=57{{item.pasajero.celular}}" target="_blank">{{item.pasajero.celular}}</a></td>
 	<td style="text-align:center;">
 		<form action="{%url 'aplicacion:eliminarReserva'%}" method="post">
 			{% csrf_token %}

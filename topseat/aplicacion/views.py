@@ -12,7 +12,7 @@ from django.http import HttpResponse
 
 @login_required(login_url="/cuentas/login/")
 def aplicacion_home(request):
-    datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
+    datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request),'movil':esMovil(request)}
     if getRol(request) == "Conductor":
         if request.method == 'POST':
             origen = request.POST.get("origen","")
@@ -21,13 +21,9 @@ def aplicacion_home(request):
             datos['fin']=str(fin)
             return render(request,'aplicacion/verMapa.html',datos)
         else:
-            v=Viaje.objects.filter(conductor =request.user)
+            v=Viaje.objects.filter(conductor__usuario =request.user)
             datos['viajes']=v
-            rT= Reserva.objects.all()
-            r=[]
-            for re in rT:
-                if re.viaje.conductor == request.user:
-                    r.append(re)
+            r= Reserva.objects.filter(viaje__conductor__usuario=request.user,estado=True)
             datos['reservas']=r
             if 'mensaje' in request.session and request.session['mensaje'] != None:
                 datos['mensaje']=request.session['mensaje']
@@ -43,12 +39,19 @@ def aplicacion_home(request):
         else:
             v=Viaje.objects.filter(puestos_d__gte=1)
             datos['viajes']=v
-            r= Reserva.objects.filter(pasajero = request.user)
+            r= Reserva.objects.filter(pasajero__usuario = request.user,estado=True)
             datos['reservas']=r
             if 'mensaje' in request.session and request.session['mensaje'] != None:
                 datos['mensaje']=request.session['mensaje']
                 request.session['mensaje']= None
             return render (request,'aplicacion/pasajero.html',datos)
+
+def esMovil(request):
+    if request.user_agent.is_mobile:
+        is_mobile = True
+    else:
+        is_mobile = False
+    return is_mobile
 
 @login_required(login_url="/cuentas/login/")
 def registrov(request):
@@ -96,7 +99,7 @@ def crearViaje(request):
             else:
                 ruta=formruta.save()
                 viaje.ruta=ruta
-                viaje.conductor=request.user
+                viaje.conductor=Perfil.objects.get(usuario=request.user)
                 viaje.save()
                 request.session['mensaje']='Viaje Creado'
                 return redirect('aplicacion:aplicacion_home')
@@ -189,7 +192,7 @@ def confirmarReserva(request):
                 render(request,'aplicacion/confirmarReserva.html',datos)
             else:
                 r= Reserva()
-                r.pasajero = request.user
+                r.pasajero = Perfil.objects.get(usuario=request.user)
                 r.viaje=viaje
                 r.cantidadPuestos = cant
                 viaje.puestos_d -= cant

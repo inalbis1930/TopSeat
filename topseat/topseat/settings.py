@@ -42,9 +42,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_user_agents',
     'topseat',
-    'cuentas',
     'aplicacion',
+    'cuentas',
+    #'Eventos',
+    #'Informativo',
   
 ]
 
@@ -56,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_user_agents.middleware.UserAgentMiddleware',
 ]
 
 # Este es el archivo que se va a mirar como Raiz de los URL's 
@@ -143,3 +147,14 @@ STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
 
 EASY_MAPS_GOOGLE_KEY = 'AIzaSyCgRVbcHWYWlj4szLhvJI6BNWdrl_LJxZM'
 GOOGLE_MAPS_API_KEY = 'AIzaSyCgRVbcHWYWlj4szLhvJI6BNWdrl_LJxZM'
+
+
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '127.0.0.1:11211',
+    }
+}
+
+USER_AGENTS_CACHE = 'default'
