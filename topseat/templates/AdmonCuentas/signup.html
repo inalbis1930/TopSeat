@@ -1,0 +1,41 @@
+{%extends "base.html"%}
+
+
+{%block content%}
+<p>Formulario para signup</p>
+{%if error%}
+<div class="alert">
+  <span class="closebtn">&times;</span>  
+  <strong>¡Pilas!</strong> {{error}}
+</div>
+{%endif%}
+<form class ="site-form" action="/AdmonCuentas/signup/" method="post">
+	{% csrf_token %}
+	{% for field in sgForm %}
+      <p class ="c1">
+        {{ field.label_tag }}<br>
+        {{ field }}
+        {% if field.help_text %}
+          <small style="color: grey">{{ field.help_text }}</small>
+        {% endif %}
+        {% for error in field.errors %}
+          <p style="color: red">{{ error }}</p>
+        {% endfor %}
+      </p>
+    {% endfor %}
+	{% for field in prForm %}
+      <p class ="c1">
+        {{ field.label_tag }}<br>
+        {{ field }}
+        {% if field.help_text %}
+          <small style="color: grey">{{ field.help_text }}</small>
+        {% endif %}
+        {% for error in field.errors %}
+          <p style="color: red">{{ error }}</p>
+        {% endfor %}
+      </p>
+    {% endfor %}
+	<input type="Submit" value="Sign Up">.
+</form>
+
+{%endblock content%}
