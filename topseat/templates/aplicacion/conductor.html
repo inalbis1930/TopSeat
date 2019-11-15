@@ -98,7 +98,11 @@ for (i = 0; i < close.length; i++) {
 	<td>{{item.viaje.fecha}}</td>
     <td>{{item.pasajero.usuario.first_name}} {{item.pasajero.usuario.last_name}}</td> 
     <td>{{item.cantidadPuestos}}</td>
+	{%if movil%}
 	<td ><a href="https://api.whatsapp.com/send?phone=57{{item.pasajero.celular}}" target="_blank">{{item.pasajero.celular}}</a></td>
+	{%else%}
+	<td ><a href="https://web.whatsapp.com/send?phone=57{{item.pasajero.celular}}" target="_blank">{{item.pasajero.celular}}</a></td>
+	{%endif%}
 	<td style="text-align:center;">
 		<form action="{%url 'aplicacion:eliminarReserva'%}" method="post">
 			{% csrf_token %}
