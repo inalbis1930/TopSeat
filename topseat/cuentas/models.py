@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.db import models
 from django.dispatch import receiver
-from aplicacion.models import *
 from django import forms
 from .roles import *
 
@@ -16,9 +15,11 @@ Representa a los usuarios en TopSeat. Permite a usuario ejercer de conductor o p
 Atributos:
 """
 class Perfil(models.Model):
+    id= models.AutoField(primary_key=True)
     usuario = models.OneToOneField(User,on_delete=models.CASCADE)
     rol= models.IntegerField(choices=ROLES,default=1) 
     correo = models.EmailField()
+    celular = models.CharField(max_length=12,default='0')
     def __str__(self):
         if self.rol == 1:
             rolAct="Pasajero"

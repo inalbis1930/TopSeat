@@ -9,15 +9,42 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 </head>
 <body>
-	<div class="topnav">
-	  <a class="active" href="/">Home</a>
-	  <a href="#blog">Blog</a>	
-	  <a href="#about">FAQ</a>
-	</div>
+	
+	<!--<ul class="top">
+    <li class="top">
+      <a href="{%url 'home'%}">Inicio</a>
+    </li>
+    <li class="top">
+      <a href="#Blog">Blog</a>
+    </li>
+    <li class="top">
+      <a href="#Faq">Faq</a>
+    </li>
+    <li style="float:right" class="dropdown">
+		<a href ="{%url 'cuentas:signup'%}">Registro</a>
+    </li>
+	<li style="float:right" class="dropdown">
+		<a href ="{%url 'cuentas:login'%}">Ingreso</a>
+    </li>
+  </ul>-->
+	<header>   
+		<div class ="menu_bar">
+			<div class ="logo">
+				<h1>Top Seat</h1>
+			</div>
+			<div class="menu">
+				<nav>
+					<ul class="side-nav">
+						<li><a href="{%url 'home'%}">Inicio</a></li>
+						<li><a href="#faq">FAQ</a></li>
+						<li><a href="{%url 'cuentas:login'%}">Iniciar Sesion</a></li>
+						<li><a href="{%url 'cuentas:signup'%}">Registro</a></li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+	</header>
 
-	<div style="padding-left:16px">
-	  <h1>TOP SEAT</h1>
-	</div>
     {% block content %}
 	{% endblock content %}
 </body>

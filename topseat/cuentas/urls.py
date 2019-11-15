@@ -10,5 +10,8 @@ urlpatterns = [
     url(r'^signup/', views.signup_v,name='signup'),
     url(r'^logout/', views.logout_v,name='logout'),
 	url(r'^cambiar/', views.cambiarRol,name='cambiar'),
+    url(r'^editarPerfil/', views.actualizarPerfil,name='editar_perfil'),
+    url(r'^actualizarContrasena/', views.actualizarContrasena,name='actualizarContrasena'),
+    url(r'^eliminarPerfil/', views.eliminarPerfil,name='eliminarPerfil'),
 
 ]

@@ -4,6 +4,12 @@
 
 <p>Formulario para login</p>
 
+{%if error%}
+<div class="alert">
+  <span class="closebtn">&times;</span>  
+  <strong>¡Pilas!</strong> {{error}}
+</div>
+{%endif%}
 <form class ="site-form" action="{%url 'cuentas:login'%}" method="post">
 	{% csrf_token %}
 	{% for field in lgForm %}
@@ -21,6 +27,11 @@
 	{% if request.GET.next%}
 		<input type="hidden" name="next" value="{{request.GET.next}}">
 	{%endif%}
-	<input type="Submit" value="Login">.
+	<input type="Submit" value="Iniciar Sesión.">.
+</form>
+
+<form class ="site-form" action="{%url 'cuentas:signup'%}" method="get">
+	{% csrf_token %}
+	<input type="Submit" value="Registro">.
 </form>
 {%endblock content%}
