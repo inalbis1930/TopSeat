@@ -1,0 +1,15 @@
+{%extends template%}  
+{%load staticfiles%}
+
+
+{%block content%}
+<h3 style="text-align:center;"><em>Novedades de TopSeat</em></h3>
+<div >
+{%for i in items%}
+<div style="border-style: dotted;">
+<h4>  {{i.pregunta}}</h4>
+<p><b>{{i.solucion}}</b></p> 
+</div>
+{%endfor%}
+</div>
+{%endblock content%}

@@ -1,0 +1,14 @@
+{%extends "base.html"%}
+
+{%block content%}
+
+<p>Botones para Login y Signup</p>
+<form action="/AdmonCuentas/login" method="get">
+    <input type="submit" value="Ingreso" 
+         name="Ingreso" />
+</form>
+<form action="/AdmonCuentas/signup" method="get">
+    <input type="submit" value="Registro" 
+         name="Registro" />
+</form>
+{%endblock content%}

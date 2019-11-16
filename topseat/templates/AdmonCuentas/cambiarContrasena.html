@@ -1,0 +1,25 @@
+{%extends "baseApp.html"%}
+
+{%block content%}
+
+<p>Formulario para Cambio de Contraseña</p>
+
+<form class ="site-form" action="{%url 'AdmonCuentas:actualizarContrasena'%}" method="post">
+	{% csrf_token %}
+	{% for field in cgForm %}
+      <p class ="c1">
+        {{ field.label_tag }}<br>
+        {{ field }}
+        {% if field.help_text %}
+          <small style="color: grey">{{ field.help_text }}</small>
+        {% endif %}
+        {% for error in field.errors %}
+          <p style="color: red">{{ error }}</p>
+        {% endfor %}
+      </p>
+    {% endfor %}
+	<input type="Submit" value="Editar">.
+</form>
+
+
+{%endblock content%}

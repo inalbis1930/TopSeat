@@ -1,0 +1,54 @@
+{%extends "baseApp.html"%}
+
+{%block content%}
+
+<h3>Viajes como Pasajero</h3>
+<div style ="overflow-x:auto;">
+<table id="t01">
+  <tr>
+    <th>Hora</th>
+	<th>Fecha</th>
+	<th>Origen</th>
+	<th>Destino</th>
+	<th>Tus Cupos</th>
+	<th>Tarifa</th>
+  </tr>
+  {%for item in Pasa%}
+   <tr>
+    <td>{{item.viaje.hora}}</td>
+	<td>{{item.viaje.fecha}}</td>
+	<td>{{item.viaje.ruta.inicio}}</td>
+	<td>{{item.viaje.ruta.fin}}</td>
+	<td>{{item.cantidadPuestos}}</td>
+	<td>{{item.viaje.tarifa}}</td>
+  </tr>
+  {%endfor%}
+</table>
+</div>
+
+<h3>Reservas</h3>
+<div style ="overflow-x:auto;">
+<table id="t01">
+  <tr>
+    <th>Hora</th>
+	<th>Fecha</th>
+	<th>Origen</th>
+	<th>Destino</th>
+	<th>Cupos Totales</th>
+	<th>Tarifa</th>
+  </tr>
+  {%for item in Cond%}
+   <tr>
+    <td>{{item.hora}}</td>
+	<td>{{item.fecha}}</td>
+	<td>{{item.ruta.inicio}}</td>
+	<td>{{item.ruta.fin}}</td>
+	<td>{{item.puestos_d}}</td>
+	<td>{{item.tarifa}}</td>
+  </tr>
+  {%endfor%}
+</table>
+</div>
+
+
+{%endblock content%}
