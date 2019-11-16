@@ -481,7 +481,7 @@ li.dropdown {
 
 
 .alert {
-  padding: 20px;
+  padding: 10px;
   background-color: #f44336;
   color: white;
   opacity: 1;
@@ -490,7 +490,7 @@ li.dropdown {
 }
 
 .alert.success {background-color: #4CAF50;}
-.alert.info {background-color: #2196F3;}
+.alert.information {background-color: #2196F3;}
 .alert.warning {background-color: #ff9800;}
 
 .closebtn {

@@ -16,7 +16,7 @@ class registrarVehiculo_f(forms.ModelForm):
         
 class form_crearViaje(forms.ModelForm):
     puestos_d = forms.IntegerField(label="Puestos Disponibles",max_value=6)
-    fecha = forms.DateField(input_formats=['%d/%m/%Y'],widget =forms.DateInput(),help_text="DD/MM/AAA")
+    fecha = forms.DateField(input_formats=['%d/%m/%Y'],widget =forms.DateInput(),help_text="DD/MM/AAAA")
     hora = forms.TimeField(input_formats=['%H:%M'],widget =forms.TimeInput(),help_text="HH:MM")
     #vehiculo = forms.ModelMultipleChoiceField(queryset=None,required= True, widget=forms.RadioSelect)
     tarifa =forms.IntegerField()

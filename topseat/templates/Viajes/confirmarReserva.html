@@ -68,7 +68,7 @@ for (i = 0; i < close.length; i++) {
 	
 	<p style="text-align:center;"><b>Origen:</b> {{inicio}}
 	<p style="text-align:center;"><b>Destino:</b> {{fin}}
-	<p style="text-align:center;"><b>Conductor:</b> {{viaje.conductor.first_name}} {{viaje.conductor.last_name}}
+	<p style="text-align:center;"><b>Conductor:</b> {{viaje.conductor.usuario.first_name}} {{viaje.conductor.usuario.last_name}}
 	<p style="text-align:center;"><b>Cupos Disponibles:</b> {{viaje.puestos_d}}
 <form action="{%url 'Viajes:confirmarReserva'%}" method="post" style="text-align:center;">
 	{% for field in crForm %}

@@ -220,6 +220,20 @@ def eliminarReserva(request):
         return redirect('Viajes:Viajes_home')
 
 
-
+def IniciarViaje(request):
+    datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
+    if request.method == 'POST':
+        v= Viaje.objects.get(pk=request.POST.get('id',''))
+        v.enCurso= True
+        v.save()
+        return redirect('Viajes:Viajes_home')
+    else:
+        v= Viaje.objects.get(pk=request.GET.get('id',''))
+        datos['viaje']= v
+        datos['inicio']=v.ruta.inicio
+        datos['fin']=v.ruta.fin
+        r = Reserva.objects.filter(viaje=v)
+        datos['reservas']=r
+    return render(request,'Viajes/IniciarViaje.html',datos)
 
 

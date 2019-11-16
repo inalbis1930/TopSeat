@@ -13,5 +13,6 @@ urlpatterns = [
     url(r'^editarViaje/$', views.editarViaje,name='editarViaje'),
     url(r'^confirmarReserva/$', views.confirmarReserva,name='confirmarReserva'),
     url(r'^eliminarReserva/$', views.eliminarReserva,name='eliminarReserva'),
+    url(r'^IniciarViaje/$', views.IniciarViaje,name='IniciarViaje'),
     
 ]
