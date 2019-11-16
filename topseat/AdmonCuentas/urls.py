@@ -13,5 +13,6 @@ urlpatterns = [
     url(r'^editarPerfil/', views.actualizarPerfil,name='editar_perfil'),
     url(r'^actualizarContrasena/', views.actualizarContrasena,name='actualizarContrasena'),
     url(r'^eliminarPerfil/', views.eliminarPerfil,name='eliminarPerfil'),
+    url(r'^ReporteViajes/', views.ReporteViajes,name='ReporteViajes'),
 
 ]

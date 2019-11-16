@@ -11,7 +11,7 @@ class ProfileForm(forms.ModelForm):
     correo = forms.EmailField(max_length=254,required=True, help_text='Por favor introduzca su correo institucional de la P.U Javeriana')
     celular = forms.CharField(max_length=12,required=True)
     class Meta:
-        model = models.Perfil
+        model = models.UsuarioTopSeat
         fields = ('correo','celular','rol')
 
 class editarUsuario(forms.ModelForm):

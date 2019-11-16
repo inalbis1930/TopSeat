@@ -21,32 +21,32 @@
 		<nav>
 	  <ul class="side-nav">
 		<li >
-		  <a href="{%url 'aplicacion:aplicacion_home'%}">Inicio</a>
+		  <a href="{%url 'Viajes:Viajes_home'%}">Inicio</a>
 		</li>
 		<li>
-		  <a href="#Blog">Blog</a>
+		  <a href="{%url 'Informativo:Novedades'%}">Blog</a>
 		</li>
 		<li>
-		  <a href="#Faq">Faq</a>
+		  <a href="{%url 'Informativo:FAQ'%}">FAQ</a>
 		</li>
 		<li class="dropdown">
 		  <a href="javascript:void(0)" class="dropbtn">Bienvenido, {{rol}} {{usuario}}</a>
 		  <div class="dropdown-content">
-			<form action="{%url 'cuentas:editar_perfil'%}" method="get">{% csrf_token %} 
+			<form action="{%url 'AdmonCuentas:editar_perfil'%}" method="get">{% csrf_token %} 
 			<a href="javascript:;" onclick="parentNode.submit();">Editar Perfil</a> 
 			<input type="hidden" name="changeR" value="Cambiar Rol" /></form>
-			<form action="{%url 'cuentas:cambiar'%}" method="post">{% csrf_token %} 
+			<form action="{%url 'AdmonCuentas:cambiar'%}" method="post">{% csrf_token %} 
 			<a href="javascript:;" onclick="parentNode.submit();">Cambiar Rol</a> 
 			<input type="hidden" name="changeR" value="Cambiar Rol" /></form>
 			{%if rol == 'Conductor'%}
-			<form action="{%url 'aplicacion:registro_vehiculo'%}" method="get">{% csrf_token %} 
+			<form action="{%url 'Viajes:registro_vehiculo'%}" method="get">{% csrf_token %} 
 			<a href="javascript:;" onclick="parentNode.submit();">Registrar Vehiculo</a> 
 			<input type="hidden" name="changeR" value="Cambiar Rol" /></form>
 			{%endif%}
-			<form action="{%url 'aplicacion:aplicacion_home' %}" method="get">{% csrf_token %} 
+			<form action="{%url 'AdmonCuentas:ReporteViajes' %}" method="get">{% csrf_token %} 
 			<a href="javascript:;" onclick="parentNode.submit();">Historial De Viajes</a> 
 			<input type="hidden" name="Historial" value="Historial" /></form>
-			<form action="{%url 'cuentas:logout' %}" method="post">{% csrf_token %} 
+			<form action="{%url 'AdmonCuentas:logout' %}" method="post">{% csrf_token %} 
 			<a href="javascript:;" onclick="parentNode.submit();">Cerrar Sesion</a> 
 			<input type="hidden" name="cerrar" value="Cerrar Sesion" /></form>
 		  </div>

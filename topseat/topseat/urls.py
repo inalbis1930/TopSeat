@@ -14,12 +14,13 @@ app_name='topseat' #Definicion del nombre de la aplicacion para su uso en otros 
 '''
 Para acceder a un link de esta apliacion se debe ralizar de la siguiente manera:
     <app_name>:<namespace>
-    Ex. topseat:cuentas
+    Ex. topseat:AdmonCuentas
 '''
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls), #Vista de administrador
     url(r'^$', topseat_views.home,name='home'),#Pagina principal de toda la aplicacion
-    url(r'^cuentas/', include('cuentas.urls', namespace='cuentas')),#Inclusion de los Urls de la aplicacion de cuentas
-    url(r'^aplicacion/', include('aplicacion.urls', namespace='aplicacion')),#Inclusion de los Urls de la aplicacion de cuentas
+    url(r'^AdmonCuentas/', include('AdmonCuentas.urls', namespace='AdmonCuentas')),#Inclusion de los Urls de la aplicacion de cuentas
+    url(r'^Viajes/', include('Viajes.urls', namespace='Viajes')),#Inclusion de los Urls de la aplicacion de cuentas
+    url(r'^Informativo/', include('Informativo.urls', namespace='Informativo')),#Inclusion de los Urls de la aplicacion de cuentas
 ]

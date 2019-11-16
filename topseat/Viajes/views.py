@@ -6,11 +6,11 @@ from django.contrib.auth.decorators import login_required
 from .forms import *
 from .models import *
 from django_google_maps import widgets as map_widgets
-from AdmonCuentas.models import Perfil
+from AdmonCuentas.models import UsuarioTopSeat
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 
-@login_required(login_url="/cuentas/login/")
+@login_required(login_url="/AdmonCuentas/login/")
 def Viajes_home(request):
     datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request),'movil':esMovil(request)}
     if getRol(request) == "Conductor":
@@ -37,7 +37,7 @@ def Viajes_home(request):
             datos['fin']=str(fin)
             return render(request,'Viajes/verMapa.html',datos)
         else:
-            v=Viaje.objects.filter(puestos_d__gte=1)
+            v=Viaje.objects.filter(puestos_d__gte=1).exclude(conductor__usuario=request.user)
             datos['viajes']=v
             r= Reserva.objects.filter(pasajero__usuario = request.user,estado=True)
             datos['reservas']=r
@@ -47,13 +47,9 @@ def Viajes_home(request):
             return render (request,'Viajes/pasajero.html',datos)
 
 def esMovil(request):
-    if request.user_agent.is_mobile:
-        is_mobile = True
-    else:
-        is_mobile = False
-    return is_mobile
+    return request.user_agent.is_mobile
 
-@login_required(login_url="/cuentas/login/")
+@login_required(login_url="/AdmonCuentas/login/")
 def registrov(request):
     datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
     if request.method == 'POST':
@@ -76,7 +72,7 @@ def registrov(request):
 
 def getRol(request):
     a=User.objects.get(username=request.user.username)
-    b= Perfil.objects.get(usuario = a)
+    b= UsuarioTopSeat.objects.get(usuario = a)
     if b.rol == 2:
         rol="Conductor"
     else:
@@ -84,7 +80,7 @@ def getRol(request):
     return rol
 
 
-@login_required(login_url="/cuentas/login/")
+@login_required(login_url="/AdmonCuentas/login/")
 def crearViaje(request):
     datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
     if request.method == 'POST':
@@ -99,7 +95,7 @@ def crearViaje(request):
             else:
                 ruta=formruta.save()
                 viaje.ruta=ruta
-                viaje.conductor=Perfil.objects.get(usuario=request.user)
+                viaje.conductor=UsuarioTopSeat.objects.get(usuario=request.user)
                 viaje.save()
                 request.session['mensaje']='Viaje Creado'
                 return redirect('Viajes:Viajes_home')
@@ -116,7 +112,7 @@ def crearViaje(request):
         datos['rtForm']=formruta
     return render(request,'Viajes/nuevoViaje.html',datos)
 
-@login_required(login_url="/cuentas/login/")
+@login_required(login_url="/AdmonCuentas/login/")
 def verMapa(request):
     datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
     v=Vehiculo.objects.filter(dueno=request.user)
@@ -126,7 +122,7 @@ def verMapa(request):
         print(request)
     return render(request,'Viajes/verMapa.html',datos)
 
-@login_required(login_url="/cuentas/login/")    
+@login_required(login_url="/AdmonCuentas/login/")    
 def eliminarViaje(request):
     if request.method == 'POST':
         viaje =Viaje.objects.get(id=request.POST.get('id',''))
@@ -134,7 +130,7 @@ def eliminarViaje(request):
         request.session['mensaje']='Viaje Eliminado'
         return redirect('Viajes:Viajes_home')
 
-@login_required(login_url="/cuentas/login/")
+@login_required(login_url="/AdmonCuentas/login/")
 def editarViaje(request):
     datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
     if request.method == 'POST':
@@ -174,7 +170,7 @@ def editarViaje(request):
         datos['id'] = request.GET.get('id','')
     return render(request,'Viajes/editarViaje.html',datos)
 
-@login_required(login_url="/cuentas/login/")
+@login_required(login_url="/AdmonCuentas/login/")
 def confirmarReserva(request):
     datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
     if request.method =='POST':
@@ -192,7 +188,7 @@ def confirmarReserva(request):
                 render(request,'Viajes/confirmarReserva.html',datos)
             else:
                 r= Reserva()
-                r.pasajero = Perfil.objects.get(usuario=request.user)
+                r.pasajero = UsuarioTopSeat.objects.get(usuario=request.user)
                 r.viaje=viaje
                 r.cantidadPuestos = cant
                 viaje.puestos_d -= cant

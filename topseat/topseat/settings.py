@@ -30,7 +30,7 @@ SECRET_KEY = 'x%jmjv3@$!ot_(%my_xc0kj+ipdj6a!6^v)tqgzf))ft!m%u*e'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.0.8','inalbis.ddns.net'] #Solo se puede acceder a este servicio mediante estos Hosts.
+ALLOWED_HOSTS = ['192.168.0.8','inalbis.ddns.net','192.168.0.18','leocitonia.ddns.net'] #Solo se puede acceder a este servicio mediante estos Hosts.
 
 
 # Application definition

@@ -7,8 +7,12 @@
 <div >
 {%for i in items%}
 <div style="border-style: dotted;">
-<h4>  {{i.pregunta}}</h4>
-<p><b>{{i.solucion}}</b></p> 
+<h4>  {{i.nombre}}</h4>
+<p><b>{{i.descripcion}}</b></p> 
+{%if i.bug%}
+<h4>  Bug Asociado</h4>
+<p><b>{{i.bug}}</b></p> 
+{% endif %}
 </div>
 {%endfor%}
 </div>

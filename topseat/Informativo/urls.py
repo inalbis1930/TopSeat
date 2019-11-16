@@ -6,5 +6,5 @@ app_name='Informativo'
 
 urlpatterns = [
     url(r'^FAQ/', views.FAQPage,name='FAQ'),
-    url(r'^Novedades/', views.Novedades,name='Novedades'),
+    url(r'^Novedades/', views.NovedadesPage,name='Novedades'),
 ]

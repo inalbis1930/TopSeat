@@ -10,11 +10,11 @@ from .roles import *
 # Create your models here.
 """
 
-Clase Perfil
+Clase UsuarioTopSeat
 Representa a los usuarios en TopSeat. Permite a usuario ejercer de conductor o pasajero dentro del sistema.
 Atributos:
 """
-class Perfil(models.Model):
+class UsuarioTopSeat(models.Model):
     id= models.AutoField(primary_key=True)
     usuario = models.OneToOneField(User,on_delete=models.CASCADE)
     rol= models.IntegerField(choices=ROLES,default=1) 

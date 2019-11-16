@@ -18,7 +18,7 @@ class Ruta(models.Model):
 
 class Viaje(models.Model):
     id = models.AutoField(primary_key=True)
-    conductor= models.ForeignKey(Perfil,on_delete=models.CASCADE)
+    conductor= models.ForeignKey(UsuarioTopSeat,on_delete=models.CASCADE)
     puestos_d = models.IntegerField(default=4) 
     fecha = models.DateField()
     hora = models.fields.TimeField()
@@ -31,10 +31,11 @@ class Viaje(models.Model):
 
 class Reserva(models.Model):
     id = models.AutoField(primary_key=True)
-    pasajero = models.ForeignKey(Perfil,on_delete=models.CASCADE)
+    pasajero = models.ForeignKey(UsuarioTopSeat,on_delete=models.CASCADE)
     viaje = models.OneToOneField(Viaje,on_delete=models.CASCADE)
     cantidadPuestos = models.IntegerField(default=1)
     estado = models.BooleanField(default=True)
+    parada= models.CharField(max_length=254, blank=True, null=True)
     def __str__(self):
         return str(self.viaje) +" {"+self.pasajero.usuario.username +"}"
     

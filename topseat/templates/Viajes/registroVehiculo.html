@@ -25,7 +25,7 @@ for (i = 0; i < close.length; i++) {
 }
 </script>
 
-<form class ="site-form" action="{%url 'aplicacion:registro_vehiculo'%}" method="post">
+<form class ="site-form" action="{%url 'Viajes:registro_vehiculo'%}" method="post">
 	{% csrf_token %}
 	{% for field in rvForm %}
       <p class ="c1">

@@ -6,6 +6,7 @@ from django.contrib.auth import login,logout,update_session_auth_hash
 from .forms import *
 from .models import *
 from django.contrib.auth.decorators import login_required
+from Viajes.models import *
 
 '''
     Vistas de la aplicacion de AdmonCuentas.
@@ -140,7 +141,7 @@ def logout_v(request):
 def cambiarRol(request):
     if request.method == 'POST':
         a=User.objects.get(username=request.user.username)
-        b= Perfil.objects.get(usuario = a)
+        b= UsuarioTopSeat.objects.get(usuario = a)
         if b.rol ==2:
            b.rol=1
            r='Viajes:pasajero'
@@ -187,11 +188,16 @@ def eliminarPerfil(request):
         user = User.objects.get(username=request.user.username)
         user.delete()
         return redirect('home')
-        
+
+@login_required(login_url="/AdmonCuentas/login/")  
+def ReporteViajes(request):
+    datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request),'Cond':Viaje.objects.filter(conductor__usuario =request.user),'Pasa':Reserva.objects.filter(pasajero__usuario = request.user)}
+    return render(request,'AdmonCuentas/reporte.html',datos)
+
 
 def getRol(request):
     a=User.objects.get(username=request.user.username)
-    b= Perfil.objects.get(usuario = a)
+    b= UsuarioTopSeat.objects.get(usuario = a)
     if b.rol == 2:
         rol="Conductor"
     else:

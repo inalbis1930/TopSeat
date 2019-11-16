@@ -22,10 +22,8 @@ for (i = 0; i < close.length; i++) {
   }
 }
 </script>
-
-
-
-<h3>Pasajero</h3>
+<h3>Viajes Disponibles</h3>
+{%if viajes and viajes.count != 0 %}
 <div style ="overflow-x:auto;">
 <table id="t01">
   <tr>
@@ -51,14 +49,14 @@ for (i = 0; i < close.length; i++) {
 	<td>{{item.vehiculo}}</td>
 	<td>{{item.tarifa}}</td>
 	<td style="text-align:center;">
-		<form action="{%url 'aplicacion:confirmarReserva'%}" method="get">
+		<form action="{%url 'Viajes:confirmarReserva'%}" method="get">
 			{% csrf_token %}
 			<input type="hidden" name="id" value="{{item.id}}">
 			<button type="submit" formmethod="get">Seleccionar</button>
 		</form>
 	</td>
 		<td style="text-align:center;">
-		<form action="{%url 'aplicacion:aplicacion_home'%}" method="post">
+		<form action="{%url 'Viajes:Viajes_home'%}" method="post">
 			{% csrf_token %}
 			<input type="hidden" name="origen" value="{{item.ruta.inicio }}">
 			<input type="hidden" name="fin" value="{{item.ruta.fin }}">
@@ -69,8 +67,12 @@ for (i = 0; i < close.length; i++) {
   {%endfor%}
 </table>
 </div>
+{%else%}
+<h3>En este momento no hay viajes disponibles, espera un poco</h3>
+{%endif%}
 
 <h3>Reservas</h3>
+{%if reservas and reservas.count != 0 %}
 <div style ="overflow-x:auto;">
 <table id="t01">
   <tr>
@@ -93,7 +95,7 @@ for (i = 0; i < close.length; i++) {
 		<td><a href="https://web.whatsapp.com/send?phone=57{{item.viaje.conductor.celular}}" target="_blank">{{item.viaje.conductor.celular}}</a></td>
 	{%endif%}
 	<td style="text-align:center;">
-		<form action="{%url 'aplicacion:eliminarReserva'%}" method="post">
+		<form action="{%url 'Viajes:eliminarReserva'%}" method="post">
 			{% csrf_token %}
 			<input type="hidden" name="id" value="{{item.id}}">
 			<input type="submit" value="Eliminar" class="btn btn-primary">
@@ -103,6 +105,8 @@ for (i = 0; i < close.length; i++) {
   {%endfor%}
 </table>
 </div>
-
+{%else%}
+<h3>No tienes reservas en este momento</h3>
+{%endif%}
 
 {%endblock content%}
