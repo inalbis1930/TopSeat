@@ -1,15 +1,50 @@
-{%extends template%}  
-{%load staticfiles%}
-
+{%extends "base.html"%}
 
 {%block content%}
-<h3 style="text-align:center;"><em>Frecuently Asked Questions</em></h3>
-<div >
-{%for i in items%}
-<div style="border-style: dotted;">
-<h4>  {{i.pregunta}}</h4>
-<p><b>{{i.solucion}}</b></p> 
+
+<div class="fqa">
+    <div class="fqa_title">
+        <h1>Frecuently Questioned Answers</h1>
+    </div>
+
+    <div class="quest">
+        <h3>Q1. ¿Cualquiera puede hacer uso de este servicio?</h3>
+        <p>Por el momento, esta pensado en servir unicamente a la comunidad de la Pontifica Universidad Javeriana.</p>
+    </div>
+
+    <div class="quest" style="height:330px;">
+        <h3>Q2. ¿Debo elegir si quiero compartir el viaje como pasajero o como conductor?</h3>
+        <p>Durante la fase de creación de su cuenta, le preguntaremos el rol que prefiere, pasajero o conductor. Sin embargo, esto no significa que dependiendo de su elección, se limite a compartir el viaje como solo uno u otro.
+        <br>Una vez que termine de crear su cuenta y comience a programar sus viajes compartidos, tendrá total libertad para elegir si desea ser conductor o pasajero en cada uno de sus viajes.</p>
+    </div>
+
+    <div class="quest" style="height:530px;">
+        <h2>Conductor</h2>
+        <h3>Q1. ¿Cómo programo un viaje?</h3>
+        <p>Al iniciar sesión con su usuario, se le dirigirá a la página de inicio donde se encuentra una tabla con los viajes creados y reservados.
+            En la parte inferior se encuentra un botón "Crear Viaje" donde podrá programar un viaje como lo desee, especificando la fecha, hora, origen, destino y la tarifa.</p>
+        <h3>Q2. ¿Puedo cancelar un viaje?</h3>
+        <p>Si puede hacerlo, en la página de inicio se encuentra una tabla con la información de los viajes creados, en ella existe una columna llamada "Eliminar"
+            que le permite realizar esta acción. Sin embargo, recuerde que esta brindando un servicio, lo mejor sería avisarle a sus pasajeros con un tiempo de antelación.
+        </p>
+    </div>
+
+    <div class="quest" style="height:830px;">
+        <h2>Pasajero</h2>
+        <h3>Q1. ¿Cómo programo un viaje?</h3>
+        <p>Al iniciar sesión con su usuario, se le dirigirá a la página de inicio donde se encuentra una tabla con los viajes existentes y reservados.
+        Debe seleccionar el viaje que mas se acomode a sus necesidades, esperar a que el conductor se comunique con usted y ya esta listo para viajar.</p>
+        <h3>Q2. ¿Puedo reservar más de un asiento?</h3>
+        <p> Si puede hacerlo, al momento de reservar el viaje se le pregunta la cantidad de asientos que necesita. Sin embargo, depende de la disponibilidad que tenga el vehiculo en ese momento.
+        </p>
+        <h3>Q3. ¿Puedo cancelar un viaje?</h3>
+        <p>Si puede hacerlo, en la página de inicio se encuentra una tabla con la información de los viajes existentes, en ella existe una columna llamada "Eliminar"
+            que le permite realizar esta acción.
+            <br>Sin embargo, recuerde que le estan brindando un servicio, lo mejor sería avisarle al conductor con un tiempo de antelación para que él no salga afectado.
+        </p>
+        <h3>Q4. ¿Cómo me comunico con el conductor?</h3>
+        <p>Al momento de realizar la reserva se encuentra la información del conductor. En este caso, al hacer click sobre el número de celular lo direcciona a WhastApp Web o a la aplicación móvil dependiendo del dispositivo. </p>
+    </div>
 </div>
-{%endfor%}
-</div>
+
 {%endblock content%}
