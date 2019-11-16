@@ -44,10 +44,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_user_agents',
     'topseat',
-    'aplicacion',
-    'cuentas',
+    'Viajes',
+    'AdmonCuentas',
     #'Eventos',
-    #'Informativo',
+    'Informativo',
   
 ]
 
