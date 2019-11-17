@@ -1,10 +1,10 @@
 from django.conf.urls import url
-from Informativo import views
+from Informativo.Vistas import views
 
 
 app_name='Informativo'
 
 urlpatterns = [
-    url(r'^FAQ/', views.FAQPage,name='FAQ'),
-    url(r'^Novedades/', views.NovedadesPage,name='Novedades'),
+    url(r'^FAQ/', views.FAQView.as_view(),name='FAQ'),
+    url(r'^Novedades/', views.NovedadView.as_view(),name='Novedades'),
 ]

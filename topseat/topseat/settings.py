@@ -71,7 +71,7 @@ ROOT_URLCONF = 'topseat.urls'
 TEMPLATES = [  
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join('templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -158,3 +158,4 @@ CACHES = {
 }
 
 USER_AGENTS_CACHE = 'default'
+LOGIN_URL='/AdmonCuentas/login/'

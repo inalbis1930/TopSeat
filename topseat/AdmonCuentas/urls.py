@@ -1,18 +1,18 @@
 from django.conf.urls import url
-from AdmonCuentas import views
+from AdmonCuentas.Vistas import views
 
 
 app_name='AdmonCuentas'
 
 urlpatterns = [
-    url(r'^$', views.home_AdmonCuentas,name='AdmonCuentas_home'),
-    url(r'^login/', views.login_v,name='login'),
-    url(r'^signup/', views.signup_v,name='signup'),
-    url(r'^logout/', views.logout_v,name='logout'),
-	url(r'^cambiar/', views.cambiarRol,name='cambiar'),
-    url(r'^editarPerfil/', views.actualizarPerfil,name='editar_perfil'),
-    url(r'^actualizarContrasena/', views.actualizarContrasena,name='actualizarContrasena'),
-    url(r'^eliminarPerfil/', views.eliminarPerfil,name='eliminarPerfil'),
-    url(r'^ReporteViajes/', views.ReporteViajes,name='ReporteViajes'),
+    url(r'^$', views.home_AdmonCuentas.as_view(),name='AdmonCuentas_home'),
+    url(r'^login/', views.login_v.as_view(),name='login'),
+    url(r'^signup/', views.signup_v.as_view(),name='signup'),
+    url(r'^logout/', views.logout_v.as_view(),name='logout'),
+	url(r'^cambiar/', views.cambiarRol.as_view(),name='cambiar'),
+    url(r'^editarPerfil/', views.actualizarPerfil.as_view(),name='editar_perfil'),
+    url(r'^actualizarContrasena/', views.actualizarContrasena.as_view(),name='actualizarContrasena'),
+    url(r'^eliminarPerfil/', views.eliminarPerfil.as_view(),name='eliminarPerfil'),
+    url(r'^ReporteViajes/', views.ReporteViajes.as_view(),name='ReporteViajes'),
 
 ]
