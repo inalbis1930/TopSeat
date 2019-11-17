@@ -7,7 +7,7 @@ body {
 
 .menu_bar {
     display: inline-block;
-    width: 90%;
+    width: 100%;
     margin: 0 auto;
 }
 
@@ -135,13 +135,35 @@ nav a:hover::before {
  }
  select:focus{ outline: none;}
 
+ .log_in {
+     position: absolute;
+     top: 50%;
+     left: 50%;
+     font-size: 15px;
+     transform: translate(-50%, -50%);
+     width: 480px;
+     height: 380px;
+     box-sizing: border-box;
+     background: rgba(255, 255, 255, 1);
+     border-radius: 12px 12px 12px 12px;
+ }
+
+ .log_in a {
+     color: rgb(238, 5, 5);
+     text-decoration: none;
+ }
+
+ .log_in a:hover{
+     text-decoration: underline;
+ }
+
  .image_container {
     position: absolute;
     display: inline-block;
-    background-image: url('img/image2.jpg');
+    background-image: url('{{ STATIC_URL }}img/image2.jpg');
     background-position: center;
     background-repeat: no-repeat;
-    width:1440px;
+    width:100%;
     height:600px;
     background-size: 100%;
     opacity: 0.95;
@@ -156,7 +178,7 @@ nav a:hover::before {
     letter-spacing: 3px;
     color: white;
 
-    width:1440px;
+    width:100%;
     height:600px;
     display: flex;
     justify-content: center;
@@ -166,10 +188,10 @@ nav a:hover::before {
 
  .image_subtitle {
     position: absolute;
-    top: 50%;
-    left: 25%;
+    top: 64%;
+    left: 21%;
     font-family: 'DVerdana', sans-serif;
-    font-size: 100%;
+    font-size: 110%;
     font-weight: 500;
     letter-spacing: 4px;
     color: white;
@@ -182,9 +204,10 @@ nav a:hover::before {
 
  .info {
     background: white;
-    width:1440px;
+    width:100%;
     height:300px;
     padding-top: 10%;
+    padding-bottom: 10%;
     display: inline-block;
     left:100%;
     text-align: center;
@@ -217,9 +240,9 @@ nav a:hover::before {
 
  .info2 {
     background: #E7E7E7;
-    width:1440px;
-    height:1200px;
+    width:100%;
     padding-top: 5%;
+    padding-bottom: 15%;
     display: inline-block;
     left:100%;
     text-align: center;
@@ -235,7 +258,7 @@ nav a:hover::before {
     align-items: center;
  }
 
- .info_body p, .info_body2 p{
+ .info_body p, .info_body2 p, .img_right p{
     margin-top: 35px;
     margin-left: 25px;
     font-size: 20px;
@@ -249,18 +272,27 @@ nav a:hover::before {
     text-align: justify;
  }
 
- img {
+ .info_body2 img {
     float: left;
     padding-right: 10%;
     padding-left: 10%;
-    margin-top:130px
+    margin-top: 0.2px;
+    width: 200px;
  }
 
- .info_body2 {
+ .img_right img {
+    float: right;
+    padding-right: 10%;
+    padding-left: 10%;
+    margin-top: 5px;
+    width: 200px;
+ }
+
+ .info_body2, .img_right {
     background: #E7E7E7;
     display: inline-block;
     width: 50%;
-    height: 100%;
+    height: auto;
     font-family: 'DVerdana', sans-serif;
     letter-spacing: 2px;
     padding-top: 5%;
@@ -302,6 +334,25 @@ nav a:hover::before {
 
      justify-content: center;
      align-items: center;
+ }
+
+ input[type=submit] {
+   border: 3px solid #D51310;
+   background: #D51310;
+   padding: 5px 15px;
+   margin-top: 30px;
+   font-size: 12px;
+   cursor: pointer;
+   margin: 3px;
+   color: #E7E7E7;
+   border-radius: 10px 10px 10px 10px;
+   transition: all 0.1s ease 0s;
+ }
+
+ input[type=submit]:hover {
+   border: 3px solid rgb(236, 40, 37);
+   background: rgb(236, 40, 37);
+   transition: all 0.1s ease 0s;
  }
 
 @media screen and (max-width: 350px) {
@@ -346,6 +397,64 @@ nav a:hover::before {
         width: 100%;
         height: 180px;
     }
+
+    .image_title {
+       font-size: 100%;
+       letter-spacing: 3px;
+       height:180px;
+    }
+
+    .image_subtitle {
+       top: 36%;
+       left: 10%;
+       font-size: 3%;
+       letter-spacing: 1px;
+    }
+
+    .info {
+       height:auto ;
+    }
+
+    .info_title {
+       font-size: 10px;
+    }
+
+    .info_body {
+       width: 80%;
+       height: auto;
+    }
+
+    .info_title2 {
+      font-size: 10px;
+    }
+
+    .info_body p, .info_body2 p, .img_right p{
+       font-size: 12px;
+    }
+
+    .quest p{
+       font-size: 12px;
+    }
+
+    .info_body2 img, .img_right img{
+       float: none;
+       width: 100px;
+    }
+
+    .fqa {
+        height:180%;
+    }
+
+    .quest {
+        width: 70%;
+        height: 10%;
+        font-size: 15px;
+    }
+
+    .fqa_title {
+        font-size: 10px;
+        height: 5%;
+    }
 }
 
 @media screen and (max-width: 400px) and (min-width: 351px) {
@@ -389,6 +498,63 @@ nav a:hover::before {
         height: 180px;
     }
 
+    .image_title {
+       font-size: 100%;
+       letter-spacing: 3px;
+       height:180px;
+    }
+
+    .image_subtitle {
+       top: 35%;
+       left: 18%;
+       font-size: 20%;
+       letter-spacing: 1px;
+    }
+
+    .info {
+       height:auto ;
+    }
+
+    .info_title {
+       font-size: 10px;
+    }
+
+    .info_body {
+       width: 80%;
+       height: auto;
+    }
+
+    .info_title2 {
+      font-size: 10px;
+    }
+
+    .info_body p, .info_body2 p, .img_right p{
+       font-size: 12px;
+    }
+
+    .quest p{
+       font-size: 12px;
+    }
+
+    .info_body2 img, .img_right img{
+       float: none;
+       width: 120px;
+    }
+
+    .fqa {
+        height:280%;
+    }
+
+    .quest {
+        width: 70%;
+        height: 10%;
+        font-size: 13px;
+    }
+
+    .fqa_title {
+        font-size: 12px;
+        height: 5%;
+    }
 
 }
 
@@ -440,6 +606,73 @@ nav a:hover::before {
         width: 100%;
         height: 180px;
     }
+
+    .image_title {
+       font-size: 110%;
+       letter-spacing: 3px;
+       height:180px;
+    }
+
+    .image_subtitle {
+       top: 24%;
+       left: 26%;
+       font-size: 30%;
+       letter-spacing: 1px;
+    }
+
+    .info {
+       height:auto;
+    }
+
+    .info_title {
+       font-size: 10px;
+    }
+
+    .info_body {
+       width: 80%;
+       height: auto;
+    }
+
+    .info_body2, .img_right {
+      width: 80%;
+    }
+
+    .info_title2 {
+      font-size: 10px;
+    }
+
+    .info_body p, .info_body2 p, .img_right p{
+       font-size: 12px;
+    }
+
+    .quest p{
+       font-size: 14px;
+    }
+
+    .info_body2 img{
+       float: left;
+       width: 150px;
+    }
+
+    .img_right img{
+       float: right;
+       width: 150px;
+    }
+
+    .fqa {
+        height:250%;
+    }
+
+    .quest {
+        width: 70%;
+        height: 10%;
+        font-size: 14px;
+    }
+
+    .fqa_title {
+        font-size: 10px;
+        height: 5%;
+    }
 }
 
 @media screen and (min-width: 701px){
@@ -481,7 +714,7 @@ li.dropdown {
 
 
 .alert {
-  padding: 20px;
+  padding: 10px;
   background-color: #f44336;
   color: white;
   opacity: 1;
@@ -490,7 +723,7 @@ li.dropdown {
 }
 
 .alert.success {background-color: #4CAF50;}
-.alert.info {background-color: #2196F3;}
+.alert.information {background-color: #2196F3;}
 .alert.warning {background-color: #ff9800;}
 
 .closebtn {

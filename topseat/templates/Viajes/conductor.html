@@ -34,7 +34,7 @@ for (i = 0; i < close.length; i++) {
 	<th>Destino</th>
 	<th>Vehiculo</th>
 	<th>Tarifa</th>
-	<th>Ver Mapa</th>
+	<th>Acción</th>
 	<th>Modificar</th>
 	<th>Eliminar</th>
   </tr>
@@ -55,6 +55,12 @@ for (i = 0; i < close.length; i++) {
 			<input type="hidden" name="fin" value="{{item.ruta.fin }}">
 			<input type="submit" value="Ver Mapa" class="btn btn-primary">
 		</form>
+		<p></p>
+		<form action="{%url 'Viajes:IniciarViaje'%}" method="get">
+			{% csrf_token %}
+			<input type="hidden" name="id" value="{{item.id }}">
+			<input type="submit" value="Iniciar Viaje" class="btn btn-primary">
+		</form>
 	</td>
 	<td style="text-align:center;">
 		<form action="{%url 'Viajes:editarViaje'%}" method="get">
@@ -74,13 +80,14 @@ for (i = 0; i < close.length; i++) {
   {%endfor%}
 </table>
 </div>
+{%else%}
+<h3>No has ofrecido ningun viaje</h3>
+{%endif%}
+
 <form action="{%url 'Viajes:crearViaje'%}" method="get">
 	{% csrf_token %}
 	<button type="submit" formmethod="get">Crear Viaje</button>
 </form>
-{%else%}
-<h3>No has ofrecido ningun viaje</h3>
-{%endif%}
 
 <h3>Reservas</h3>
 {%if reservas and reservas.count != 0 %}
@@ -119,4 +126,6 @@ for (i = 0; i < close.length; i++) {
 {%else%}
 <h3>No tienes reservas en este momento</h3>
 {%endif%}
+
+<!--<p>It is {% now "jS F Y H:i" %}</p>-->
 {%endblock content%}

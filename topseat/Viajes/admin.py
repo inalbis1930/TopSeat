@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django_google_maps import widgets as map_widgets
 from django_google_maps import fields as map_fields
-from .models import *
+from .Modelo.models import *
 
 
 admin.site.register(Ruta)

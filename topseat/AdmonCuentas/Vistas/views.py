@@ -4,13 +4,19 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.contrib.auth import login,logout,update_session_auth_hash
 from .forms import *
-from .models import *
+from ..Modelo.models import *
 from django.contrib.auth.decorators import login_required
-from Viajes.models import *
-
+from Viajes.Modelo.models import *
+from Viajes.Vistas.views import *
+from django.views import View
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.urls import reverse
+from django.http import HttpResponseRedirect
 '''
     Vistas de la aplicacion de AdmonCuentas.
-    Esta aplicacion hace el manejo de las AdmonCuentas, tanto creacion, modificacion, eliminacion, cerrar sesion e ingresar al sistema.
+    Esta aplicacion hace el manejo de las AdmonCuentas, tanto creacion, modificacion, eliminacion,
+     cerrar sesion e ingresar al sistema.
     Todas las vistas tienen parametro request 
     
     Parametros
@@ -27,8 +33,11 @@ from Viajes.models import *
             si no es valida entonces vuelve e a retornar la misma pagina.
 '''
 
-def home_AdmonCuentas(request):
-    return render(request,'AdmonCuentas/home.html')
+class home_AdmonCuentas(View):
+    def post(self, request, *args, **kwargs):
+        return render(request,'AdmonCuentas/home.html')
+    def get(self, request, *args, **kwargs):
+        return render(request,'AdmonCuentas/home.html')
 
 
 '''
@@ -62,8 +71,9 @@ def home_AdmonCuentas(request):
     render()
         Lleva consigo los formularios para el registro.         
 '''
-def signup_v(request):
-    if request.method == 'POST':
+class signup_v(View):
+    regView= registrov.as_view()
+    def post(self, request, *args, **kwargs):
         form = UserCreationForm(request.POST)
         form1 = ProfileForm(request.POST)
         if verificar_Correo(form1):
@@ -80,15 +90,15 @@ def signup_v(request):
                 if perfil.rol == 1:
                     return redirect('Viajes:Viajes_home')
                 else:
-                    return redirect('Viajes:registro_vehiculo')
+                    return redirect(regView)
             else:
                 return  render(request,'AdmonCuentas/signup.html',{'sgForm':form,'prForm':form1,'error':form.errors})
         else:
             return  render(request,'AdmonCuentas/signup.html',{'sgForm':form,'prForm':form1,'error':"Por favor Ingrese correo institucional de la PUJ"})
-    else:
+    def get(self, request, *args, **kwargs):
         form = UserCreationForm()
         form1=ProfileForm()
-    return render(request,'AdmonCuentas/signup.html',{'sgForm':form,'prForm':form1})
+        return render(request,'AdmonCuentas/signup.html',{'sgForm':form,'prForm':form1})
 
 '''
     Funcion que verifica que el correo ingresado por el usuario sea de un dominio especifico,
@@ -108,6 +118,7 @@ def signup_v(request):
     
 '''
 def verificar_Correo(form):
+
     perfil =form.save(commit=False)
     correo= perfil.correo
     partes= correo.split('@')
@@ -117,29 +128,31 @@ def verificar_Correo(form):
         return True
     
 
-def login_v(request):
-    if request.method == 'POST':
+class login_v(View):
+    def post(self, request, *args, **kwargs):
         form = AuthenticationForm(data=request.POST)
         if form.is_valid():
             user=form.get_user()
             login(request,user)
             if 'next' in request.POST:
                 return redirect (request.POST.get('next'))
-            return redirect('Viajes:Viajes_home')#('appname:linkname')
+            return redirect('Viajes:Viajes_home') #('appname:linkname')
         else:
             return render(request,'AdmonCuentas/login.html',{'lgForm':form,'error':form.errors})
-    else:
+    def get(self, request, *args, **kwargs):
         form = AuthenticationForm()
-    return render(request,'AdmonCuentas/login.html',{'lgForm':form})
-@login_required(login_url="/AdmonCuentas/login/")      
-def logout_v(request):
-    if request.method == 'POST':
+        return render(request,'AdmonCuentas/login.html',{'lgForm':form})
+
+@method_decorator(login_required, name='dispatch')    
+class logout_v(View):
+    def post(self, request, *args, **kwargs):
         logout(request)
         return redirect('home')
-        
-@login_required(login_url="/AdmonCuentas/login/")
-def cambiarRol(request):
-    if request.method == 'POST':
+    def dispatch(self, request,*args, **kwargs):
+        return super(logout_v, self).dispatch(request,*args, **kwargs)
+@method_decorator(login_required, name='dispatch') 
+class cambiarRol(View):
+    def post(self, request, *args, **kwargs):
         a=User.objects.get(username=request.user.username)
         b= UsuarioTopSeat.objects.get(usuario = a)
         if b.rol ==2:
@@ -149,25 +162,32 @@ def cambiarRol(request):
            b.rol=2
            r='Viajes:conductor'
         b.save()
-        return redirect("Viajes:Viajes_home")
-@login_required(login_url="/AdmonCuentas/login/")
-def actualizarContrasena(request):
-    datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
-    if request.method == 'POST':
+        return redirect('Viajes:Viajes_home')
+    def dispatch(self, request,*args, **kwargs):
+        return super(cambiarRol, self).dispatch(request,*args, **kwargs)
+@method_decorator(login_required, name='dispatch') 
+class actualizarContrasena(View):
+
+    def post(self, request, *args, **kwargs):
+        datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
         form = PasswordChangeForm(request.user,data=request.POST)
         if form.is_valid():
             user=form.save()
             update_session_auth_hash(request, user)
             return redirect('Viajes:Viajes_home')
-    else:
+    def get(self, request, *args, **kwargs):
+        datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
         form = PasswordChangeForm(request.user)
         datos['cgForm']=form
-    return render(request, 'AdmonCuentas/cambiarContrasena.html',datos)
+        return render(request, 'AdmonCuentas/cambiarContrasena.html',datos)
+    def dispatch(self, request,*args, **kwargs):
+        return super(actualizarContrasena, self).dispatch(request,*args, **kwargs)
 
-@login_required(login_url="/AdmonCuentas/login/")
-def actualizarPerfil(request):
-    datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
-    if request.method == 'POST':
+@method_decorator(login_required, name='dispatch') 
+class actualizarPerfil(View):
+    
+    def post(self, request, *args, **kwargs):
+        datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
         form = editarUsuario(data=request.POST)
         if form.is_valid():
             user= User.objects.get(username=request.user.username)
@@ -177,22 +197,28 @@ def actualizarPerfil(request):
             if datos.last_name != "":
                 user.last_name = datos.last_name
             user.save()
-            return redirect('Viajes:Viajes_home')
-    else:
+        return redirect('Viajes:Viajes_home')
+    def get(self, request, *args, **kwargs):
+        datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
         form = editarUsuario()
         datos['cgForm']=form
-    return render(request, 'AdmonCuentas/editarPerfil.html',datos)
+        return render(request, 'AdmonCuentas/editarPerfil.html',datos)
+    def dispatch(self, request,*args, **kwargs):
+        return super(actualizarPerfil, self).dispatch(request,*args, **kwargs)
 
-def eliminarPerfil(request):
-    if request.method == 'POST':
+class eliminarPerfil(View):
+    def post(self, request, *args, **kwargs):
         user = User.objects.get(username=request.user.username)
         user.delete()
         return redirect('home')
 
-@login_required(login_url="/AdmonCuentas/login/")  
-def ReporteViajes(request):
-    datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request),'Cond':Viaje.objects.filter(conductor__usuario =request.user),'Pasa':Reserva.objects.filter(pasajero__usuario = request.user)}
-    return render(request,'AdmonCuentas/reporte.html',datos)
+@method_decorator(login_required, name='dispatch')  
+class ReporteViajes(View):
+    def post(self, request, *args, **kwargs):
+        datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request),'Cond':Viaje.objects.filter(conductor__usuario =request.user),'Pasa':Reserva.objects.filter(pasajero__usuario = request.user)}
+        return render(request,'AdmonCuentas/reporte.html',datos)
+    def dispatch(self, request,*args, **kwargs):
+        return super(ReporteViajes, self).dispatch(request,*args, **kwargs)
 
 
 def getRol(request):
