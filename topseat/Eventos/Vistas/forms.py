@@ -24,28 +24,24 @@ class crearFalla(forms.ModelForm):
     secuencia = forms.CharField(max_length = 300, required = True, label = 'Secuencia de Pasos')
     contexto = forms.CharField(max_length = 300, required = True, label = 'Contexto Falla')
     class Meta:
-        model = Queja
+        model = Falla
         fields = ['secuencia', 'contexto']
 ##De aqui pa bajo falta###
 class responderQueja(forms.ModelForm):
-    viaje = forms.IntegerField(label = "ID Viaje", max_value = 6)
-    cliente = forms.CharField(max_length = 60, required = True, label = 'Cliente Involucrado')
-    descripcion = forms.CharField(max_length = 300, required = True, label = 'Descripción')
+    respuesta = forms.CharField(max_length = 300, required = True, label = 'Respuesta')
     class Meta:
         model = Queja
-        fields = ['viaje', 'cliente', 'descripcion']
+        fields = ['respuesta']
 
 class responderSugerencia(forms.ModelForm):
-    nombre = forms.CharField(max_length = 50, required = True, label = 'Nombre Sugerencia')
-    motivacion = forms.CharField(max_length = 300, required = True, label = 'Motivo')
-    descripcion = forms.CharField(max_length = 300, required = True, label ='Descripción')
+    agradecimiento = forms.CharField(max_length = 300, required = True, label = 'Respuesta')
     class Meta:
         model = Sugerencia
-        fields = ['nombre', 'motivacion', 'descripcion']
+        fields = ['agradecimiento']
+
 
 class responderFalla(forms.ModelForm):
-    secuencia = forms.CharField(max_length = 300, required = True, label = 'Secuencia de Pasos')
-    contexto = forms.CharField(max_length = 300, required = True, label = 'Contexto Falla')
+    respuesta = forms.CharField(max_length = 300, required = True, label = 'Respuesta')
     class Meta:
-        model = Queja
-        fields = ['secuencia', 'contexto']
+        model = Falla
+        fields = ['respuesta']

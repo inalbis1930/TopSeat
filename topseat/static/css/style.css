@@ -36,6 +36,10 @@ h1 {
     font-size: 180%;
 }
 
+h3 {
+  padding-left: 10px;
+}
+
 p {
     margin-top: 35px;
     margin-left: 25px;
@@ -93,8 +97,6 @@ nav a::before {
 nav a:hover::before {
     width: 100%;
 }
-
-
 
 
 
@@ -164,7 +166,7 @@ nav a:hover::before {
      font-size: 15px;
      transform: translate(-50%, -50%);
      width: 480px;
-     height: 380px;
+     height: 800px;
      box-sizing: border-box;
      background: rgba(255, 255, 255, 1);
      border-radius: 12px 12px 12px 12px;
@@ -358,7 +360,41 @@ nav a:hover::before {
      align-items: center;
  }
 
+ .buttons {
+    position: absolute;
+    top: 85%;
+    left: 42%;
+    font-size: 15px;
+    transform: translate(-50%, -50%);
+    width: 15%;
+    height: 35%;
+    display: inline-block;
+    box-sizing: border-box;
+    border-radius: 12px 12px 12px 12px;
+    
+}
+
  input[type=submit] {
+   border: 3px solid #D51310;
+   background: #D51310;
+   padding: 5px 15px;
+   margin-top: 30px;
+   font-size: 12px;
+   cursor: pointer;
+   margin: 3px;
+   margin-left: 18%;
+   color: #E7E7E7;
+   border-radius: 10px 10px 10px 10px;
+   transition: all 0.1s ease 0s;
+ }
+
+ input[type=submit]:hover {
+   border: 3px solid rgb(236, 40, 37);
+   background: rgb(236, 40, 37);
+   transition: all 0.1s ease 0s;
+ }
+
+ button[type=submit] {
    border: 3px solid #D51310;
    background: #D51310;
    padding: 5px 15px;
@@ -371,10 +407,14 @@ nav a:hover::before {
    transition: all 0.1s ease 0s;
  }
 
- input[type=submit]:hover {
+ button[type=submit]:hover {
    border: 3px solid rgb(236, 40, 37);
    background: rgb(236, 40, 37);
    transition: all 0.1s ease 0s;
+ }
+
+ form.site-form {
+   padding-left: 25%;
  }
 
 @media screen and (max-width: 350px) {
@@ -410,22 +450,32 @@ nav a:hover::before {
     }
 
     .log_in {
-        top: 50%;
-        left: 50%;
-        width: 80%;
-        height: 70%;
+      top: 65%;
+      left: 50%;
+      width: 80%;
+      height: 50%;
     }
 
     .sign_up {
-        top: 55%;
-        left: 50%;
-        width: 80%;
-        height: 80%;
+      margin-bottom: 69px;
+      top: 125%;
+      left: 50%;
+      width: 80%;
+      height: 1200px;
+      padding-bottom: 115px;
     }
 
     select {
         width:100%;
     }
+
+    .c1 p{
+        margin-left: 15%;
+    }
+
+     input[type=submit] {
+       margin-left: 25%;
+     }
 
     .image_container {
         width: 100%;
@@ -522,22 +572,32 @@ nav a:hover::before {
     }
 
     .log_in {
-        top: 50%;
+        top: 65%;
         left: 50%;
         width: 80%;
         height: 60%;
     }
 
     .sign_up {
-        top: 50%;
-        left: 50%;
-        width: 80%;
-        height: 72%;
+      top: 120%;
+      left: 50%;
+      width: 80%;
+      height: 1130px;
+      margin-bottom: 70px;
+      padding-bottom: 60%;
     }
 
     select {
         width:100%;
     }
+
+    .c1 p{
+        margin-left: 20%;
+    }
+
+     input[type=submit] {
+       margin-left: 30%;
+     }
 
     .image_container {
         width: 100%;
@@ -636,22 +696,32 @@ nav a:hover::before {
     }
 
     .log_in {
-        top: 50%;
-        left: 50%;
-        width: 80%;
-        height: 60%;
+      margin-bottom: 50px;
+      top: 70%;
+      left: 50%;
+      width: 80%;
+      height: 60%;
     }
 
     .sign_up {
-        top: 50%;
-        left: 50%;
-        width: 80%;
-        height: 65%;
+      top: 110%;
+      margin-bottom: 70px;
+      left: 50%;
+      width: 80%;
+      height: 950px;
     }
 
     select {
         width:100%;
     }
+
+    .c1 p{
+        margin-left: 27%;
+    }
+
+     input[type=submit] {
+       margin-left: 35%;
+     }
 
     .image_container {
         width: 100%;

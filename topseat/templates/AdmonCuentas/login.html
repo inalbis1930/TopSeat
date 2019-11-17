@@ -1,9 +1,10 @@
 {%extends "base.html"%}
+{% load staticfiles %}
 
 {%block content%}
 
 <div class = "log_in">
-<h1>Resgistrate</h1>
+<h1>Inicia Sesión</h1>
 <p> o <a href="{%url 'AdmonCuentas:signup'%}">crea una cuenta</a></p>
 
 {%if error%}
@@ -28,13 +29,15 @@
     {% endfor %}
 	{% if request.GET.next%}
 		<input type="hidden" name="next" value="{{request.GET.next}}">
-	{%endif%}
-	<input type="Submit" value="Iniciar Sesión.">.
+  {%endif%}
+  <div class="buttons">
+	<input type="Submit" value="Iniciar Sesión">
 </form>
 
 <form class ="site-form" action="{%url 'AdmonCuentas:signup'%}" method="get">
 	{% csrf_token %}
 	<input type="Submit" value="Registro">
 </form>
+</div>
 </div>
 {%endblock content%}

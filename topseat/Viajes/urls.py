@@ -6,7 +6,6 @@ app_name='Viajes'
 
 urlpatterns = [
     url(r'^$', views.Viajes_homeView.as_view(),name='Viajes_home'),
-    url(r'^registro-v/$', views.registrov.as_view(),name='registro_vehiculo'),
     url(r'^crearViaje/$', views.crearViaje.as_view(),name='crearViaje'),
     url(r'^verMapa/$', views.verMapa.as_view(),name='verMapa'),
     url(r'^eliminarViaje/$', views.eliminarViaje.as_view(),name='eliminarViaje'),

@@ -72,7 +72,6 @@ class home_AdmonCuentas(View):
         Lleva consigo los formularios para el registro.         
 '''
 class signup_v(View):
-    regView= registrov.as_view()
     def post(self, request, *args, **kwargs):
         form = UserCreationForm(request.POST)
         form1 = ProfileForm(request.POST)
@@ -90,7 +89,7 @@ class signup_v(View):
                 if perfil.rol == 1:
                     return redirect('Viajes:Viajes_home')
                 else:
-                    return redirect(regView)
+                    return redirect('AdmonCuentas:registro_vehiculo')
             else:
                 return  render(request,'AdmonCuentas/signup.html',{'sgForm':form,'prForm':form1,'error':form.errors})
         else:
@@ -134,6 +133,10 @@ class login_v(View):
         if form.is_valid():
             user=form.get_user()
             login(request,user)
+            a=User.objects.get(username=request.user.username)
+            b= UsuarioTopSeat.objects.get(usuario = a)
+            if b.rol==3:
+                return render(request,'Eventos/home.html')
             if 'next' in request.POST:
                 return redirect (request.POST.get('next'))
             return redirect('Viajes:Viajes_home') #('appname:linkname')
@@ -211,7 +214,30 @@ class eliminarPerfil(View):
         user = User.objects.get(username=request.user.username)
         user.delete()
         return redirect('home')
+        
+@method_decorator(login_required, name='dispatch')
+class registrov(View):
+    def post(self, request, *args, **kwargs):
+        datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
+        form = registrarVehiculo_f(request.POST)
+        if form.is_valid():
+            a=User.objects.get(username=request.user.username)
+            vehiculo = form.save(commit = False)
+            vehiculo.dueno = a
+            vehiculo.save()
+            request.session['mensaje']='Vehiculo Registrado'
+            return redirect('Viajes:Viajes_home')#('appname:linkname')
 
+    def get(self, request, *args, **kwargs):
+        datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
+        v= Vehiculo.objects.filter(dueno=request.user)
+        if len(v) ==0:
+            datos['error']="Por favor registre un vehiculo primero"
+        form = registrarVehiculo_f()
+        datos['rvForm']=form
+        return render(request,'Viajes/registroVehiculo.html',datos)
+    def dispatch(self, request,*args, **kwargs):
+        return super(registrov, self).dispatch(request,*args, **kwargs)
 @method_decorator(login_required, name='dispatch')  
 class ReporteViajes(View):
     def get(self, request, *args, **kwargs):

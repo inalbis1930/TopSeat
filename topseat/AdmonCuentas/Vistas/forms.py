@@ -2,7 +2,8 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from ..roles import *
-from ..Modelo import models
+from ..Modelo.models import *
+
 
 
 class ProfileForm(forms.ModelForm):
@@ -11,7 +12,7 @@ class ProfileForm(forms.ModelForm):
     correo = forms.EmailField(max_length=254,required=True, help_text='Por favor introduzca su correo institucional de la P.U Javeriana')
     celular = forms.CharField(max_length=12,required=True)
     class Meta:
-        model = models.UsuarioTopSeat
+        model = UsuarioTopSeat
         fields = ('correo','celular','rol')
 
 class editarUsuario(forms.ModelForm):
@@ -20,3 +21,11 @@ class editarUsuario(forms.ModelForm):
     class Meta:
         model = User
         fields = ('first_name','last_name')
+
+class registrarVehiculo_f(forms.ModelForm):
+    modelo = forms.CharField(max_length=50,required= True)
+    placa = forms.CharField(max_length=6,required= True)
+    color = forms.CharField(max_length=20,required= True)
+    class Meta:
+        model = Vehiculo
+        fields =['modelo','placa','color']

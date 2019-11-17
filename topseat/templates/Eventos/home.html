@@ -1,0 +1,114 @@
+{%extends "baseAsi.html"%}
+{%load staticfiles%}
+{%block content%}
+
+{%if mensaje%}
+<div class="alert success">
+  <span class="closebtn">&times;</span>  
+  <strong>¡Exito!</strong> {{mensaje}}
+</div>
+{%endif%}
+
+<script>
+var close = document.getElementsByClassName("closebtn");
+var i;
+
+for (i = 0; i < close.length; i++) {
+  close[i].onclick = function(){
+    var div = this.parentElement;
+    div.style.opacity = "0";
+    setTimeout(function(){ div.style.display = "none"; }, 600);
+  }
+}
+</script>
+<h3>Quejas:</h3>
+{%if Q and Q.count != 0 %}
+<div style ="overflow-x:auto;">
+<table id="t01">
+  <tr>
+    <th>Reportado por:</th>
+	<th>Viaje</th>
+    <th>Descripcion</th> 
+    <th>Responder</th>
+  </tr>
+  {%for item in Q%}
+   <tr>
+    <td>{{item.cliente.usuario.first_name}} {{item.cliente.usuario.last_name}}</td> 
+    <td>{{item.viaje}}</td>
+	<td>{{item.descripcion}}</td>
+	<td style="text-align:center;">
+		<form action="{%url 'Eventos:AQuejas'%}" method="get">
+			{% csrf_token %}
+			<input type="hidden" name="id" value="{{item.id}}">
+			<input type="submit" value="Responder" class="btn btn-primary">
+		</form>
+	</td>
+  </tr>
+  {%endfor%}
+</table>
+</div>
+{%else%}
+<h3>No hay Quejas</h3>
+{%endif%}
+
+<h3>Sugerencias:</h3>
+{%if S and S.count != 0 %}
+<div style ="overflow-x:auto;">
+<table id="t01">
+  <tr>
+    <th>Por:</th>
+	<th>Nombre de Sugerencia</th>
+    <th>Motivacion</th> 
+    <th>Responder</th>
+  </tr>
+  {%for item in S%}
+   <tr>
+    <td>{{item.cliente.usuario.first_name}} {{item.cliente.usuario.last_name}}</td> 
+    <td>{{item.nombre}}</td>
+	<td>{{item.motivacion}}</td>
+	<td style="text-align:center;">
+		<form action="{%url 'Eventos:ASugerencias'%}" method="get">
+			{% csrf_token %}
+			<input type="hidden" name="id" value="{{item.id}}">
+			<input type="submit" value="Responder" class="btn btn-primary">
+		</form>
+	</td>
+  </tr>
+  {%endfor%}
+</table>
+</div>
+{%else%}
+<h3>No hay Sugerencias</h3>
+{%endif%}
+
+<h3>Fallas:</h3>
+{%if F and F.count != 0 %}
+<div style ="overflow-x:auto;">
+<table id="t01">
+  <tr>
+    <th>Por:</th>
+	<th>Contexto</th>
+    <th>Responder</th>
+  </tr>
+  {%for item in F%}
+   <tr>
+    <td>{{item.cliente.usuario.first_name}} {{item.cliente.usuario.last_name}}</td> 
+    <td>{{item.contexto}}</td>
+	<td style="text-align:center;">
+		<form action="{%url 'Eventos:AFallas'%}" method="get">
+			{% csrf_token %}
+			<input type="hidden" name="id" value="{{item.id}}">
+			<input type="submit" value="Responder" class="btn btn-primary">
+		</form>
+	</td>
+  </tr>
+  {%endfor%}
+</table>
+</div>
+{%else%}
+<h3>No hay Fallas</h3>
+{%endif%}
+
+
+<!--<p>It is {% now "jS F Y H:i" %}</p>-->
+{%endblock content%}

@@ -56,30 +56,7 @@ class Viajes_homeView(View):
 def esMovil(request):
     return request.user_agent.is_mobile
 
-@method_decorator(login_required, name='dispatch')
-class registrov(View):
-    def post(self, request, *args, **kwargs):
-        datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
-        form = registrarVehiculo_f(request.POST)
-        if form.is_valid():
-            a=User.objects.get(username=request.user.username)
-            vehiculo = form.save(commit = False)
-            vehiculo.dueno = a
-            vehiculo.save()
-            request.session['mensaje']='Vehiculo Registrado'
-            return redirect('Viajes:Viajes_home')#('appname:linkname')
-
-    def get(self, request, *args, **kwargs):
-        datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
-        v= Vehiculo.objects.filter(dueno=request.user)
-        if len(v) ==0:
-            datos['error']="Por favor registre un vehiculo primero"
-        form = registrarVehiculo_f()
-        datos['rvForm']=form
-        return render(request,'Viajes/registroVehiculo.html',datos)
-    def dispatch(self, request,*args, **kwargs):
-        return super(registrov, self).dispatch(request,*args, **kwargs)
-       
+    
 
 def getRol(request):
     a=User.objects.get(username=request.user.username)

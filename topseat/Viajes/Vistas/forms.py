@@ -4,15 +4,7 @@ from ..Modelo.models import *
 import datetime
 
 from django.contrib.admin.widgets import *
-
-class registrarVehiculo_f(forms.ModelForm):
-    modelo = forms.CharField(max_length=50,required= True)
-    placa = forms.CharField(max_length=6,required= True)
-    color = forms.CharField(max_length=20,required= True)
-    class Meta:
-        model = Vehiculo
-        fields =['modelo','placa','color']
-        
+    
         
 class form_crearViaje(forms.ModelForm):
     puestos_d = forms.IntegerField(label="Puestos Disponibles",max_value=6)

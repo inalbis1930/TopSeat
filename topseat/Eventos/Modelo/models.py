@@ -12,8 +12,9 @@ class Queja(models.Model):
     clienteAcusado = models.ForeignKey(UsuarioTopSeat,on_delete=models.CASCADE,related_name='acusado')
     descripcion = models.CharField(max_length = 300)
     respuesta=models.CharField(max_length = 300, null=True,blank=True)
+    respondida= models.BooleanField(default=False)
     def __str__(self):
-        return str.viaje+str.cliente + "[ "+ str.descripcion + "]"
+        return self.viaje+str.cliente + "[ "+ self.descripcion + "]"
 
 class Sugerencia(models.Model):
     id = models.AutoField(primary_key = True)
@@ -22,8 +23,9 @@ class Sugerencia(models.Model):
     descripcion = models.CharField(max_length = 300)
     cliente = models.ForeignKey(UsuarioTopSeat,on_delete=models.CASCADE)
     agradecimiento=models.CharField(max_length = 300, null=True,blank=True)
+    respondida= models.BooleanField(default=False)
     def __str__(self):
-        return str.descripcion + " " + str.motivacion
+        return self.descripcion + " " + self.motivacion
 
 class Falla(models.Model):
     id = models.AutoField(primary_key = True)
@@ -31,8 +33,9 @@ class Falla(models.Model):
     contexto = models.CharField(max_length = 300)
     cliente = models.ForeignKey(UsuarioTopSeat,on_delete=models.CASCADE)
     respuesta=models.CharField(max_length = 300, null=True,blank=True)
+    respondida= models.BooleanField(default=False)
     def __str__(self):
-        return str.secuencia + " " + str.contexto
+        return self.secuencia + " " + self.contexto
 class EventoMayor(models.Model):
      id = models.AutoField(primary_key = True)
      queja=models.ForeignKey(Queja,on_delete=models.CASCADE)
