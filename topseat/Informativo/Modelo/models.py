@@ -1,4 +1,5 @@
 from django.db import models
+from Eventos.Modelo.models import *
 #from Eventos import Bug
 # Create your models here.
 class FAQ(models.Model):
@@ -10,8 +11,9 @@ class FAQ(models.Model):
 
 class Bug(models.Model):
     id= models.AutoField(primary_key=True)
+    estado=models.CharField(max_length=40,default='')
     justificacion = models.CharField(max_length=700,default='')
-    #falla=models.OneToOneField(Falla,on_delete=models.CASCADE)
+    falla=models.OneToOneField(Falla,on_delete=models.CASCADE)
     def __str__(self):
         return self.justificacion
 

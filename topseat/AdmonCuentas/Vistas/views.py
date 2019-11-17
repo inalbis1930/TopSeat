@@ -214,7 +214,7 @@ class eliminarPerfil(View):
 
 @method_decorator(login_required, name='dispatch')  
 class ReporteViajes(View):
-    def post(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request),'Cond':Viaje.objects.filter(conductor__usuario =request.user),'Pasa':Reserva.objects.filter(pasajero__usuario = request.user)}
         return render(request,'AdmonCuentas/reporte.html',datos)
     def dispatch(self, request,*args, **kwargs):
