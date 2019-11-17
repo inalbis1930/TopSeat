@@ -98,10 +98,6 @@ nav a:hover::before {
     width: 100%;
 }
 
-.c1 p{
-    margin-left: 35%;
-}
-
 
 
 .buttons {
@@ -141,6 +137,10 @@ nav a:hover::before {
  }
  select:focus{ outline: none;}
 
+ small {
+    font-size: 10px;
+  }
+
  .log_in {
      position: absolute;
      top: 50%;
@@ -164,16 +164,21 @@ nav a:hover::before {
  }
 
  .sign_up {
+
      position: absolute;
-     top: 50%;
+     top: 100%;
      left: 50%;
      font-size: 15px;
      transform: translate(-50%, -50%);
      width: 480px;
-     height: 800px;
+     height: 1070px;
      box-sizing: border-box;
      background: rgba(255, 255, 255, 1);
      border-radius: 12px 12px 12px 12px;
+
+     margin-bottom: 40px;
+     padding-bottom: 113px;
+     padding-right: 85px;
  }
 
  .sign_up a {
@@ -188,7 +193,7 @@ nav a:hover::before {
  .image_container {
     position: absolute;
     display: inline-block;
-    background-image: url('{{ STATIC_URL }}img/image2.jpg');
+    background-image: url('/static/img/image2.jpg');
     background-position: center;
     background-repeat: no-repeat;
     width:100%;
@@ -364,6 +369,20 @@ nav a:hover::before {
      align-items: center;
  }
 
+ .buttons {
+    position: absolute;
+    top: 85%;
+    left: 42%;
+    font-size: 15px;
+    transform: translate(-50%, -50%);
+    width: 15%;
+    height: 35%;
+    display: inline-block;
+    box-sizing: border-box;
+    border-radius: 12px 12px 12px 12px;
+
+}
+
  input[type=submit] {
    border: 3px solid #D51310;
    background: #D51310;
@@ -372,7 +391,7 @@ nav a:hover::before {
    font-size: 12px;
    cursor: pointer;
    margin: 3px;
-   margin-left: 35%;
+   margin-left: 18%;
    color: #E7E7E7;
    border-radius: 10px 10px 10px 10px;
    transition: all 0.1s ease 0s;
@@ -403,11 +422,11 @@ nav a:hover::before {
    transition: all 0.1s ease 0s;
  }
 
- .site-form {
-   padding-left: 30%;
+ form.site-form {
+   padding-left: 25%;
  }
 
-@media screen and (max-width: 350px) {
+ @media screen and (max-width: 350px) {
     nav li {
         display: inline-block;
         margin-left: 6%;
@@ -447,24 +466,31 @@ nav a:hover::before {
     }
 
     .sign_up {
-      margin-bottom: 69px;
-      top: 125%;
+      margin-bottom: 40px;
+      top: 120%;
       left: 50%;
-      width: 80%;
-      height: 1200px;
-      padding-bottom: 115px;
+      width: 90%;
+      height: 1160px;
+      padding-bottom: 113px;
+      padding-right: 40px;
     }
 
     select {
         width:100%;
     }
 
-    .c1 p{
-        margin-left: 15%;
-    }
 
      input[type=submit] {
        margin-left: 25%;
+     }
+
+     form.site-form {
+        padding-left: 10%;
+     }
+
+     .buttons {
+        left: 35%;
+        top: 90%;
      }
 
     .image_container {
@@ -569,24 +595,30 @@ nav a:hover::before {
     }
 
     .sign_up {
-      top: 120%;
-      left: 50%;
-      width: 80%;
-      height: 1130px;
-      margin-bottom: 70px;
-      padding-bottom: 60%;
+        margin-bottom: 40px;
+        top: 120%;
+        left: 50%;
+        width: 90%;
+        height: 1160px;
+        padding-bottom: 113px;
+        padding-right: 40px;
     }
 
     select {
         width:100%;
     }
 
-    .c1 p{
-        margin-left: 20%;
-    }
-
      input[type=submit] {
        margin-left: 30%;
+     }
+
+     form.site-form {
+        padding-left: 13%;
+     }
+
+     .buttons {
+        left: 35%;
+        top: 85%;
      }
 
     .image_container {
@@ -694,23 +726,30 @@ nav a:hover::before {
     }
 
     .sign_up {
-      top: 110%;
-      margin-bottom: 70px;
-      left: 50%;
-      width: 80%;
-      height: 950px;
+        margin-bottom: 40px;
+        top: 110%;
+        left: 50%;
+        width: 90%;
+        height: 1100px;
+        padding-bottom: 113px;
+        padding-right: 80px;
     }
 
     select {
         width:100%;
     }
 
-    .c1 p{
-        margin-left: 27%;
-    }
-
      input[type=submit] {
-       margin-left: 35%;
+       margin-left: 25%;
+     }
+
+     form.site-form {
+        padding-left: 25%;
+     }
+
+     .buttons {
+        left: 38%;
+        top: 80%;
      }
 
     .image_container {

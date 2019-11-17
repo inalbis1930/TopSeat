@@ -1,4 +1,5 @@
 {%extends "base.html"%}
+{% load staticfiles %}
 
 {%block content%}
 
@@ -28,7 +29,8 @@
     {% endfor %}
 	{% if request.GET.next%}
 		<input type="hidden" name="next" value="{{request.GET.next}}">
-	{%endif%}
+  {%endif%}
+<div class="buttons">
 	<input type="Submit" value="Iniciar Sesión">
 </form>
 
@@ -36,5 +38,6 @@
 	{% csrf_token %}
 	<input type="Submit" value="Registro">
 </form>
+</div>
 </div>
 {%endblock content%}

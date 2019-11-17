@@ -20,7 +20,7 @@
         {{ field.label_tag }}<br>
         {{ field }}
         {% if field.help_text %}
-          <small style="color: grey">{{ field.help_text }}</small>
+          <small style="color: grey"><br>{{ field.help_text }}</small>
         {% endif %}
         {% for error in field.errors %}
           <p style="color: red">{{ error }}</p>
@@ -32,14 +32,15 @@
         {{ field.label_tag }}<br>
         {{ field }}
         {% if field.help_text %}
-          <small style="color: grey">{{ field.help_text }}</small>
+          <small style="color: grey"><br>{{ field.help_text }}</small>
         {% endif %}
         {% for error in field.errors %}
           <p style="color: red">{{ error }}</p>
         {% endfor %}
       </p>
     {% endfor %}
-	<input type="Submit" value="Sign Up">
+
+	<input type="Submit" value="Sign Up" style="width: 100px">
 </form>
 </div>
 
