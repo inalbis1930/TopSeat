@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'topseat',
     'Viajes',
     'AdmonCuentas',
-    #'Eventos',
+    'Eventos',
     'Informativo',
   
 ]
