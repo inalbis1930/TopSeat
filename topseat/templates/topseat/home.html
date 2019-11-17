@@ -1,4 +1,5 @@
 {%extends "base.html"%}
+{% load staticfiles %}
 
 {%block content%}
 
@@ -19,17 +20,17 @@
     </div>
     <div class="info_body2">
 
-        <p><img src='{% static "img/team.png" %}' style="width:200px;height:200px;margin-left:15px;margin-top:10px;">
+        <p><img src='{% static "img/team.png" %}'>
             <b>Se parte de la comunidad</b></br></br>
             Registrate y conoce conductores que se dirigen cerca a tu dirección. Tambien, puedes ser parte de las personas que prestan el servicio.
         </p>
 
-        <p><img src='{% static "img/car.png" %}' style="width:180px;height:180px;float:right;margin-left:25px">
+        <p><img src='{% static "img/car.png" %}'>
             <b></br></br></br></br></br></br></br>Escoja un viaje compartido</b></br></br>
             Seleccione un viaje que se adapte a su horario. Viaje o maneje para satisfacer sus necesidades diarias o las de otras personas.
         </p>
 
-        <p><img src='{% static "img/road-trip.png" %}' style="width:200px;height:200px;float:left;margin-left:25px">
+        <p><img src='{% static "img/road-trip.png" %}'>
             <b></br></br></br></br></br></br></br>Disfrute del viaje</b></br></br>
             Conozca gente nueva y aproveche al máximo su tiempo.
         </p>

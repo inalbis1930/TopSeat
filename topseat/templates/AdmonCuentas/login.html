@@ -2,11 +2,13 @@
 
 {%block content%}
 
-<p>Formulario para login</p>
+<div class = "log_in">
+<h1>Resgistrate</h1>
+<p> o <a href="{%url 'AdmonCuentas:signup'%}">crea una cuenta</a></p>
 
 {%if error%}
 <div class="alert">
-  <span class="closebtn">&times;</span>  
+  <span class="closebtn">&times;</span>
   <strong>¡Pilas!</strong> {{error}}
 </div>
 {%endif%}
@@ -32,6 +34,7 @@
 
 <form class ="site-form" action="{%url 'AdmonCuentas:signup'%}" method="get">
 	{% csrf_token %}
-	<input type="Submit" value="Registro">.
+	<input type="Submit" value="Registro">
 </form>
+</div>
 {%endblock content%}

@@ -157,6 +157,28 @@ nav a:hover::before {
      text-decoration: underline;
  }
 
+ .sign_up {
+     position: absolute;
+     top: 50%;
+     left: 50%;
+     font-size: 15px;
+     transform: translate(-50%, -50%);
+     width: 480px;
+     height: 380px;
+     box-sizing: border-box;
+     background: rgba(255, 255, 255, 1);
+     border-radius: 12px 12px 12px 12px;
+ }
+
+ .sign_up a {
+     color: rgb(238, 5, 5);
+     text-decoration: none;
+ }
+
+ .sign_up a:hover{
+     text-decoration: underline;
+ }
+
  .image_container {
     position: absolute;
     display: inline-block;
@@ -387,7 +409,19 @@ nav a:hover::before {
         width: 100%;
     }
 
+    .log_in {
+        top: 50%;
+        left: 50%;
+        width: 80%;
+        height: 70%;
+    }
 
+    .sign_up {
+        top: 55%;
+        left: 50%;
+        width: 80%;
+        height: 80%;
+    }
 
     select {
         width:100%;
@@ -487,7 +521,19 @@ nav a:hover::before {
         width: 100%;
     }
 
+    .log_in {
+        top: 50%;
+        left: 50%;
+        width: 80%;
+        height: 60%;
+    }
 
+    .sign_up {
+        top: 50%;
+        left: 50%;
+        width: 80%;
+        height: 72%;
+    }
 
     select {
         width:100%;
@@ -589,14 +635,19 @@ nav a:hover::before {
         width: 100%;
     }
 
-
-    .signup_form {
-        display: inline-block;
-        margin-top: 0.5%;
-        padding: 10px;
-        margin-left: 2%;
+    .log_in {
+        top: 50%;
+        left: 50%;
+        width: 80%;
+        height: 60%;
     }
 
+    .sign_up {
+        top: 50%;
+        left: 50%;
+        width: 80%;
+        height: 65%;
+    }
 
     select {
         width:100%;
