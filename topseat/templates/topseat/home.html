@@ -1,5 +1,5 @@
 {%extends "base.html"%}
-
+{%load staticfiles%}
 {%block content%}
 
 <div class="image_container"></div>
@@ -19,7 +19,7 @@
     </div>
     <div class="info_body2">
 
-        <p><img src='{% static "img/team.png" %}' style="width:200px;height:200px;margin-left:15px;margin-top:10px;">
+        <p><img src='{% static "img/team.png" %}' style="width:200px;height:200px;margin-left:15px;margin-top:10px;"></img>
             <b>Se parte de la comunidad</b></br></br>
             Registrate y conoce conductores que se dirigen cerca a tu dirección. Tambien, puedes ser parte de las personas que prestan el servicio.
         </p>

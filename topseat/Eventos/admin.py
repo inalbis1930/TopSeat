@@ -1,8 +1,8 @@
 from django.contrib import admin
-from .models import *
+from .Modelo.models import *
 
 # Register your models here.
 
 admin.site.register(Queja)
 admin.site.register(Sugerencia)
-admin.site.register(Fallo)
+admin.site.register(Falla)

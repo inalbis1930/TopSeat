@@ -16,7 +16,6 @@ from django.views import View
 @method_decorator(login_required, name='dispatch')
 class Viajes_homeView(View):
     def post(self, request, *args, **kwargs):
-        print("Entro P")
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request),'movil':esMovil(request)}
         if getRol(request) == "Conductor":
             origen = request.POST.get("origen","")
@@ -32,7 +31,6 @@ class Viajes_homeView(View):
             return render(request,'Viajes/verMapa.html',datos)
 
     def get(self, request, *args, **kwargs):
-        print("Entro G")
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request),'movil':esMovil(request)}
         if getRol(request) == "Conductor":
             v=Viaje.objects.filter(conductor__usuario =request.user)

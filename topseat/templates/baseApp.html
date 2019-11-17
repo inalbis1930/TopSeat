@@ -30,6 +30,20 @@
 		  <a href="{%url 'Informativo:FAQ'%}">FAQ</a>
 		</li>
 		<li class="dropdown">
+		  <a href="javascript:void(0)" class="dropbtn">Quejas, Sugerencias o Fallas</a>
+		  <div class="dropdown-content">
+			<form action="{%url 'Eventos:Crear_Queja'%}" method="get">{% csrf_token %} 
+			<a href="javascript:;" onclick="parentNode.submit();">Reporte un Queja</a> 
+			<input type="hidden" name="Queja" value="Queja" /></form>
+			<form action="{%url 'Eventos:Crear_Sugerencia'%}" method="post">{% csrf_token %} 
+			<a href="javascript:;" onclick="parentNode.submit();">Denos un Sugerencia</a> 
+			<input type="hidden" name="Sugerencia" value="Sugerencia" /></form>
+			<form action="{%url 'Eventos:Crear_Falla' %}" method="get">{% csrf_token %} 
+			<a href="javascript:;" onclick="parentNode.submit();">Reporte una Falla</a> 
+			<input type="hidden" name="Falla" value="Falla" /></form>
+		  </div>
+		</li>
+		<li class="dropdown">
 		  <a href="javascript:void(0)" class="dropbtn">Bienvenido, {{rol}} {{usuario}}</a>
 		  <div class="dropdown-content">
 			<form action="{%url 'AdmonCuentas:editar_perfil'%}" method="get">{% csrf_token %} 

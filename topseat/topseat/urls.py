@@ -23,4 +23,5 @@ urlpatterns = [
     url(r'^AdmonCuentas/', include('AdmonCuentas.urls', namespace='AdmonCuentas')),#Inclusion de los Urls de la aplicacion de cuentas
     url(r'^Viajes/', include('Viajes.urls', namespace='Viajes')),#Inclusion de los Urls de la aplicacion de cuentas
     url(r'^Informativo/', include('Informativo.urls', namespace='Informativo')),#Inclusion de los Urls de la aplicacion de cuentas
+    url(r'^Eventos/', include('Eventos.urls', namespace='Eventos')),#Inclusion de los Urls de la aplicacion de cuentas
 ]
