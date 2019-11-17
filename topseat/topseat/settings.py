@@ -158,3 +158,4 @@ CACHES = {
 }
 
 USER_AGENTS_CACHE = 'default'
+LOGIN_URL='/AdmonCuentas/login/'

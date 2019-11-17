@@ -5,14 +5,14 @@ from Viajes.Vistas import views
 app_name='Viajes'
 
 urlpatterns = [
-    url(r'^$', views.Viajes_home,name='Viajes_home'),
-    url(r'^regisro-v/$', views.registrov,name='registro_vehiculo'),
-    url(r'^crearViaje/$', views.crearViaje,name='crearViaje'),
-    url(r'^verMapa/$', views.verMapa,name='verMapa'),
-    url(r'^eliminarViaje/$', views.eliminarViaje,name='eliminarViaje'),
-    url(r'^editarViaje/$', views.editarViaje,name='editarViaje'),
-    url(r'^confirmarReserva/$', views.confirmarReserva,name='confirmarReserva'),
-    url(r'^eliminarReserva/$', views.eliminarReserva,name='eliminarReserva'),
-    url(r'^IniciarViaje/$', views.IniciarViaje,name='IniciarViaje'),
+    url(r'^$', views.Viajes_homeView.as_view(),name='Viajes_home'),
+    url(r'^registro-v/$', views.registrov.as_view(),name='registro_vehiculo'),
+    url(r'^crearViaje/$', views.crearViaje.as_view(),name='crearViaje'),
+    url(r'^verMapa/$', views.verMapa.as_view(),name='verMapa'),
+    url(r'^eliminarViaje/$', views.eliminarViaje.as_view(),name='eliminarViaje'),
+    url(r'^editarViaje/$', views.editarViaje.as_view(),name='editarViaje'),
+    url(r'^confirmarReserva/$', views.confirmarReserva.as_view(),name='confirmarReserva'),
+    url(r'^eliminarReserva/$', views.eliminarReserva.as_view(),name='eliminarReserva'),
+    url(r'^IniciarViaje/$', views.IniciarViaje.as_view(),name='IniciarViaje'),
     
 ]
