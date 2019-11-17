@@ -11,6 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.http import HttpResponse
 from django.views import View
+from topseat.ServicioCorreo import servicioCorreo
 
 
 @method_decorator(login_required, name='dispatch')
@@ -212,6 +213,17 @@ class confirmarReserva(View):
                 r.save()
                 viaje.save()
                 request.session['mensaje']='Reserva Realizada'
+                
+                subject = 'RESERVA EN TOPSEAT[PASAJERO]'
+                message = "Hola \n Reservaste "+ str(r.cantidadPuestos)+ " puestos en el viaje del dia: "+ str(r.viaje.fecha) +" a las " + str(r.viaje.hora) +" \nComunicate con tu Conductor al :" +str(viaje.conductor.celular)
+                recipient_list = [r.pasajero.correo,]
+                servicioCorreo.enviarCorreo(subject,message,recipient_list)
+                
+                subject = 'RESERVA EN TOPSEAT [CONDUCTOR]'
+                message = 'Hola \n El Pasajero '+ str(r.pasajero.usuario.first_name) +" "+str(r.pasajero.usuario.last_name)+ "\n Ha reservado "+ str(r.cantidadPuestos)+ " puestos en tu viaje del dia: "+ str(r.viaje.fecha) +" a las " + str(r.viaje.hora) +" \nComunicate con tu pasajero al :" +str(r.pasajero.celular)
+                recipient_list = [viaje.conductor.correo,]
+                servicioCorreo.enviarCorreo(subject,message,recipient_list)
+                
                 return redirect('Viajes:Viajes_home')
         else:
             datos['error']=form.errors
