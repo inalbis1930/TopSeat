@@ -16,6 +16,7 @@ from django.views import View
 @method_decorator(login_required, name='dispatch')
 class Viajes_homeView(View):
     def post(self, request, *args, **kwargs):
+        print("Entro P")
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request),'movil':esMovil(request)}
         if getRol(request) == "Conductor":
             origen = request.POST.get("origen","")
@@ -31,28 +32,28 @@ class Viajes_homeView(View):
             return render(request,'Viajes/verMapa.html',datos)
 
     def get(self, request, *args, **kwargs):
+        print("Entro G")
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request),'movil':esMovil(request)}
         if getRol(request) == "Conductor":
-            if request.method == 'POST':
-                v=Viaje.objects.filter(conductor__usuario =request.user)
-                datos['viajes']=v
-                r= Reserva.objects.filter(viaje__conductor__usuario=request.user,estado=True)
-                datos['reservas']=r
-                if 'mensaje' in request.session and request.session['mensaje'] != None:
-                    datos['mensaje']=request.session['mensaje']
-                    request.session['mensaje']= None
-                return render(request,'Viajes/conductor.html',datos)
-            else:
-                v=Viaje.objects.filter(puestos_d__gte=1).exclude(conductor__usuario=request.user)
-                datos['viajes']=v
-                r= Reserva.objects.filter(pasajero__usuario = request.user,estado=True)
-                datos['reservas']=r
-                if 'mensaje' in request.session and request.session['mensaje'] != None:
-                    datos['mensaje']=request.session['mensaje']
-                    request.session['mensaje']= None
-                return render (request,'Viajes/pasajero.html',datos)
+            v=Viaje.objects.filter(conductor__usuario =request.user)
+            datos['viajes']=v
+            r= Reserva.objects.filter(viaje__conductor__usuario=request.user,estado=True)
+            datos['reservas']=r
+            if 'mensaje' in request.session and request.session['mensaje'] != None:
+                datos['mensaje']=request.session['mensaje']
+                request.session['mensaje']= None
+            return render(request,'Viajes/conductor.html',datos)
+        else:
+            v=Viaje.objects.filter(puestos_d__gte=1).exclude(conductor__usuario=request.user)
+            datos['viajes']=v
+            r= Reserva.objects.filter(pasajero__usuario = request.user,estado=True)
+            datos['reservas']=r
+            if 'mensaje' in request.session and request.session['mensaje'] != None:
+                datos['mensaje']=request.session['mensaje']
+                request.session['mensaje']= None
+            return render (request,'Viajes/pasajero.html',datos)
     def dispatch(self, request,*args, **kwargs):
-        return render(request, 'AdmonCuentas/login.html/')
+        return super(Viajes_homeView, self).dispatch(request,*args, **kwargs)
 
 def esMovil(request):
     return request.user_agent.is_mobile
@@ -79,7 +80,7 @@ class registrov(View):
         datos['rvForm']=form
         return render(request,'Viajes/registroVehiculo.html',datos)
     def dispatch(self, request,*args, **kwargs):
-        return render(request, 'AdmonCuentas/login.html/')
+        return super(registrov, self).dispatch(request,*args, **kwargs)
        
 
 def getRol(request):
@@ -115,6 +116,7 @@ class crearViaje(View):
             render(request,'Viajes/nuevoViaje.html',datos)
 
     def get(self, request, *args, **kwargs):
+        datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)} 
         v= Vehiculo.objects.filter(dueno=request.user)
         if len(v) ==0:
             return redirect('Viajes:registro_vehiculo')
@@ -124,7 +126,7 @@ class crearViaje(View):
         datos['rtForm']=formruta
         return render(request,'Viajes/nuevoViaje.html',datos)
     def dispatch(self, request,*args, **kwargs):
-        return render(request, 'AdmonCuentas/login.html/')
+        return super(crearViaje, self).dispatch(request,*args, **kwargs)
 @method_decorator(login_required, name='dispatch')
 class verMapa(View):
     def post(self, request, *args, **kwargs):
@@ -134,7 +136,7 @@ class verMapa(View):
             datos['vehiculos']=v
         return render(request,'Viajes/verMapa.html',datos)
     def dispatch(self, request,*args, **kwargs):
-        return render(request, 'AdmonCuentas/login.html/')
+        return super(verMapa, self).dispatch(request,*args, **kwargs)
 @method_decorator(login_required, name='dispatch')
 class eliminarViaje(View):
     def post(self, request, *args, **kwargs):
@@ -143,7 +145,7 @@ class eliminarViaje(View):
         request.session['mensaje']='Viaje Eliminado'
         return redirect('Viajes:Viajes_home')
     def dispatch(self, request,*args, **kwargs):
-        return render(request, 'AdmonCuentas/login.html/')
+        return super(eliminarViaje, self).dispatch(request,*args, **kwargs)
 
 @method_decorator(login_required, name='dispatch')
 class editarViaje(View):
@@ -186,7 +188,7 @@ class editarViaje(View):
         datos['id'] = request.GET.get('id','')
         return render(request,'Viajes/editarViaje.html',datos)
     def dispatch(self, request,*args, **kwargs):
-        return render(request, 'AdmonCuentas/login.html/')    
+        return super(editarViaje, self).dispatch(request,*args, **kwargs)  
 @method_decorator(login_required, name='dispatch')
 class confirmarReserva(View):
     def post(self, request, *args, **kwargs):
@@ -202,7 +204,7 @@ class confirmarReserva(View):
             cant=int(data.cantidadPuestos)
             if cant< 1 or cant > viaje.puestos_d:
                 datos['error']="Por favor ingrese una cantidad de puestos Valida"
-                render(request,'Viajes/confirmarReserva.html',datos)
+                return render(request,'Viajes/confirmarReserva.html',datos)
             else:
                 r= Reserva()
                 r.pasajero = UsuarioTopSeat.objects.get(usuario=request.user)
@@ -215,7 +217,7 @@ class confirmarReserva(View):
                 return redirect('Viajes:Viajes_home')
         else:
             datos['error']=form.errors
-            render(request,'Viajes/confirmarReserva.html',datos)
+            return render(request,'Viajes/confirmarReserva.html',datos)
     def get(self, request, *args, **kwargs):
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
         viaje=Viaje.objects.get(pk=request.GET.get('id',''))
@@ -226,7 +228,7 @@ class confirmarReserva(View):
         datos['viaje']=viaje
         return render(request,'Viajes/confirmarReserva.html',datos)
     def dispatch(self, request,*args, **kwargs):
-        return render(request, 'AdmonCuentas/login.html/')    
+        return super(confirmarReserva, self).dispatch(request,*args, **kwargs)
 @method_decorator(login_required, name='dispatch')
 class eliminarReserva(View):
     def post(self, request, *args, **kwargs):
@@ -240,7 +242,7 @@ class eliminarReserva(View):
         request.session['mensaje']='Reserva Eliminada'
         return redirect('Viajes:Viajes_home')
     def dispatch(self, request,*args, **kwargs):
-        return render(request, 'AdmonCuentas/login.html/')
+        return super(eliminarReserva, self).dispatch(request,*args, **kwargs)
 
 @method_decorator(login_required, name='dispatch')
 class IniciarViaje(View):
@@ -252,7 +254,7 @@ class IniciarViaje(View):
         return redirect('Viajes:Viajes_home')
 
     def dispatch(self, request,*args, **kwargs):
-        return render(request, 'AdmonCuentas/login.html/')
+        return super(IniciarViaje, self).dispatch(request,*args, **kwargs)
 
     def get(self, request, *args, **kwargs):
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
