@@ -4,9 +4,9 @@ from __future__ import unicode_literals
 from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required
 from .forms import *
-from .models import *
+from ..Modelo.models import *
 from django_google_maps import widgets as map_widgets
-from AdmonCuentas.models import UsuarioTopSeat
+from AdmonCuentas.Modelo.models import UsuarioTopSeat
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 

@@ -4,9 +4,9 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.contrib.auth import login,logout,update_session_auth_hash
 from .forms import *
-from .models import *
+from ..Modelo.models import *
 from django.contrib.auth.decorators import login_required
-from Viajes.models import *
+from Viajes.Modelo.models import *
 
 '''
     Vistas de la aplicacion de AdmonCuentas.

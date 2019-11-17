@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from AdmonCuentas import views
+from AdmonCuentas.Vistas import views
 
 
 app_name='AdmonCuentas'

@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from Viajes import views
+from Viajes.Vistas import views
 
 
 app_name='Viajes'

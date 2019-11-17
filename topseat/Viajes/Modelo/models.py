@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django_google_maps import fields as map_fields
-from AdmonCuentas.models import *
+from AdmonCuentas.Modelo.models import *
 from django.contrib.auth.models import User
 
 # Create your models here.

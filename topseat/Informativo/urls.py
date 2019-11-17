@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from Informativo import views
+from Informativo.Vistas import views
 
 
 app_name='Informativo'
