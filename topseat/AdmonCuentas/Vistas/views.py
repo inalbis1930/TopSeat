@@ -13,6 +13,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.urls import reverse
 from django.http import HttpResponseRedirect
+from topseat.ServicioCorreo import servicioCorreo
 '''
     Vistas de la aplicacion de AdmonCuentas.
     Esta aplicacion hace el manejo de las AdmonCuentas, tanto creacion, modificacion, eliminacion,
@@ -86,6 +87,10 @@ class signup_v(View):
                 usuarioAct.email= perfil.correo
                 usuarioAct.save()
                 login(request,usuarioAct)
+                subject = 'BIENVENIDO A TOPSEAT' 
+                message = 'HOLA, '+usuarioAct.first_name +" "+usuarioAct.last_name+'! \n TE DAMOS UNA CALUROSA BIENVENIDA A TOPSEAT, ENTRAS A MOVILIDAD INTEGRAL! '
+                recipient_list = [usuarioAct.email,]
+                servicioCorreo.enviarCorreo(subject,message,recipient_list)
                 if perfil.rol == 1:
                     return redirect('Viajes:Viajes_home')
                 else:
@@ -180,6 +185,10 @@ class actualizarContrasena(View):
         if form.is_valid():
             user=form.save()
             update_session_auth_hash(request, user)
+            subject = 'CAMBIO DE CONTRASEÑ TOPSEAT' 
+            message = 'HOLA, '+user.first_name +" "+user.last_name+'! \n Tu contraseña en TOPSEAT fue modificada'
+            recipient_list = [user.email,]
+            servicioCorreo.enviarCorreo(subject,message,recipient_list)
             return redirect('Viajes:Viajes_home')
     def get(self, request, *args, **kwargs):
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
@@ -203,6 +212,10 @@ class actualizarPerfil(View):
             if datos.last_name != "":
                 user.last_name = datos.last_name
             user.save()
+            subject = 'PERFIL ACTUALIZADO TOPSEAT' 
+            message = 'HOLA, '+user.first_name +" "+user.last_name+'! \n Tu perfil en TOPSEAT fue modificado'
+            recipient_list = [user.email,]
+            servicioCorreo.enviarCorreo(subject,message,recipient_list)
         return redirect('Viajes:Viajes_home')
     def get(self, request, *args, **kwargs):
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
@@ -215,6 +228,12 @@ class actualizarPerfil(View):
 class eliminarPerfil(View):
     def post(self, request, *args, **kwargs):
         user = User.objects.get(username=request.user.username)
+        
+        subject = 'PERFIL ACTUALIZADO TOPSEAT' 
+        message = 'HOLA, '+user.first_name +" "+user.last_name+'! \n Tu perfil en TOPSEAT fue Eliminado.\n Lamentamos mucho verte ir, esperamos que vuelvas pronto'
+        recipient_list = [user.email,]
+        servicioCorreo.enviarCorreo(subject,message,recipient_list) 
+        
         user.delete()
         return redirect('home')
 

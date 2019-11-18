@@ -11,6 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.http import HttpResponse
 from django.views import View
+from topseat.ServicioCorreo import servicioCorreo
 
 
 @method_decorator(login_required, name='dispatch')
@@ -85,6 +86,12 @@ class crearViaje(View):
                 viaje.conductor=UsuarioTopSeat.objects.get(usuario=request.user)
                 viaje.save()
                 request.session['mensaje']='Viaje Creado'
+                
+                subject = 'VIAJE CREADO'
+                message = 'Hola \n El viaje del dia: '+ str(r.viaje.fecha) +" a las " + str(r.viaje.hora) +' Fue Creado.'
+                recipient_list = [viaje.conductor.correo,]
+                servicioCorreo.enviarCorreo(subject,message,recipient_list)
+                
                 return redirect('Viajes:Viajes_home')
         else:
             datos['error']=form.errors
@@ -116,6 +123,14 @@ class verMapa(View):
 class eliminarViaje(View):
     def post(self, request, *args, **kwargs):
         viaje =Viaje.objects.get(id=request.POST.get('id',''))
+        rs = Reserva.objects.filter(viaje = viaje)
+        subject = 'VIAJE ACTUALIZADO'
+        message = 'Hola \n El viaje del dia: '+ str(r.viaje.fecha) +" a las " + str(r.viaje.hora) +' Fue Eliminado'
+        recipient_list = [viaje.conductor.correo,]
+        for r in rs:
+            recipient_list.append(r.pasajero.correo)
+        servicioCorreo.enviarCorreo(subject,message,recipient_list)
+        
         viaje.delete()
         request.session['mensaje']='Viaje Eliminado'
         return redirect('Viajes:Viajes_home')
@@ -150,6 +165,15 @@ class editarViaje(View):
             ruta.save()
             viaje.save()
             request.session['mensaje']='Viaje Actualizado'
+            
+            rs = Reserva.objects.filter(viaje = viaje)
+            subject = 'VIAJE ACTUALIZADO'
+            message = 'Hola \n El viaje del dia: '+ str(r.viaje.fecha) +" a las " + str(r.viaje.hora) +' Fue modificado, Ingresa a la plataforma para verificar los cambios.'
+            recipient_list = [viaje.conductor.correo,]
+            for r in rs:
+                recipient_list.append(r.pasajero.correo)
+            servicioCorreo.enviarCorreo(subject,message,recipient_list)
+            
             return redirect('Viajes:Viajes_home')
         else:
             datos['error']=form.errors
@@ -189,6 +213,17 @@ class confirmarReserva(View):
                 r.save()
                 viaje.save()
                 request.session['mensaje']='Reserva Realizada'
+                
+                subject = 'RESERVA EN TOPSEAT[PASAJERO]'
+                message = "Hola \n Reservaste "+ str(r.cantidadPuestos)+ " puestos en el viaje del dia: "+ str(r.viaje.fecha) +" a las " + str(r.viaje.hora) +" \nComunicate con tu Conductor "+ viaje.conductor.usuario.first_name+" "+viaje.conductor.usuario.last_name+" al : " +str(viaje.conductor.celular)
+                recipient_list = [r.pasajero.correo,]
+                servicioCorreo.enviarCorreo(subject,message,recipient_list)
+                
+                subject = 'RESERVA EN TOPSEAT [CONDUCTOR]'
+                message = 'Hola \n El Pasajero '+ str(r.pasajero.usuario.first_name) +" "+str(r.pasajero.usuario.last_name)+ "\n Ha reservado "+ str(r.cantidadPuestos)+ " puestos en tu viaje del dia: "+ str(r.viaje.fecha) +" a las " + str(r.viaje.hora) +" \nComunicate con tu pasajero al : " +str(r.pasajero.celular)
+                recipient_list = [viaje.conductor.correo,]
+                servicioCorreo.enviarCorreo(subject,message,recipient_list)
+                
                 return redirect('Viajes:Viajes_home')
         else:
             datos['error']=form.errors
@@ -215,6 +250,12 @@ class eliminarReserva(View):
         v.save()
         r.delete()
         request.session['mensaje']='Reserva Eliminada'
+        
+        subject = 'RESERVA ELIMINADA EN TOPSEAT'
+        message = 'Hola \n La reserva del Pasajero '+ str(r.pasajero.usuario.first_name) +" "+str(r.pasajero.usuario.last_name)+ "\n ha sido eliminada, por: "+ str(r.cantidadPuestos)+ " puestos en el viaje del dia: "+ str(r.viaje.fecha) +" a las " + str(r.viaje.hora)
+        recipient_list = [v.conductor.correo,r.pasajero.correo,]
+        servicioCorreo.enviarCorreo(subject,message,recipient_list)
+        
         return redirect('Viajes:Viajes_home')
     def dispatch(self, request,*args, **kwargs):
         return super(eliminarReserva, self).dispatch(request,*args, **kwargs)
