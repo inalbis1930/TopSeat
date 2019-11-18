@@ -42,16 +42,38 @@ for (i = 0; i < close.length; i++) {
           zoom: 13.25,
           center: {lat: 4.6281098, lng: -74.076144}
         });
+		var trafficLayer = new google.maps.TrafficLayer();
+        trafficLayer.setMap(map);
         directionsRenderer.setMap(map);
-		calculateAndDisplayRoute(directionsService, directionsRenderer);
+		wp=[];
+		var paradasJ = (("{{paradas}}").replace(/&(l|g|quo)t;/g, function(a,b){
+                return {
+                    l   : '<',
+                    g   : '>',
+                    quo : '"'
+                }[b];
+            }));
+
+		myData = JSON.parse( paradasJ );
+		
+		myData.forEach(function (item,index){
+			wp.push({location:item,stopover:true});
+		});
+		calculateAndDisplayRoute(directionsService, directionsRenderer,wp);
       }
 
-      function calculateAndDisplayRoute(directionsService, directionsRenderer) {
+      function calculateAndDisplayRoute(directionsService, directionsRenderer,wp) {
         directionsService.route(
             {
               origin: {query: document.getElementById('start').value},
               destination: {query: document.getElementById('end').value},
+			  waypoints: wp,
               travelMode: 'DRIVING'
+			  drivingOptions: {
+				departureTime: new Date(Date.now()+300000),
+				trafficModel: 'pessimistic'
+			  },
+			  unitSystem: google.maps.UnitSystem.METRIC
             },
             function(response, status) {
               if (status === 'OK') {

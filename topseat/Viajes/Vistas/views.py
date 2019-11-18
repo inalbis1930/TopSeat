@@ -12,6 +12,8 @@ from django.utils.decorators import method_decorator
 from django.http import HttpResponse
 from django.views import View
 from topseat.ServicioCorreo import servicioCorreo
+import json
+from django.core.serializers.json import DjangoJSONEncoder
 
 
 @method_decorator(login_required, name='dispatch')
@@ -26,7 +28,7 @@ class Viajes_homeView(View):
         for re in r:
             if re.parada != None:
                 paradas.append(re.parada)
-        datos['paradas']=paradas
+        datos['paradas']=json.dumps(list(paradas),cls=DjangoJSONEncoder)
         return render(request,'Viajes/verMapa.html',datos)
 
     def get(self, request, *args, **kwargs):
@@ -41,6 +43,7 @@ class Viajes_homeView(View):
                 if 'mensaje' in request.session and request.session['mensaje'] != None:
                     datos['mensaje']=request.session['mensaje']
                     request.session['mensaje']= None
+                
                 return render(request,'Viajes/conductor.html',datos)
             else:
                 return redirect('Viajes:ViajeEnCurso')
@@ -211,6 +214,8 @@ class confirmarReserva(View):
                 r.pasajero = UsuarioTopSeat.objects.get(usuario=request.user)
                 r.viaje=viaje
                 r.cantidadPuestos = cant
+                if data.parada != None:
+                    r.parada = data.parada
                 viaje.puestos_d -= cant
                 r.save()
                 viaje.save()
@@ -238,6 +243,14 @@ class confirmarReserva(View):
         form = f_confirmarReserva()
         datos['crForm']=form
         datos['viaje']=viaje
+        
+        r = Reserva.objects.filter(viaje=viaje)
+        paradas=[]
+        for re in r:
+            if re.parada != None:
+                paradas.append(re.parada)
+        datos['paradas']=json.dumps(list(paradas),cls=DjangoJSONEncoder)
+        
         return render(request,'Viajes/confirmarReserva.html',datos)
     def dispatch(self, request,*args, **kwargs):
         return super(confirmarReserva, self).dispatch(request,*args, **kwargs)
@@ -282,6 +295,13 @@ class IniciarViaje(View):
         datos['fin']=v.ruta.fin
         r = Reserva.objects.filter(viaje=v)
         datos['reservas']=r
+        
+        paradas=[]
+        for re in r:
+            if re.parada != None:
+                paradas.append(re.parada)
+        datos['paradas']=json.dumps(list(paradas),cls=DjangoJSONEncoder)
+        
         return render(request,'Viajes/IniciarViaje.html',datos)
 
 @method_decorator(login_required, name='dispatch')
@@ -311,4 +331,11 @@ class ViajeEnCurso(View):
         datos['fin']=v.ruta.fin
         r = Reserva.objects.filter(viaje=v)
         datos['reservas']=r
+        
+        paradas=[]
+        for re in r:
+            if re.parada != None:
+                paradas.append(re.parada)
+        datos['paradas']=json.dumps(list(paradas),cls=DjangoJSONEncoder)
+        
         return render(request,'Viajes/ViajeEnCurso.html',datos)

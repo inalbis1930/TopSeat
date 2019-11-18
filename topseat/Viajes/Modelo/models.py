@@ -33,7 +33,7 @@ class Viaje(models.Model):
 class Reserva(models.Model):
     id = models.AutoField(primary_key=True)
     pasajero = models.ForeignKey(UsuarioTopSeat,on_delete=models.CASCADE)
-    viaje = models.OneToOneField(Viaje,on_delete=models.CASCADE)
+    viaje = models.ForeignKey(Viaje,on_delete=models.CASCADE)
     cantidadPuestos = models.IntegerField(default=1)
     estado = models.BooleanField(default=True)
     parada= models.CharField(max_length=254, blank=True, null=True)
