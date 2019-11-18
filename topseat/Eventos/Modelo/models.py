@@ -37,6 +37,8 @@ class Falla(models.Model):
     def __str__(self):
         return self.secuencia + " " + self.contexto
 class EventoMayor(models.Model):
-     id = models.AutoField(primary_key = True)
-     queja=models.ForeignKey(Queja,on_delete=models.CASCADE)
-     justificacion=models.CharField(max_length = 500)
+    id = models.AutoField(primary_key = True)
+    queja=models.ForeignKey(Queja,on_delete=models.CASCADE)
+    justificacion=models.CharField(max_length = 500)
+    def __str__(self):
+        return str(self.queja)

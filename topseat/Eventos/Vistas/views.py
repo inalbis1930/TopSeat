@@ -204,6 +204,8 @@ class reportarMayor(View):
         form = reportarEventoMayor(data=request.POST)
         if form.is_valid():
             q=Queja.objects.get(pk=request.POST.get('id',''))
+            q.respondida=True
+            q.save()
             datos= form.save(commit =False)
             datos.queja=q
             datos.save()

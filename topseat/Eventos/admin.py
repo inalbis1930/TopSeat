@@ -6,3 +6,4 @@ from .Modelo.models import *
 admin.site.register(Queja)
 admin.site.register(Sugerencia)
 admin.site.register(Falla)
+admin.site.register(EventoMayor)
