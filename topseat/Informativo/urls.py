@@ -7,4 +7,5 @@ app_name='Informativo'
 urlpatterns = [
     url(r'^FAQ/', views.FAQView.as_view(),name='FAQ'),
     url(r'^Novedades/', views.NovedadView.as_view(),name='Novedades'),
+    url(r'^reporteBug/', views.ReporteBug.as_view(),name='Bug'),
 ]

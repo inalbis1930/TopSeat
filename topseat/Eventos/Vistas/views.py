@@ -126,10 +126,9 @@ class crearQueja(View):
     def post(self, request, *args, **kwargs):
         datos = {'usuario': request.user.first_name + " "+request.user.last_name,'rol':getRol(request)}
         queja = crearQuejaF(data=request.POST)
-        queja.cliente= UsuarioTopSeat.objects.get(usuario__username=request.user.username)
-        print(queja)
         if queja.is_valid():
             queja = form.save(commit = False)
+            queja.cliente= UsuarioTopSeat.objects.get(usuario__username=request.user.username)
             if queja.viaje == None or queja.descripcion==None or queja.cliente == None :
                 datos['error']="Por Favor escriba los campos indicados"
             else:

@@ -1,7 +1,6 @@
 from django import forms
 from django.forms import ModelForm
 from ..Modelo.models import *
-from .Modelo.models import *
 from django.contrib.admin.widgets import *
 
 

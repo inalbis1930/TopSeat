@@ -1,6 +1,7 @@
 {%extends "baseAsi.html"%}
 
 {%block content%}
+
 {%if error%}
 <div class="alert">
   <span class="closebtn">&times;</span>  
@@ -21,14 +22,11 @@ for (i = 0; i < close.length; i++) {
 }
 </script>
 
-<p>Respondiendo la Falla {{id}}</p>
-<form class ="site-form" action="{%url 'Eventos:AFallas'%}" method="post">
+<p>Reporte de Bug</p>
+
+<form class ="site-form" action="{%url 'Informativo:Bug'%}" method="post">
 	{% csrf_token %}
-  <p style="text-align:center;"><b>Por:</b> {{q.cliente.usuario.first_name}} {{q.cliente.usuario.last_name}}
-  <p style="text-align:center;"><b>Secuencia:</b> {{q.secuencia}}
-	<p style="text-align:center;"><b>Contexto:</b> {{q.contexto}}
-    
-    {% for field in resp %}
+		{% for field in resp %}
       <p class ="c1">
         {{ field.label_tag }}<br>
         {{ field }}
@@ -41,9 +39,6 @@ for (i = 0; i < close.length; i++) {
       </p>
     {% endfor %}
 	<input type="hidden" name="id" value="{{id}}">
-	<input type="Submit" value="Responder">
-</form>
-<form class ="site-form" action="{%url 'Informativo:Bug'%}" method="get">
-	<input type="hidden" name="id" value="{{id}}">
 	<input type="Submit" value="Reportar Bug">
+</form>
 {%endblock content%}
