@@ -134,6 +134,11 @@ def verificar_Correo(form):
 
 class login_v(View):
     def post(self, request, *args, **kwargs):
+        '''
+            Recolecta la informacion del formulario y verifica que coincida con un usuario que exista dentro de la aplicacion
+            en caso de no ser asi devuelve la informacion a la plantilla y muestra un mensaje de error.
+            Si toda la informacion es correcta se autentica el usuario dentro de la plataforma
+        '''
         form = AuthenticationForm(data=request.POST)
         if form.is_valid():
             user=form.get_user()
@@ -148,11 +153,17 @@ class login_v(View):
         else:
             return render(request,'AdmonCuentas/login.html',{'lgForm':form,'error':form.errors})
     def get(self, request, *args, **kwargs):
+        '''
+            Crea el formulario para autenticarse en el sistema y lo envia a la plantilla
+        '''
         form = AuthenticationForm()
         return render(request,'AdmonCuentas/login.html',{'lgForm':form})
 
 @method_decorator(login_required, name='dispatch')    
 class logout_v(View):
+    '''
+       Clase que se encarga de cerrar sesion para el usuario que se encuentre autenticado dentro del sistema 
+    '''
     def post(self, request, *args, **kwargs):
         logout(request)
         return redirect('home')
@@ -161,8 +172,13 @@ class logout_v(View):
         return redirect('home')
     def dispatch(self, request,*args, **kwargs):
         return super(logout_v, self).dispatch(request,*args, **kwargs)
+
+
 @method_decorator(login_required, name='dispatch') 
 class cambiarRol(View):
+    '''
+        Clase que se encarga de cambiar de Rol del cliente, de pasajero a conductor y viceversa
+    '''
     def post(self, request, *args, **kwargs):
         a=User.objects.get(username=request.user.username)
         b= UsuarioTopSeat.objects.get(usuario = a)
@@ -176,13 +192,20 @@ class cambiarRol(View):
         return redirect('Viajes:Viajes_home')
     def dispatch(self, request,*args, **kwargs):
         return super(cambiarRol, self).dispatch(request,*args, **kwargs)
+
+
 @method_decorator(login_required, name='dispatch') 
 class actualizarContrasena(View):
 
     def post(self, request, *args, **kwargs):
+        '''
+            Recolecta la informacion del formulario y verifica que tanto la contraseña vieja coincida con la que esta guardada
+            con la que esta en la base de datos, como que las dos nuevas ingresadas coincidan y sean buenas contraseñas. Envia 
+            un correo al usuario quien realiza la modificacion.
+        '''
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
         form = PasswordChangeForm(request.user,data=request.POST)
-        if form.is_valid():
+        if form.is_valid(): #Valida todos los campos
             user=form.save()
             update_session_auth_hash(request, user)
             subject = 'CAMBIO DE CONTRASEÑ TOPSEAT' 
@@ -191,6 +214,9 @@ class actualizarContrasena(View):
             servicioCorreo.enviarCorreo(subject,message,recipient_list)
             return redirect('Viajes:Viajes_home')
     def get(self, request, *args, **kwargs):
+        '''
+            Crea el formulario para crear una nueva contraseña y lo envia a la plantilla correspondiente
+        '''
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
         form = PasswordChangeForm(request.user)
         datos['cgForm']=form
@@ -202,6 +228,10 @@ class actualizarContrasena(View):
 class actualizarPerfil(View):
     
     def post(self, request, *args, **kwargs):
+        '''
+            Recolecta la informacion del formulario y verifica cuales campos fueron modificados y los actualiza dentro de 
+            la base de datos. Envia un correo al usuario quien realiza la modificacion.
+        '''
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
         form = editarUsuario(data=request.POST)
         if form.is_valid():
@@ -218,6 +248,9 @@ class actualizarPerfil(View):
             servicioCorreo.enviarCorreo(subject,message,recipient_list)
         return redirect('Viajes:Viajes_home')
     def get(self, request, *args, **kwargs):
+        '''
+            Crea el formulario para modificar el usuario y lo envia a la plantilla correspondiente.
+        '''
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
         form = editarUsuario()
         datos['cgForm']=form
@@ -226,6 +259,9 @@ class actualizarPerfil(View):
         return super(actualizarPerfil, self).dispatch(request,*args, **kwargs)
 
 class eliminarPerfil(View):
+    '''
+        Obtiene un perfil por medio de su llave primaria y lo elimina. Envia un correo al usuario quien realiza la eliminacion.
+    '''
     def post(self, request, *args, **kwargs):
         user = User.objects.get(username=request.user.username)
         
@@ -240,6 +276,9 @@ class eliminarPerfil(View):
 @method_decorator(login_required, name='dispatch')
 class registrov(View):
     def post(self, request, *args, **kwargs):
+        '''
+            Recolecta la informacion del vehiculo nuevo, la valida y lo crea asociandolo al usuario quien lo creo.
+        '''
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
         form = registrarVehiculo_f(request.POST)
         if form.is_valid():
@@ -251,6 +290,9 @@ class registrov(View):
             return redirect('Viajes:Viajes_home')#('appname:linkname')
 
     def get(self, request, *args, **kwargs):
+        '''
+            Crea el formulario para crear un nuevo vehiculo y lo envia a la plantilla
+        '''
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
         v= Vehiculo.objects.filter(dueno=request.user)
         if len(v) ==0:
@@ -260,8 +302,13 @@ class registrov(View):
         return render(request,'AdmonCuentas/registroVehiculo.html',datos)
     def dispatch(self, request,*args, **kwargs):
         return super(registrov, self).dispatch(request,*args, **kwargs)
+
+
 @method_decorator(login_required, name='dispatch')  
 class ReporteViajes(View):
+    '''
+        Obtiene todos los viajes de un usuario, tanto de conductor como de pasajero y los envia a la plantilla.
+    '''
     def get(self, request, *args, **kwargs):
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request),'Cond':Viaje.objects.filter(conductor__usuario =request.user),'Pasa':Reserva.objects.filter(pasajero__usuario = request.user)}
         return render(request,'AdmonCuentas/reporte.html',datos)

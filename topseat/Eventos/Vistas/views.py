@@ -9,6 +9,7 @@ from django.views import View
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.shortcuts import render,redirect
+
 def getRol(request):
     a=User.objects.get(username=request.user.username)
     b= UsuarioTopSeat.objects.get(usuario = a)
@@ -19,6 +20,8 @@ def getRol(request):
     else:
         rol="Asis"
     return rol
+
+
 @method_decorator(login_required, name='dispatch') 
 class Ahome(View):
     def post(self, request, *args, **kwargs):
@@ -28,6 +31,10 @@ class Ahome(View):
         else:
              return redirect('AdmonCuentas:AdmonCuentas_home')
     def get(self, request, *args, **kwargs):
+        '''
+            Obtiene todas las quejas, fallas y sugerencias que no hayan sido respondidas hasta el momento y necesiten de atencion
+            por parte del asistente.
+        '''
         if getRol(request) == "Asis":
             datos={'Q':Queja.objects.filter(respondida=False),'F':Falla.objects.filter(respondida=False),'S':Sugerencia.objects.filter(respondida=False)}
             return render(request,'Eventos/home.html',datos)
@@ -35,8 +42,13 @@ class Ahome(View):
              return redirect('AdmonCuentas:AdmonCuentas_home')
     def dispatch(self, request,*args, **kwargs):
         return super(Ahome, self).dispatch(request,*args, **kwargs)
+
 class SQuejas(View):
     def post(self, request, *args, **kwargs):
+        '''
+            Obtiene una queja por medio de su llave primaria y obtiene la informacion de la solucion del formulario,
+            en caso de ser valido el formulario guarda la informacion y Cambia el estado de la queja
+        '''
         datos={}
         form = responderQueja(data=request.POST)
         if form.is_valid():
@@ -56,6 +68,10 @@ class SQuejas(View):
             datos['error']=form.errors
             return render(request,'Eventos/squeja.html',datos)
     def get(self, request, *args, **kwargs):
+        '''
+            Obtiene una queja por medio de su llave primaria y crea un formulario para su solucion 
+            y lo envia a la plantilla correspondiente.
+        '''
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
         form = responderQueja()
         datos['resp']=form
@@ -64,8 +80,13 @@ class SQuejas(View):
         return render(request,'Eventos/squeja.html',datos)
     def dispatch(self, request,*args, **kwargs):
         return super(SQuejas, self).dispatch(request,*args, **kwargs)
+
 class SFallas(View):
     def post(self, request, *args, **kwargs):
+        '''
+            Obtiene una queja por medio de su llave primaria y obtiene la informacion de la solucion del formulario,
+            en caso de ser valido el formulario guarda la informacion y Cambia el estado de la falla
+        '''
         datos={}
         form = responderFalla(data=request.POST)
         if form.is_valid():
@@ -83,6 +104,10 @@ class SFallas(View):
             return render(request,'Eventos:AFallas',datos)
 
     def get(self, request, *args, **kwargs):
+        '''
+            Obtiene una falla por medio de su llave primaria y crea un formulario para su solucion 
+            y lo envia a la plantilla correspondiente.
+        '''
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
         form = responderFalla()
         datos['resp']=form
@@ -92,8 +117,14 @@ class SFallas(View):
 
     def dispatch(self, request,*args, **kwargs):
         return super(SFallas, self).dispatch(request,*args, **kwargs)
+
+
 class SSugerencias(View):
     def post(self, request, *args, **kwargs):
+        '''
+            Obtiene una queja por medio de su llave primaria y obtiene la informacion de la solucion del formulario,
+            en caso de ser valido el formulario guarda la informacion y Cambia el estado de la Sugerencia
+        '''
         datos={}
         form = responderSugerencia(data=request.POST)
         if form.is_valid():
@@ -111,6 +142,10 @@ class SSugerencias(View):
             return render(request,'Eventos:ASugerencias',datos)
 
     def get(self, request, *args, **kwargs):
+        '''
+            Obtiene una Solucion por medio de su llave primaria y crea un formulario para su solucion 
+            y lo envia a la plantilla correspondiente.
+        '''
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
         form = responderSugerencia()
         datos['resp']=form
@@ -120,10 +155,14 @@ class SSugerencias(View):
     def dispatch(self, request,*args, **kwargs):
         return super(SSugerencias, self).dispatch(request,*args, **kwargs)
 
-# Create your views here.
+
 @method_decorator(login_required, name='dispatch') 
 class crearQueja(View):
     def post(self, request, *args, **kwargs):
+        '''
+            Obtiene la informacion del formulario y la guarda dentro de la base de datos, para ser resuelta
+            proximamente por un funcionario
+        '''
         datos = {'usuario': request.user.first_name + " "+request.user.last_name,'rol':getRol(request)}
         queja = crearQuejaF(data=request.POST)
         if queja.is_valid():
@@ -139,6 +178,9 @@ class crearQueja(View):
             datos['error'] = queja.errors
         return render(request, 'Eventos/cqueja.html', datos)
     def get(self, request, *args, **kwargs):
+        '''
+            Crea un formulario para crear una nueva queja y lo envia a la plantilla correspondiente
+        '''
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
         form = crearQuejaF()
         datos['resp']=form
@@ -149,6 +191,10 @@ class crearQueja(View):
 @method_decorator(login_required, name='dispatch') 
 class crearSugerencia(View):
     def post(self, request, *args, **kwargs):
+        '''
+            Obtiene la informacion del formulario y la guarda dentro de la base de datos, para ser resuelta
+            proximamente por un funcionario
+        '''
         datos = {'usuario': request.user.first_name + " "+request.user.last_name,'rol':getRol(request)}
         sugerencia = crearSugerenciaF(data=request.POST)
         
@@ -166,6 +212,9 @@ class crearSugerencia(View):
             datos['error'] = sugerencia.errors
         return render(request, 'Eventos:Crear_Sugerencia', datos)
     def get(self, request, *args, **kwargs):
+        '''
+            Crea un formulario para crear una nueva Sugerencia y lo envia a la plantilla correspondiente
+        '''
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
         form = crearSugerenciaF()
         datos['resp']=form
@@ -176,6 +225,10 @@ class crearSugerencia(View):
 @method_decorator(login_required, name='dispatch') 
 class crearFalla(View):
     def post(self, request, *args, **kwargs):
+        '''
+            Obtiene la informacion del formulario y la guarda dentro de la base de datos, para ser resuelta
+            proximamente por un funcionario
+        '''
         datos = {'usuario': request.user.first_name + " "+request.user.last_name,'rol':getRol(request)}
         falla = crearFallaF(data=request.POST)
         if falla.is_valid():
@@ -191,6 +244,9 @@ class crearFalla(View):
             datos['error'] = falla.errors
         return render(request, 'Evento:Crear_Falla', datos)
     def get(self, request, *args, **kwargs):
+        '''
+            Crea un formulario para crear una nueva falla y lo envia a la plantilla correspondiente
+        '''
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
         form = crearFallaF()
         datos['resp']=form
@@ -199,6 +255,10 @@ class crearFalla(View):
         return super(crearFalla, self).dispatch(request,*args, **kwargs)
 class reportarMayor(View):
     def post(self, request, *args, **kwargs):
+        '''
+            Obtiene la informacion del formulario y la guarda dentro de la base de datos, para ser resuelta
+            proximamente por un funcionario
+        '''
         datos={}
         form = reportarEventoMayor(data=request.POST)
         if form.is_valid():
@@ -215,6 +275,9 @@ class reportarMayor(View):
             return render(request,'Eventos:RM',datos)
 
     def get(self, request, *args, **kwargs):
+        '''
+            Crea un formulario para ascender el evento a un evento Mayot y lo envia a la plantilla correspondiente
+        '''
         datos={}
         form = reportarEventoMayor()
         datos['resp']=form

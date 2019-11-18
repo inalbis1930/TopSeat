@@ -5,9 +5,13 @@ from .forms import *
 from django.contrib.auth.models import User
 from django.views import View
 from django.shortcuts import render,redirect
-# Create your views here.
+
+
 class FAQView(View):
     def get(self, request, *args, **kwargs):
+        '''
+            Obtiene todas las FAQ's y las envia a la plantilla correspondiente.
+        '''
         a=""
         if request.user.is_authenticated:
             a="baseApp.html"
@@ -30,8 +34,12 @@ def getRol( request):
 
 def esMovil(request):
     return request.user_agent.is_mobile
+
 class NovedadView(View):
     def get(self, request, *args, **kwargs):
+        '''
+            Obtiene todas las novedades de la aplicacion y las envia a la plantilla correspondiente para ser informadas
+        '''
         a=""
         if request.user.is_authenticated:
             a="baseApp.html"
@@ -45,6 +53,10 @@ class NovedadView(View):
 
 class ReporteBug(View):
     def post(self, request, *args, **kwargs):
+        '''
+            Obtiene la informacion de un formulario de reportar bug y lo asocia con una falla, ademas en caso de ser
+            valido el formulario lo guarda en la base de datos.
+        '''
         datos={}
         form = reportarBug(data=request.POST)
         if form.is_valid():
@@ -61,6 +73,9 @@ class ReporteBug(View):
             return render(request,'Eventos:RM',datos)
 
     def get(self, request, *args, **kwargs):
+        '''
+            Crea el formulario para reportar un bug y lo envia a la plantilla
+        '''
         datos={}
         form = reportarBug()
         datos['resp']=form

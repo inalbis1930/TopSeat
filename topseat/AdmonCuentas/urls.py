@@ -1,7 +1,9 @@
 from django.conf.urls import url
 from AdmonCuentas.Vistas import views
 
-
+'''
+    Todos los urls y referencias a vistas con nombres de la aplicacion de AdmonCuentas
+'''
 app_name='AdmonCuentas'
 
 urlpatterns = [

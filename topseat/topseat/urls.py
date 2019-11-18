@@ -2,7 +2,7 @@
 
 Configuracion de los URL's de la aplicacion "topseat"
 
-Esta contenida las paginas estaticas y las aplicaciones de "cuentas", "aplicacion", "admin"
+Añade ademas los URL's de AdmonCuentas, Viajes, Informativo, Eventos, admin
 
 """
 from django.conf.urls import url, include
@@ -11,11 +11,6 @@ from . import views as topseat_views
 
 app_name='topseat' #Definicion del nombre de la aplicacion para su uso en otros links y Redirects
 
-'''
-Para acceder a un link de esta apliacion se debe ralizar de la siguiente manera:
-    <app_name>:<namespace>
-    Ex. topseat:AdmonCuentas
-'''
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls), #Vista de administrador

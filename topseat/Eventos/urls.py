@@ -1,7 +1,9 @@
 from django.conf.urls import url
 from .Vistas import views
 
-
+'''
+    URL's de la aplicacion de eventos con sus referencias a las vistas y sus respectivs nombres
+'''
 app_name='Eventos'
 
 urlpatterns = [

@@ -16,11 +16,21 @@ import json
 from django.core.serializers.json import DjangoJSONEncoder
 
 
+'''
+    En este archivo se definen todas las vistas relacionadas a los viajes del sistema
+    
+    Funciones dispatch para cuando el usuario no esta registrado o autenticado en el sistema.
+'''
+
 @method_decorator(login_required, name='dispatch')
 class Viajes_homeView(View):
     def post(self, request, *args, **kwargs):
+        '''
+           En caso de ser un metodo POST significa que el cliente requiere ver el mapa de un viaje, el cual es obtenido por 
+            medio de su llave primaria <id>. Envia la informacion necesaria al mapa.
+        '''
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request),'movil':esMovil(request)}
-        v= Viaje.objects.get(pk=request.POST.get('id',''))
+        v= Viaje.objects.get(pk=request.POST.get('id','')) #Obtiene el id desde la template
         datos['inicio']=v.ruta.inicio
         datos['fin']=v.ruta.fin
         r = Reserva.objects.filter(viaje=v)
@@ -32,10 +42,18 @@ class Viajes_homeView(View):
         return render(request,'Viajes/verMapa.html',datos)
 
     def get(self, request, *args, **kwargs):
+        '''
+            *En caso de ser un metodo GET puede tener dos resultados, uno que sea pasajero y por lo tanto se le muestran los viajes
+            a los cuales se puede registrar y los viajes a los cuales se encuentra registrado como pasajero.
+            *En caso de ser conductor se muestran los viajes que tiene activos en este momento y a los pasajeros que tienen
+            reservas activas en alguno de sus viajes.
+            *En caso de ser iun conductor con un viaje activo entonces se muestra el mapa con las paradas necesarias y la lista
+            de sus pasajeros.
+        '''
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request),'movil':esMovil(request)}
         if getRol(request) == "Conductor":
             viaje = Viaje.objects.filter(conductor__usuario =request.user,enCurso=True)
-            if viaje.count() ==0:
+            if viaje.count() ==0: #Si no tiene ningun viaje en curso
                 v=Viaje.objects.filter(conductor__usuario =request.user,terminado=False)
                 datos['viajes']=v
                 r= Reserva.objects.filter(viaje__conductor__usuario=request.user,estado=True)
@@ -56,15 +74,21 @@ class Viajes_homeView(View):
                 datos['mensaje']=request.session['mensaje']
                 request.session['mensaje']= None
             return render (request,'Viajes/pasajero.html',datos)
-    def dispatch(self, request,*args, **kwargs):
+    def dispatch(self, request,*args, **kwargs): 
         return super(Viajes_homeView, self).dispatch(request,*args, **kwargs)
 
 def esMovil(request):
+    '''
+        Funcion que retorna True si el navegador movil y falso en caso contrario.
+    '''
     return request.user_agent.is_mobile
 
     
 
 def getRol(request):
+    '''
+        Funcion para ser reutilizada para obtener el rol del usuario
+    '''
     a=User.objects.get(username=request.user.username)
     b= UsuarioTopSeat.objects.get(usuario = a)
     if b.rol == 2:
@@ -76,6 +100,10 @@ def getRol(request):
 @method_decorator(login_required, name='dispatch')
 class crearViaje(View):
     def post(self, request, *args, **kwargs):
+        '''
+            Se hacen las verificaciones necesarias, principalmente que las horas del viaje sean en el futuro y que
+            se elija un Vehiculo valido para el viaje
+        '''
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
         form = form_crearViaje(request.user,data=request.POST)
         formruta=form_CrearRuta(data=request.POST)
@@ -87,7 +115,7 @@ class crearViaje(View):
                 datos['error']="Por Favor eliga un Vehiculo"
             else:
                 now=datetime.datetime.now()
-                if viaje.fecha >  now.date() or (viaje.fecha == now.date() and viaje.hora >= now.time()):
+                if viaje.fecha >  now.date() or (viaje.fecha == now.date() and viaje.hora >= now.time()): #Validacion de fecha y hora
                     ruta=formruta.save()
                     viaje.ruta=ruta
                     viaje.conductor=UsuarioTopSeat.objects.get(usuario=request.user)
@@ -107,6 +135,9 @@ class crearViaje(View):
             return render(request,'Viajes/nuevoViaje.html',datos)
 
     def get(self, request, *args, **kwargs):
+        '''
+            Se crean los formularios para crear un viaje nuevo y se mandan al Template correspondiente.
+        '''
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)} 
         v= Vehiculo.objects.filter(dueno=request.user)
         if len(v) ==0:
@@ -118,8 +149,13 @@ class crearViaje(View):
         return render(request,'Viajes/nuevoViaje.html',datos)
     def dispatch(self, request,*args, **kwargs):
         return super(crearViaje, self).dispatch(request,*args, **kwargs)
+
+
 @method_decorator(login_required, name='dispatch')
 class verMapa(View):
+    '''
+        Clase que se encarga de Mostrar el mapa con sus respectivas paradas al cliente, tanto como conductor como pasajero
+    '''
     def post(self, request, *args, **kwargs):
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
         v=Vehiculo.objects.filter(dueno=request.user)
@@ -128,8 +164,13 @@ class verMapa(View):
         return render(request,'Viajes/verMapa.html',datos)
     def dispatch(self, request,*args, **kwargs):
         return super(verMapa, self).dispatch(request,*args, **kwargs)
+
+
 @method_decorator(login_required, name='dispatch')
 class eliminarViaje(View):
+    '''
+        Clase que se encarga de identificar un viaje especifico, eliminarlo y avisar a los interesados.
+    '''
     def post(self, request, *args, **kwargs):
         viaje =Viaje.objects.get(id=request.POST.get('id',''))
         rs = Reserva.objects.filter(viaje = viaje)
@@ -146,9 +187,15 @@ class eliminarViaje(View):
     def dispatch(self, request,*args, **kwargs):
         return super(eliminarViaje, self).dispatch(request,*args, **kwargs)
 
+
+
 @method_decorator(login_required, name='dispatch')
 class editarViaje(View):
     def post(self, request, *args, **kwargs):
+        '''
+            Funcion que verifica cuales fueron los campos que fueron actualizados y los guarda dentro del sistema, revisando
+            que sean validos.
+        '''
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
         form = modificarViaje(data=request.POST)
         formruta=modificarRuta(data=request.POST)
@@ -188,6 +235,10 @@ class editarViaje(View):
             datos['error']=form.errors
             return render(request,'Viajes/nuevoViaje.html',datos)
     def get(self, request, *args, **kwargs):
+        '''
+            Metodo que crea los formularios correspondientes para modificar la informacion existente dentro de la base de datos sobre
+            un viaje en especifico y los envia a la plantilla.
+        '''
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
         form = modificarViaje()
         formruta=modificarRuta()
@@ -197,9 +248,17 @@ class editarViaje(View):
         return render(request,'Viajes/editarViaje.html',datos)
     def dispatch(self, request,*args, **kwargs):
         return super(editarViaje, self).dispatch(request,*args, **kwargs)  
+
+
+
 @method_decorator(login_required, name='dispatch')
 class confirmarReserva(View):
     def post(self, request, *args, **kwargs):
+        '''
+            Esta funcion recolecta la informacion sobre la nueva reserva y revisa que sea valida, principalmente la cantidad
+            de puestos que quiere reservar, una vez valida crea la reserva y notifica por medio de correo electronico a los
+            interesados.
+        '''
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
         viaje=Viaje.objects.get(pk=request.POST.get('id',''))
         datos['inicio']=viaje.ruta.inicio
@@ -240,6 +299,10 @@ class confirmarReserva(View):
             datos['error']=form.errors
             return render(request,'Viajes/confirmarReserva.html',datos)
     def get(self, request, *args, **kwargs):
+        '''
+            Esta funcion recolecta toda la informacion correspondiente a un viaje que puede ser candidato para
+            la creacion de una reserva, crea los formularios y los envia a la plantilla.
+        '''
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
         v=Viaje.objects.get(pk=request.GET.get('id',''))
         r=Reserva.objects.filter(viaje=v,pasajero__usuario=request.user)
@@ -263,8 +326,13 @@ class confirmarReserva(View):
             return redirect('Viajes:Viajes_home')
     def dispatch(self, request,*args, **kwargs):
         return super(confirmarReserva, self).dispatch(request,*args, **kwargs)
+
+
 @method_decorator(login_required, name='dispatch')
 class eliminarReserva(View):
+    '''
+        Clase encargada de obtener una reserva por medio de su Llave Primaria, eliminarla y avisarle a sus interesados.
+    '''
     def post(self, request, *args, **kwargs):
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
         r = Reserva.objects.get(pk=request.POST.get('id',''))
@@ -287,6 +355,9 @@ class eliminarReserva(View):
 @method_decorator(login_required, name='dispatch')
 class IniciarViaje(View):
     def post(self, request, *args, **kwargs):
+        '''
+            Funcion que obtiene el viaje por medio de su llave primaria y cambia su estado a enCurso.
+        '''
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
         v= Viaje.objects.get(pk=request.POST.get('id',''))
         v.enCurso= True
@@ -297,6 +368,10 @@ class IniciarViaje(View):
         return super(IniciarViaje, self).dispatch(request,*args, **kwargs)
 
     def get(self, request, *args, **kwargs):
+        '''
+            Esta funcion recolecta toda la informacion sobre un viaje, con sus respectivas reservas y las envia a la plantilla
+            para informar al cliente justo antes de iniciar el viaje.
+        '''
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
         v= Viaje.objects.get(pk=request.GET.get('id',''))
         datos['viaje']= v
@@ -315,6 +390,10 @@ class IniciarViaje(View):
 @method_decorator(login_required, name='dispatch')
 class ViajeEnCurso(View):
     def post(self, request, *args, **kwargs):
+        '''
+            Cuando el viaje haya culminado es necesario desactivar todas las reservas relacionadas con este viaje
+            y ponerlo como terminado.
+        '''
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
         v= Viaje.objects.get(conductor__usuario=request.user,enCurso=True)
         v.enCurso=False
@@ -332,6 +411,10 @@ class ViajeEnCurso(View):
         return super(ViajeEnCurso, self).dispatch(request,*args, **kwargs)
 
     def get(self, request, *args, **kwargs):
+        '''
+            Esta funcion recolecta toda la informacion sobre un viaje, con sus respectivas reservas y las envia a la plantilla
+            para informar al cliente durante el viaje.
+        '''
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
         v= Viaje.objects.get(conductor__usuario=request.user,enCurso=True)
         datos['viaje']=v

@@ -5,7 +5,9 @@ from ..roles import *
 from ..Modelo.models import *
 
 
-
+'''
+    Formulario para crear un nuevo UsuarioTopSeat. 
+'''
 class ProfileForm(forms.ModelForm):
     Nombre = forms.CharField(max_length=30,required=True)
     Apellido = forms.CharField(max_length=30,required=True)
@@ -13,8 +15,11 @@ class ProfileForm(forms.ModelForm):
     celular = forms.CharField(max_length=12,required=True)
     class Meta:
         model = UsuarioTopSeat
-        fields = ('correo','celular','rol')
+        fields = ('correo','celular','rol') #Estos son los campos que son mostrados en la plantilla
 
+'''
+    Formulario para editar un usuario, ninguno de los campos es obligatorio.
+'''
 class editarUsuario(forms.ModelForm):
     first_name = forms.CharField(label='Nombre',max_length=30,required=False)
     last_name = forms.CharField(label='Apellido',max_length=30,required=False)
@@ -22,6 +27,11 @@ class editarUsuario(forms.ModelForm):
         model = User
         fields = ('first_name','last_name')
 
+
+'''
+    Formulario para registrar un nuevo vehiculo no necesita el dueño ya que este es extraido de la sesion.
+    Todos los campos son obligatorios.
+'''
 class registrarVehiculo_f(forms.ModelForm):
     modelo = forms.CharField(max_length=50,required= True)
     placa = forms.CharField(max_length=6,required= True)

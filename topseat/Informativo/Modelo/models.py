@@ -1,7 +1,11 @@
 from django.db import models
 from Eventos.Modelo.models import *
-#from Eventos import Bug
-# Create your models here.
+
+
+'''
+    Informacion de interes para el cliente, preguntas que pueden ser pensadas por el cliente con sus respectivas respuestas por 
+    parte del equipo desarrollador
+'''
 class FAQ(models.Model):
     id= models.AutoField(primary_key=True)
     pregunta = models.CharField(max_length=100,default='¿?')
@@ -9,6 +13,9 @@ class FAQ(models.Model):
     def __str__(self):
         return self.pregunta
 
+'''
+    Problema en el funcionamiento del sistema, asociado a una falla con un comportamiento conocido.
+'''
 class Bug(models.Model):
     id= models.AutoField(primary_key=True)
     estado=models.BooleanField(default=False)
@@ -17,6 +24,10 @@ class Bug(models.Model):
     def __str__(self):
         return self.justificacion
 
+'''
+    En caso de que el bug se arregl o tenga alguna clase de actualizacion
+    debe ser reportado por medio de una novedad.
+'''
 class Novedad(models.Model):
     id= models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=100,default='')

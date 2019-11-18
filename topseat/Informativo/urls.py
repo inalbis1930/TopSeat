@@ -1,7 +1,9 @@
 from django.conf.urls import url
 from Informativo.Vistas import views
 
-
+'''
+    URLS de la apliccion de informativo, con sus vistas asociadas y respectivos nombres.
+'''
 app_name='Informativo'
 
 urlpatterns = [
