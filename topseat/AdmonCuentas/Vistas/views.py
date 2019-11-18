@@ -257,7 +257,7 @@ class registrov(View):
             datos['error']="Por favor registre un vehiculo primero"
         form = registrarVehiculo_f()
         datos['rvForm']=form
-        return render(request,'Viajes/registroVehiculo.html',datos)
+        return render(request,'AdmonCuentas/registroVehiculo.html',datos)
     def dispatch(self, request,*args, **kwargs):
         return super(registrov, self).dispatch(request,*args, **kwargs)
 @method_decorator(login_required, name='dispatch')  

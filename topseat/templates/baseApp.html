@@ -53,7 +53,7 @@
 			<a href="javascript:;" onclick="parentNode.submit();">Cambiar Rol</a> 
 			<input type="hidden" name="changeR" value="Cambiar Rol" /></form>
 			{%if rol == 'Conductor'%}
-			<form action="{%url 'Viajes:registro_vehiculo'%}" method="get">{% csrf_token %} 
+			<form action="{%url 'AdmonCuentas:registro_vehiculo'%}" method="get">{% csrf_token %} 
 			<a href="javascript:;" onclick="parentNode.submit();">Registrar Vehiculo</a> 
 			<input type="hidden" name="changeR" value="Cambiar Rol" /></form>
 			{%endif%}
