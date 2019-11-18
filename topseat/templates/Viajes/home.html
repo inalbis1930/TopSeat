@@ -1,7 +1,12 @@
 {%extends "baseApp.html"%}
 
 {%block content%}
-
+{%if mensaje%}
+<div class="alert success">
+  <span class="closebtn">&times;</span>  
+  <strong>¡Exito!</strong> {{mensaje}}
+</div>
+{%endif%}
 <p>Mapa y Opcion de escoger pasajero o conductor</p>
 <form action="/Viajes/conductor" method="get">
     <input type="submit" value="Conductor" name="btnConductor" />

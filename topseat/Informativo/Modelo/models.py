@@ -11,7 +11,7 @@ class FAQ(models.Model):
 
 class Bug(models.Model):
     id= models.AutoField(primary_key=True)
-    estado=models.CharField(max_length=40,default='')
+    estado=models.BooleanField(default=False)
     justificacion = models.CharField(max_length=700,default='')
     falla=models.OneToOneField(Falla,on_delete=models.CASCADE,default='')
     def __str__(self):

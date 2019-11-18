@@ -1,0 +1,44 @@
+{%extends "baseApp.html"%}
+
+{%block content%}
+
+{%if error%}
+<div class="alert">
+  <span class="closebtn">&times;</span>  
+  <strong>¡Pilas!</strong> {{error}}
+</div>
+{%endif%}
+
+<script>
+var close = document.getElementsByClassName("closebtn");
+var i;
+
+for (i = 0; i < close.length; i++) {
+  close[i].onclick = function(){
+    var div = this.parentElement;
+    div.style.opacity = "0";
+    setTimeout(function(){ div.style.display = "none"; }, 600);
+  }
+}
+</script>
+
+<p>Creando una Falla</p>
+
+<form class ="site-form" action="{%url 'Eventos:Crear_Falla'%}" method="post">
+	{% csrf_token %}
+		{% for field in resp %}
+      <p class ="c1">
+        {{ field.label_tag }}<br>
+        {{ field }}
+        {% if field.help_text %}
+          <small style="color: grey">{{ field.help_text }}</small>
+        {% endif %}
+        {% for error in field.errors %}
+          <p style="color: red">{{ error }}</p>
+        {% endfor %}
+      </p>
+    {% endfor %}
+	<input type="hidden" name="id" value="{{id}}">
+	<input type="Submit" value="Reportar Falla">
+</form>
+{%endblock content%}

@@ -136,7 +136,7 @@ class login_v(View):
             a=User.objects.get(username=request.user.username)
             b= UsuarioTopSeat.objects.get(usuario = a)
             if b.rol==3:
-                return render(request,'Eventos/home.html')
+                return redirect('Eventos:Ahome')
             if 'next' in request.POST:
                 return redirect (request.POST.get('next'))
             return redirect('Viajes:Viajes_home') #('appname:linkname')
@@ -149,6 +149,9 @@ class login_v(View):
 @method_decorator(login_required, name='dispatch')    
 class logout_v(View):
     def post(self, request, *args, **kwargs):
+        logout(request)
+        return redirect('home')
+    def get(self, request, *args, **kwargs):
         logout(request)
         return redirect('home')
     def dispatch(self, request,*args, **kwargs):
@@ -214,7 +217,7 @@ class eliminarPerfil(View):
         user = User.objects.get(username=request.user.username)
         user.delete()
         return redirect('home')
-        
+
 @method_decorator(login_required, name='dispatch')
 class registrov(View):
     def post(self, request, *args, **kwargs):

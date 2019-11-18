@@ -14,7 +14,7 @@ class Queja(models.Model):
     respuesta=models.CharField(max_length = 300, null=True,blank=True)
     respondida= models.BooleanField(default=False)
     def __str__(self):
-        return self.viaje+str.cliente + "[ "+ self.descripcion + "]"
+        return str(self.viaje)+" "+str(self.clienteAfectado) + "[ "+ self.descripcion + "]"
 
 class Sugerencia(models.Model):
     id = models.AutoField(primary_key = True)

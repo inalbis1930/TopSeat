@@ -35,7 +35,7 @@
 			<form action="{%url 'Eventos:Crear_Queja'%}" method="get">{% csrf_token %} 
 			<a href="javascript:;" onclick="parentNode.submit();">Reporte un Queja</a> 
 			<input type="hidden" name="Queja" value="Queja" /></form>
-			<form action="{%url 'Eventos:Crear_Sugerencia'%}" method="post">{% csrf_token %} 
+			<form action="{%url 'Eventos:Crear_Sugerencia'%}" method="get">{% csrf_token %} 
 			<a href="javascript:;" onclick="parentNode.submit();">Denos un Sugerencia</a> 
 			<input type="hidden" name="Sugerencia" value="Sugerencia" /></form>
 			<form action="{%url 'Eventos:Crear_Falla' %}" method="get">{% csrf_token %} 

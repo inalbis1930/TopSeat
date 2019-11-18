@@ -1,0 +1,48 @@
+{%extends "baseApp.html"%}
+
+{%block content%}
+
+{%if error%}
+<div class="alert">
+  <span class="closebtn">&times;</span>  
+  <strong>¡Pilas!</strong> {{error}}
+</div>
+{%endif%}
+
+<script>
+var close = document.getElementsByClassName("closebtn");
+var i;
+
+for (i = 0; i < close.length; i++) {
+  close[i].onclick = function(){
+    var div = this.parentElement;
+    div.style.opacity = "0";
+    setTimeout(function(){ div.style.display = "none"; }, 600);
+  }
+}
+</script>
+
+<p>Respondiendo la Sugerencia {{id}}</p>
+<form class ="site-form" action="{%url 'Eventos:ASugerencias'%}" method="post">
+	{% csrf_token %}
+  <p style="text-align:center;"><b>Por:</b> {{q.cliente.usuario.first_name}} {{q.cliente.usuario.last_name}}
+    <p style="text-align:center;"><b>Nombre:</b> {{q.nombre}}
+  <p style="text-align:center;"><b>Motivacion:</b> {{q.motivacion}}
+	<p style="text-align:center;"><b>Descripcion:</b> {{q.descripcion}}
+    
+    {% for field in resp %}
+      <p class ="c1">
+        {{ field.label_tag }}<br>
+        {{ field }}
+        {% if field.help_text %}
+          <small style="color: grey">{{ field.help_text }}</small>
+        {% endif %}
+        {% for error in field.errors %}
+          <p style="color: red">{{ error }}</p>
+        {% endfor %}
+      </p>
+    {% endfor %}
+	<input type="hidden" name="id" value="{{id}}">
+	<input type="Submit" value="Responder">
+</form>
+{%endblock content%}

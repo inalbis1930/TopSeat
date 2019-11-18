@@ -4,15 +4,15 @@ from ..Modelo.models import *
 from Viajes.Modelo.models import *
 from django.contrib.admin.widgets import *
 
-class crearQueja(forms.ModelForm):
-    viaje = forms.ModelChoiceField(queryset=Viaje.objects.all())#Falta
-    cliente = forms.CharField(max_length = 60, required = True, label = 'Cliente Involucrado')
+class crearQuejaF(forms.ModelForm):
+    viaje = forms.ModelChoiceField(queryset=Viaje.objects.all())
+    clienteAcusado = forms.CharField(max_length = 60, required = True, label = 'Cliente Involucrado')
     descripcion = forms.CharField(max_length = 300, required = True, label = 'Descripción')
     class Meta:
         model = Queja
-        fields = ['viaje', 'cliente', 'descripcion']
+        fields = ['viaje', 'clienteAcusado', 'descripcion']
 
-class crearSugerencia(forms.ModelForm):
+class crearSugerenciaF(forms.ModelForm):
     nombre = forms.CharField(max_length = 50, required = True, label = 'Nombre Sugerencia')
     motivacion = forms.CharField(max_length = 300, required = True, label = 'Motivo')
     descripcion = forms.CharField(max_length = 300, required = True, label ='Descripción')
@@ -20,7 +20,7 @@ class crearSugerencia(forms.ModelForm):
         model = Sugerencia
         fields = ['nombre', 'motivacion', 'descripcion']
 
-class crearFalla(forms.ModelForm):
+class crearFallaF(forms.ModelForm):
     secuencia = forms.CharField(max_length = 300, required = True, label = 'Secuencia de Pasos')
     contexto = forms.CharField(max_length = 300, required = True, label = 'Contexto Falla')
     class Meta:
@@ -45,3 +45,10 @@ class responderFalla(forms.ModelForm):
     class Meta:
         model = Falla
         fields = ['respuesta']
+
+class reportarEventoMayor(forms.ModelForm):
+    justificacion=forms.CharField(max_length = 500, required = True, label = 'justificacion')
+    class Meta:
+        model = EventoMayor
+        fields = ['justificacion']
+
