@@ -18,32 +18,34 @@ from topseat.ServicioCorreo import servicioCorreo
 class Viajes_homeView(View):
     def post(self, request, *args, **kwargs):
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request),'movil':esMovil(request)}
-        if getRol(request) == "Conductor":
-            origen = request.POST.get("origen","")
-            fin = request.POST.get("fin","")
-            datos['inicio']=str(origen)
-            datos['fin']=str(fin)
-            return render(request,'Viajes/verMapa.html',datos)
-        else:
-            origen = request.POST.get("origen","")
-            fin = request.POST.get("fin","")
-            datos['inicio']=str(origen)
-            datos['fin']=str(fin)
-            return render(request,'Viajes/verMapa.html',datos)
+        v= Viaje.objects.get(pk=request.POST.get('id',''))
+        datos['inicio']=v.ruta.inicio
+        datos['fin']=v.ruta.fin
+        r = Reserva.objects.filter(viaje=v)
+        paradas=[]
+        for re in r:
+            if re.parada != None:
+                paradas.append(re.parada)
+        datos['paradas']=paradas
+        return render(request,'Viajes/verMapa.html',datos)
 
     def get(self, request, *args, **kwargs):
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request),'movil':esMovil(request)}
         if getRol(request) == "Conductor":
-            v=Viaje.objects.filter(conductor__usuario =request.user)
-            datos['viajes']=v
-            r= Reserva.objects.filter(viaje__conductor__usuario=request.user,estado=True)
-            datos['reservas']=r
-            if 'mensaje' in request.session and request.session['mensaje'] != None:
-                datos['mensaje']=request.session['mensaje']
-                request.session['mensaje']= None
-            return render(request,'Viajes/conductor.html',datos)
+            viaje = Viaje.objects.filter(conductor__usuario =request.user,enCurso=True)
+            if viaje.count() ==0:
+                v=Viaje.objects.filter(conductor__usuario =request.user,terminado=False)
+                datos['viajes']=v
+                r= Reserva.objects.filter(viaje__conductor__usuario=request.user,estado=True)
+                datos['reservas']=r
+                if 'mensaje' in request.session and request.session['mensaje'] != None:
+                    datos['mensaje']=request.session['mensaje']
+                    request.session['mensaje']= None
+                return render(request,'Viajes/conductor.html',datos)
+            else:
+                return redirect('Viajes:ViajeEnCurso')
         else:
-            v=Viaje.objects.filter(puestos_d__gte=1).exclude(conductor__usuario=request.user)
+            v=Viaje.objects.filter(puestos_d__gte=1,terminado=False,enCurso=False).exclude(conductor__usuario=request.user)
             datos['viajes']=v
             r= Reserva.objects.filter(pasajero__usuario = request.user,estado=True)
             datos['reservas']=r
@@ -282,4 +284,31 @@ class IniciarViaje(View):
         datos['reservas']=r
         return render(request,'Viajes/IniciarViaje.html',datos)
 
+@method_decorator(login_required, name='dispatch')
+class ViajeEnCurso(View):
+    def post(self, request, *args, **kwargs):
+        datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
+        v= Viaje.objects.get(conductor__usuario=request.user,enCurso=True)
+        v.enCurso=False
+        v.terminado=True
+        v.save()
+        r = Reserva.objects.filter(viaje=v)
+        for res in r:
+            res.estado=False
+            res.save()
+        request.session['mensaje']='Viaje Terminado con Exito'
+        return redirect('Viajes:Viajes_home')
+        #Terminar Viaje
 
+    def dispatch(self, request,*args, **kwargs):
+        return super(ViajeEnCurso, self).dispatch(request,*args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
+        v= Viaje.objects.get(conductor__usuario=request.user,enCurso=True)
+        datos['viaje']=v
+        datos['inicio']=v.ruta.inicio
+        datos['fin']=v.ruta.fin
+        r = Reserva.objects.filter(viaje=v)
+        datos['reservas']=r
+        return render(request,'Viajes/ViajeEnCurso.html',datos)

@@ -26,6 +26,7 @@ class Viaje(models.Model):
     vehiculo =models.ForeignKey(Vehiculo,on_delete=models.SET_NULL,null=True, blank=True)
     tarifa = models.IntegerField(default=0)
     enCurso= models.BooleanField(default = False)
+    terminado = models.BooleanField(default = False)
     def __str__(self):
         return " ["+str(self.conductor.usuario.username) +"] "+ str(self.ruta)
 

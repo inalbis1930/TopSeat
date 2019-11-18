@@ -44,7 +44,8 @@ class modificarRuta(forms.ModelForm):
         fields = ['inicio','fin']
 
 class f_confirmarReserva(forms.ModelForm):
-    cantidadPuestos=forms.IntegerField(required= True,label='Puestos Solicitados')
+    cantidadPuestos=forms.IntegerField(required= True,label='*Puestos Solicitados')
+    parada=forms.CharField(max_length=254,required= False,label='Parada a Relizar')
     class Meta:
         model = Reserva
-        fields = ['cantidadPuestos']
+        fields = ['cantidadPuestos','parada']

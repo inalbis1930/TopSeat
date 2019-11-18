@@ -83,6 +83,7 @@ for (i = 0; i < close.length; i++) {
 		{% endfor %}
 	  </p>
 	{% endfor %}
+	<p style="text-align:center;font-size:72%;">Puedes dejar el campo de parada vacío </p>
 	{% csrf_token %}
 	<input type="hidden" name="id" value="{{viaje.id}}">
 	<input style="text-align:center;" type="submit" value="Confirmar Reserva" class="btn btn-primary">

@@ -11,6 +11,9 @@ class crearQuejaF(forms.ModelForm):
     class Meta:
         model = Queja
         fields = ['viaje', 'clienteAcusado', 'descripcion']
+    '''def __init__(self, user,*args, **kwargs):
+        super(crearQuejaF,self).__init__(*args, **kwargs)
+        self.fields['viaje'].queryset = Viaje.objects.filter(conductor__usuario=user).union(Reserva.objects.filter(pasajero__usuario=user).only("viaje"))'''
 
 class crearSugerenciaF(forms.ModelForm):
     nombre = forms.CharField(max_length = 50, required = True, label = 'Nombre Sugerencia')

@@ -15,5 +15,4 @@ urlpatterns = [
     url(r'^eliminarPerfil/', views.eliminarPerfil.as_view(),name='eliminarPerfil'),
     url(r'^ReporteViajes/', views.ReporteViajes.as_view(),name='ReporteViajes'),
     url(r'^registro-v/$', views.registrov.as_view(),name='registro_vehiculo'),
-
 ]
