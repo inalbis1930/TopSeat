@@ -86,21 +86,25 @@ class crearViaje(View):
             if viaje.vehiculo == None:
                 datos['error']="Por Favor eliga un Vehiculo"
             else:
-                ruta=formruta.save()
-                viaje.ruta=ruta
-                viaje.conductor=UsuarioTopSeat.objects.get(usuario=request.user)
-                viaje.save()
-                request.session['mensaje']='Viaje Creado'
-                
-                subject = 'VIAJE CREADO'
-                message = 'Hola \n El viaje del dia: '+ str(r.viaje.fecha) +" a las " + str(r.viaje.hora) +' Fue Creado.'
-                recipient_list = [viaje.conductor.correo,]
-                servicioCorreo.enviarCorreo(subject,message,recipient_list)
-                
-                return redirect('Viajes:Viajes_home')
+                now=datetime.datetime.now()
+                if viaje.fecha >  now.date() or (viaje.fecha == now.date() and viaje.hora >= now.time()):
+                    ruta=formruta.save()
+                    viaje.ruta=ruta
+                    viaje.conductor=UsuarioTopSeat.objects.get(usuario=request.user)
+                    viaje.save()
+                    request.session['mensaje']='Viaje Creado'
+                    
+                    subject = 'VIAJE CREADO'
+                    message = 'Hola \n El viaje del dia: '+ str(viaje.fecha) +" a las " + str(viaje.hora) +' Fue Creado.'
+                    recipient_list = [viaje.conductor.correo,]
+                    servicioCorreo.enviarCorreo(subject,message,recipient_list)
+                    return redirect('Viajes:Viajes_home')
+                else: 
+                    datos['error']="Por favor ingrese una fecha y hora en el futuro"
+                    return render(request,'Viajes/nuevoViaje.html',datos)
         else:
             datos['error']=form.errors
-            render(request,'Viajes/nuevoViaje.html',datos)
+            return render(request,'Viajes/nuevoViaje.html',datos)
 
     def get(self, request, *args, **kwargs):
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)} 
@@ -237,21 +241,26 @@ class confirmarReserva(View):
             return render(request,'Viajes/confirmarReserva.html',datos)
     def get(self, request, *args, **kwargs):
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
-        viaje=Viaje.objects.get(pk=request.GET.get('id',''))
-        datos['inicio']=viaje.ruta.inicio
-        datos['fin']=viaje.ruta.fin
-        form = f_confirmarReserva()
-        datos['crForm']=form
-        datos['viaje']=viaje
+        v=Viaje.objects.get(pk=request.GET.get('id',''))
+        r=Reserva.objects.filter(viaje=v,pasajero__usuario=request.user)
         
-        r = Reserva.objects.filter(viaje=viaje)
-        paradas=[]
-        for re in r:
-            if re.parada != None:
-                paradas.append(re.parada)
-        datos['paradas']=json.dumps(list(paradas),cls=DjangoJSONEncoder)
-        
-        return render(request,'Viajes/confirmarReserva.html',datos)
+        if Reserva.objects.filter(viaje=v,pasajero__usuario=request.user).count() ==0:
+            datos['inicio']=v.ruta.inicio
+            datos['fin']=v.ruta.fin
+            form = f_confirmarReserva()
+            datos['crForm']=form
+            datos['viaje']=v
+           
+            rs = Reserva.objects.filter(viaje=v)
+            paradas=[]
+            for re in rs:
+                if re.parada != None:
+                    paradas.append(re.parada)
+            datos['paradas']=json.dumps(list(paradas),cls=DjangoJSONEncoder)
+            return render(request,'Viajes/confirmarReserva.html',datos)
+        else: 
+            request.session['mensaje']='Usted ya tiene una Reserva en este viaje'
+            return redirect('Viajes:Viajes_home')
     def dispatch(self, request,*args, **kwargs):
         return super(confirmarReserva, self).dispatch(request,*args, **kwargs)
 @method_decorator(login_required, name='dispatch')
@@ -295,7 +304,6 @@ class IniciarViaje(View):
         datos['fin']=v.ruta.fin
         r = Reserva.objects.filter(viaje=v)
         datos['reservas']=r
-        
         paradas=[]
         for re in r:
             if re.parada != None:
