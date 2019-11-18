@@ -101,7 +101,7 @@ class crearViaje(View):
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)} 
         v= Vehiculo.objects.filter(dueno=request.user)
         if len(v) ==0:
-            return redirect('Viajes:registro_vehiculo')
+            return redirect('AdmonCuentas:registro_vehiculo')
         form = form_crearViaje(request.user)
         formruta=form_CrearRuta()
         datos['nvForm']=form
