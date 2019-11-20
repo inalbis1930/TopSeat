@@ -19,12 +19,16 @@ class UsuarioTopSeat(models.Model):
     rol= models.IntegerField(choices=ROLES,default=1) 
     correo = models.EmailField() #Solo puede ser @javeriana.edu.co
     celular = models.CharField(max_length=12,default='0') #Ideal que tenga WA
+    fotoPerfil = models.ImageField(default = None,null=True,blank=True,upload_to = 'static/img/FotosPerfil')
     def __str__(self):
         if self.rol == 1:
             rolAct="Pasajero"
         else:
             rolAct="Conductor"
         return str(self.usuario.username)+ " --> " + rolAct
+    
+   
+
  
 '''
     Vehiculo que puede ser utilizado en un viaje, esta relacionado con un solo dueño.

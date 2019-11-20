@@ -921,3 +921,11 @@ html, body {
         padding: 0;
 		padding-bottom: 50px;
 }
+
+.circular--square {
+  border-radius: 50%;
+}
+
+.btn-group+.btn-group {
+    margin-left: -5px;
+}

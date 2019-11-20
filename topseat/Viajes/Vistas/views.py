@@ -30,6 +30,10 @@ class Viajes_homeView(View):
             medio de su llave primaria <id>. Envia la informacion necesaria al mapa.
         '''
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request),'movil':esMovil(request)}
+        img = UsuarioTopSeat.objects.get(usuario=request.user).fotoPerfil
+        if img != None:
+            datos['img']=img
+        
         v= Viaje.objects.get(pk=request.POST.get('id','')) #Obtiene el id desde la template
         datos['inicio']=v.ruta.inicio
         datos['fin']=v.ruta.fin
@@ -51,6 +55,9 @@ class Viajes_homeView(View):
             de sus pasajeros.
         '''
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request),'movil':esMovil(request)}
+        img = UsuarioTopSeat.objects.get(usuario=request.user).fotoPerfil
+        if img != None:
+            datos['img']=img
         if getRol(request) == "Conductor":
             viaje = Viaje.objects.filter(conductor__usuario =request.user,enCurso=True)
             if viaje.count() ==0: #Si no tiene ningun viaje en curso
@@ -105,6 +112,9 @@ class crearViaje(View):
             se elija un Vehiculo valido para el viaje
         '''
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
+        img = UsuarioTopSeat.objects.get(usuario=request.user).fotoPerfil
+        if img != None:
+            datos['img']=img
         form = form_crearViaje(request.user,data=request.POST)
         formruta=form_CrearRuta(data=request.POST)
         datos['nvForm']=form
@@ -139,6 +149,9 @@ class crearViaje(View):
             Se crean los formularios para crear un viaje nuevo y se mandan al Template correspondiente.
         '''
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)} 
+        img = UsuarioTopSeat.objects.get(usuario=request.user).fotoPerfil
+        if img != None:
+            datos['img']=img
         v= Vehiculo.objects.filter(dueno=request.user)
         if len(v) ==0:
             return redirect('AdmonCuentas:registro_vehiculo')
@@ -158,6 +171,9 @@ class verMapa(View):
     '''
     def post(self, request, *args, **kwargs):
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
+        img = UsuarioTopSeat.objects.get(usuario=request.user).fotoPerfil
+        if img != None:
+            datos['img']=img
         v=Vehiculo.objects.filter(dueno=request.user)
         if len(v):
             datos['vehiculos']=v
@@ -197,6 +213,9 @@ class editarViaje(View):
             que sean validos.
         '''
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
+        img = UsuarioTopSeat.objects.get(usuario=request.user).fotoPerfil
+        if img != None:
+            datos['img']=img
         form = modificarViaje(data=request.POST)
         formruta=modificarRuta(data=request.POST)
         if form.is_valid():
@@ -240,6 +259,9 @@ class editarViaje(View):
             un viaje en especifico y los envia a la plantilla.
         '''
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
+        img = UsuarioTopSeat.objects.get(usuario=request.user).fotoPerfil
+        if img != None:
+            datos['img']=img
         form = modificarViaje()
         formruta=modificarRuta()
         datos['nvForm']=form
@@ -260,6 +282,9 @@ class confirmarReserva(View):
             interesados.
         '''
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
+        img = UsuarioTopSeat.objects.get(usuario=request.user).fotoPerfil
+        if img != None:
+            datos['img']=img
         viaje=Viaje.objects.get(pk=request.POST.get('id',''))
         datos['inicio']=viaje.ruta.inicio
         datos['fin']=viaje.ruta.fin
@@ -304,6 +329,9 @@ class confirmarReserva(View):
             la creacion de una reserva, crea los formularios y los envia a la plantilla.
         '''
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
+        img = UsuarioTopSeat.objects.get(usuario=request.user).fotoPerfil
+        if img != None:
+            datos['img']=img
         v=Viaje.objects.get(pk=request.GET.get('id',''))
         r=Reserva.objects.filter(viaje=v,pasajero__usuario=request.user)
         
@@ -334,7 +362,6 @@ class eliminarReserva(View):
         Clase encargada de obtener una reserva por medio de su Llave Primaria, eliminarla y avisarle a sus interesados.
     '''
     def post(self, request, *args, **kwargs):
-        datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
         r = Reserva.objects.get(pk=request.POST.get('id',''))
         cant = r.cantidadPuestos
         v= Viaje.objects.get(pk=r.viaje.id)
@@ -359,6 +386,9 @@ class IniciarViaje(View):
             Funcion que obtiene el viaje por medio de su llave primaria y cambia su estado a enCurso.
         '''
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
+        img = UsuarioTopSeat.objects.get(usuario=request.user).fotoPerfil
+        if img != None:
+            datos['img']=img
         v= Viaje.objects.get(pk=request.POST.get('id',''))
         v.enCurso= True
         v.save()
@@ -373,6 +403,9 @@ class IniciarViaje(View):
             para informar al cliente justo antes de iniciar el viaje.
         '''
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
+        img = UsuarioTopSeat.objects.get(usuario=request.user).fotoPerfil
+        if img != None:
+            datos['img']=img
         v= Viaje.objects.get(pk=request.GET.get('id',''))
         datos['viaje']= v
         datos['inicio']=v.ruta.inicio
@@ -395,6 +428,9 @@ class ViajeEnCurso(View):
             y ponerlo como terminado.
         '''
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
+        img = UsuarioTopSeat.objects.get(usuario=request.user).fotoPerfil
+        if img != None:
+            datos['img']=img
         v= Viaje.objects.get(conductor__usuario=request.user,enCurso=True)
         v.enCurso=False
         v.terminado=True
@@ -416,6 +452,9 @@ class ViajeEnCurso(View):
             para informar al cliente durante el viaje.
         '''
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
+        img = UsuarioTopSeat.objects.get(usuario=request.user).fotoPerfil
+        if img != None:
+            datos['img']=img
         v= Viaje.objects.get(conductor__usuario=request.user,enCurso=True)
         datos['viaje']=v
         datos['inicio']=v.ruta.inicio

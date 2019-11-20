@@ -83,10 +83,12 @@ for (i = 0; i < close.length; i++) {
 <h3>No has ofrecido ningun viaje</h3>
 {%endif%}
 
-<form action="{%url 'Viajes:crearViaje'%}" method="get">
+<form action="{%url 'Viajes:crearViaje'%}" method="get" class="btn-group">
 	{% csrf_token %}
 	<button type="submit" formmethod="get">Crear Viaje</button>
 </form>
+
+
 
 <h3>Reservas</h3>
 {%if reservas and reservas.count != 0 %}

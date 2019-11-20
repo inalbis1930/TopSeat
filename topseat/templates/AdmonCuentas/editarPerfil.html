@@ -3,8 +3,12 @@
 {%block content%}
 
 <p>Formulario para Editar Perfil</p>
-
-<form class ="site-form" action="{%url 'AdmonCuentas:editar_perfil'%}" method="post">
+{%if img%}
+	<div style="text-align:center;">
+	<img class="circular--square" src="../../../{{img.url}}" style="width:200px;height:200px;">
+	</div>
+{%endif%}</a>
+<form class ="site-form"  action="{%url 'AdmonCuentas:editar_perfil'%}" method="post" enctype="multipart/form-data">
 	{% csrf_token %}
 	{% for field in cgForm %}
       <p class ="c1">
@@ -18,15 +22,23 @@
         {% endfor %}
       </p>
     {% endfor %}
-	<input type="Submit" value="Editar">.
+	<input type="Submit" value="Editar">
 </form>
 
-<form action="{%url 'AdmonCuentas:actualizarContrasena'%}" method="get">
+<form class ="site-form" action="{%url 'AdmonCuentas:actualizarContrasena'%}" method="get">
 	{% csrf_token %}
 	<button type="submit" formmethod="get">Cambiar Contraseña</button>
 </form>
-<form action="{%url 'AdmonCuentas:eliminarPerfil'%}" method="post">
+
+
+<form  class ="site-form" action="{%url 'AdmonCuentas:eliminarFotoPerfil'%}" method="post">
+	{% csrf_token %}
+	<button type="submit" formmethod="post">Eliminar Foto De Perfil</button>
+</form>
+
+<form class ="site-form" action="{%url 'AdmonCuentas:eliminarPerfil'%}" method="post">
 	{% csrf_token %}
 	<button type="submit" formmethod="post">Eliminar Cuenta</button>
 </form>
+
 {%endblock content%}

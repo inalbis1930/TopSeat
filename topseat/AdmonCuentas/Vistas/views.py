@@ -75,7 +75,7 @@ class home_AdmonCuentas(View):
 class signup_v(View):
     def post(self, request, *args, **kwargs):
         form = UserCreationForm(request.POST)
-        form1 = ProfileForm(request.POST)
+        form1 = ProfileForm(request.POST,request.FILES)
         if verificar_Correo(form1):
             if form.is_valid():
                 usuarioAct= form.save()
@@ -204,6 +204,10 @@ class actualizarContrasena(View):
             un correo al usuario quien realiza la modificacion.
         '''
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
+        img = UsuarioTopSeat.objects.get(usuario=request.user).fotoPerfil
+        if img != None:
+            datos['img']=img
+        
         form = PasswordChangeForm(request.user,data=request.POST)
         if form.is_valid(): #Valida todos los campos
             user=form.save()
@@ -218,6 +222,9 @@ class actualizarContrasena(View):
             Crea el formulario para crear una nueva contraseña y lo envia a la plantilla correspondiente
         '''
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
+        img = UsuarioTopSeat.objects.get(usuario=request.user).fotoPerfil
+        if img != None:
+            datos['img']=img
         form = PasswordChangeForm(request.user)
         datos['cgForm']=form
         return render(request, 'AdmonCuentas/cambiarContrasena.html',datos)
@@ -233,25 +240,36 @@ class actualizarPerfil(View):
             la base de datos. Envia un correo al usuario quien realiza la modificacion.
         '''
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
-        form = editarUsuario(data=request.POST)
+        img = UsuarioTopSeat.objects.get(usuario=request.user).fotoPerfil
+        if img != None:
+            datos['img']=img
+        form = editarUsuario(request.POST,request.FILES)
         if form.is_valid():
-            user= User.objects.get(username=request.user.username)
+            user= UsuarioTopSeat.objects.get(usuario=request.user)
             datos =form.save(commit =False)
-            if datos.first_name != "":
-                user.first_name = datos.first_name
-            if datos.last_name != "":
-                user.last_name = datos.last_name
+            if request.POST.get('first_name','') != "":
+                user.usuario.first_name = request.POST.get('first_name','')
+            if request.POST.get('last_name','') != "":
+                user.usuario.last_name = request.POST.get('last_name','')
+            if datos.celular != "":
+                user.celular =datos.celular
+            if datos.fotoPerfil != None:
+                user.fotoPerfil = datos.fotoPerfil
+            user.usuario.save()
             user.save()
-            subject = 'PERFIL ACTUALIZADO TOPSEAT' 
-            message = 'HOLA, '+user.first_name +" "+user.last_name+'! \n Tu perfil en TOPSEAT fue modificado'
+            '''subject = 'PERFIL ACTUALIZADO TOPSEAT' 
+            message = 'HOLA, '+user.usuario.first_name +" "+user.usuario.last_name+'! \n Tu perfil en TOPSEAT fue modificado'
             recipient_list = [user.email,]
-            servicioCorreo.enviarCorreo(subject,message,recipient_list)
+            servicioCorreo.enviarCorreo(subject,message,recipient_list)'''
         return redirect('Viajes:Viajes_home')
     def get(self, request, *args, **kwargs):
         '''
             Crea el formulario para modificar el usuario y lo envia a la plantilla correspondiente.
         '''
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
+        img = UsuarioTopSeat.objects.get(usuario=request.user).fotoPerfil
+        if img != None:
+            datos['img']=img
         form = editarUsuario()
         datos['cgForm']=form
         return render(request, 'AdmonCuentas/editarPerfil.html',datos)
@@ -272,6 +290,12 @@ class eliminarPerfil(View):
         
         user.delete()
         return redirect('home')
+        
+class eliminarFotoPerfil(View):
+    def post(self, request, *args, **kwargs):
+        user = UsuarioTopSeat.objects.get(usuario=request.user)
+        user.fotoPerfil.delete(save=True)
+        return redirect('Viajes:Viajes_home')
 
 @method_decorator(login_required, name='dispatch')
 class registrov(View):
@@ -280,6 +304,9 @@ class registrov(View):
             Recolecta la informacion del vehiculo nuevo, la valida y lo crea asociandolo al usuario quien lo creo.
         '''
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
+        img = UsuarioTopSeat.objects.get(usuario=request.user).fotoPerfil
+        if img != None:
+            datos['img']=img
         form = registrarVehiculo_f(request.POST)
         if form.is_valid():
             a=User.objects.get(username=request.user.username)
@@ -294,6 +321,9 @@ class registrov(View):
             Crea el formulario para crear un nuevo vehiculo y lo envia a la plantilla
         '''
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
+        img = UsuarioTopSeat.objects.get(usuario=request.user).fotoPerfil
+        if img != None:
+            datos['img']=img
         v= Vehiculo.objects.filter(dueno=request.user)
         if len(v) ==0:
             datos['error']="Por favor registre un vehiculo primero"
@@ -311,6 +341,9 @@ class ReporteViajes(View):
     '''
     def get(self, request, *args, **kwargs):
         datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request),'Cond':Viaje.objects.filter(conductor__usuario =request.user),'Pasa':Reserva.objects.filter(pasajero__usuario = request.user)}
+        img = UsuarioTopSeat.objects.get(usuario=request.user).fotoPerfil
+        if img != None:
+            datos['img']=img
         return render(request,'AdmonCuentas/reporte.html',datos)
     def dispatch(self, request,*args, **kwargs):
         return super(ReporteViajes, self).dispatch(request,*args, **kwargs)
@@ -325,3 +358,29 @@ def getRol(request):
         rol="Pasajero"
     return rol
 
+@method_decorator(login_required, name='dispatch')
+class eliminarVehiculo(View):
+    def post(self, request, *args, **kwargs):
+        datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request),'Cond':Viaje.objects.filter(conductor__usuario =request.user),'Pasa':Reserva.objects.filter(pasajero__usuario = request.user)}
+        img = UsuarioTopSeat.objects.get(usuario=request.user).fotoPerfil
+        if img != None:
+            datos['img']=img
+        f = eliminarV_f(request.user,request.POST)
+        if f.is_valid():
+            v= Vehiculo.objects.get(pk=request.POST.get('vehiculo',''))
+            v.delete()
+        return redirect('Viajes:Viajes_home')
+    def get(self, request, *args, **kwargs):
+        datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request),'Cond':Viaje.objects.filter(conductor__usuario =request.user),'Pasa':Reserva.objects.filter(pasajero__usuario = request.user)}
+        img = UsuarioTopSeat.objects.get(usuario=request.user).fotoPerfil
+        if img != None:
+            datos['img']=img
+        cant = Vehiculo.objects.filter(dueno = request.user).count()
+        if cant == 0:
+            datos['error'] = 'No tienes Vehiculos registrados aún.'
+        else:
+            f=eliminarV_f(request.user)
+            datos['evForm']= f
+        return render(request,'AdmonCuentas/eliminarVehiculo.html',datos)
+    def dispatch(self, request,*args, **kwargs):
+        return super(eliminarVehiculo, self).dispatch(request,*args, **kwargs)

@@ -13,7 +13,7 @@
 </div>
 {%endif%}
 
-<form class ="site-form" action="/AdmonCuentas/signup/" method="post">
+<form class ="site-form" action="/AdmonCuentas/signup/" method="post" enctype="multipart/form-data">
 	{% csrf_token %}
 	{% for field in sgForm %}
       <p class ="c1">
