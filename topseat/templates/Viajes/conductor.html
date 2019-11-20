@@ -22,13 +22,12 @@ for (i = 0; i < close.length; i++) {
 }
 </script>
 <h3>Tu Conduces:</h3>
-{%if viajes and viajes.count != 0 %}
+{%if viajes and viajes.0.count != 0 %}
 <div style ="overflow-x:auto;">
 <table id="t01">
   <tr>
     <th>Hora</th>
 	<th>Fecha</th>
-    <th>Conductor</th> 
     <th>Cupos</th>
 	<th>Origen</th>
 	<th>Destino</th>
@@ -40,38 +39,45 @@ for (i = 0; i < close.length; i++) {
   </tr>
   {%for item in viajes%}
    <tr>
-    <td>{{item.hora}}</td>
-	<td>{{item.fecha}}</td>
-    <td>{{item.conductor.usuario.first_name}} {{item.conductor.usuario.last_name}}</td> 
-    <td>{{item.puestos_d}}</td>
-	<td>{{item.ruta.inicio}}</td>
-	<td>{{item.ruta.fin}}</td>
-	<td>{{item.vehiculo}}</td>
-	<td>{{item.tarifa}}</td>
+    <td>{{item.0.hora}}</td>
+	<td>{{item.0.fecha}}</td>
+    <td>{{item.0.puestos_d}}</td>
+	<td>{{item.0.ruta.inicio}}</td>
+	<td>{{item.0.ruta.fin}}</td>
+	<td>{{item.0.vehiculo}}</td>
+	<td>{{item.0.tarifa}}</td>
 	<td style="text-align:center;">
 		<form action="{%url 'Viajes:Viajes_home'%}" method="post">
 			{% csrf_token %}
-			<input type="hidden" name="id" value="{{item.id}}">
+			<input type="hidden" name="id" value="{{item.0.id}}">
 			<input type="submit" value="Ver Mapa" class="btn btn-primary">
 		</form>
-		<p></p>
+		{%if item.1 == True%}
+		<br />
 		<form action="{%url 'Viajes:IniciarViaje'%}" method="get">
 			{% csrf_token %}
-			<input type="hidden" name="id" value="{{item.id }}">
+			<input type="hidden" name="id" value="{{item.0.id }}">
 			<input type="submit" value="Iniciar Viaje" class="btn btn-primary">
 		</form>
+		{%endif%}
 	</td>
-	<td style="text-align:center;">
+	<td >
 		<form action="{%url 'Viajes:editarViaje'%}" method="get">
 			{% csrf_token %}
-			<input type="hidden" name="id" value="{{item.id}}">
+			<input type="hidden" name="id" value="{{item.0.id}}">
 			<input type="submit" value="Modificar" class="btn btn-primary">
+		</form>
+		<br/>
+		<form action="{%url 'Viajes:verPasajeros'%}" method="get">
+			{% csrf_token %}
+			<input type="hidden" name="id" value="{{item.0.id}}">
+			<input type="submit" value="Ver Pasajeros" class="btn btn-primary">
 		</form>
 	</td>
 	<td style="text-align:center;">
 		<form action="{%url 'Viajes:eliminarViaje'%}" method="post">
 			{% csrf_token %}
-			<input type="hidden" name="id" value="{{item.id}}">
+			<input type="hidden" name="id" value="{{item.0.id}}">
 			<input type="submit" value="Eliminar" class="btn btn-primary">
 		</form>
 	</td>
@@ -83,10 +89,12 @@ for (i = 0; i < close.length; i++) {
 <h3>No has ofrecido ningun viaje</h3>
 {%endif%}
 
-<form action="{%url 'Viajes:crearViaje'%}" method="get">
+<form action="{%url 'Viajes:crearViaje'%}" method="get" class="btn-group">
 	{% csrf_token %}
 	<button type="submit" formmethod="get">Crear Viaje</button>
 </form>
+
+
 
 <h3>Reservas</h3>
 {%if reservas and reservas.count != 0 %}

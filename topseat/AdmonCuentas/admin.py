@@ -6,3 +6,4 @@ from .Modelo.models import *
 # Register your models here.
 
 admin.site.register(UsuarioTopSeat)
+

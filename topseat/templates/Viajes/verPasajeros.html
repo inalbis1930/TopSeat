@@ -1,0 +1,57 @@
+{%extends "baseApp.html"%}
+
+{%block content%}
+<div id="floating-panel">
+	<h3>Informacion del Viaje</h3>
+	<p style="text-align:center;"><b>Origen :</b> {{viaje.ruta.inicio}}
+	<p style="text-align:center;"><b>Destino :</b> {{viaje.ruta.fin}}
+	<p style="text-align:center;"><b>Fecha :</b> {{viaje.fecha}}
+	<p style="text-align:center;"><b>Hora :</b> {{viaje.hora}}
+	<p style="text-align:center;"><b>Vehiculo :</b> {{viaje.vehiculo}}
+	<p style="text-align:center;"><b>Tarifa :</b> ${{viaje.tarifa}}
+	<h3>Pasajeros</h3>
+	{%if reservas and reservas.count != 0 %}
+		<div style ="overflow-x:auto;">
+		<table id="t01">
+		  <tr>
+			<th>Pasajero</th> 
+			<th>Cupos</th>
+			<th>Contacto</th>
+			<th>Accion</th>
+		  </tr>
+		  {%for item in reservas%}
+		   <tr>
+			<td>{{item.pasajero.usuario.first_name}} {{item.pasajero.usuario.last_name}}</td> 
+			<td>{{item.cantidadPuestos}}</td>
+			{%if movil%}
+			<td ><a href="https://api.whatsapp.com/send?phone=57{{item.pasajero.celular}}" target="_blank">{{item.pasajero.celular}}</a></td>
+			{%else%}
+			<td ><a href="https://web.whatsapp.com/send?phone=57{{item.pasajero.celular}}" target="_blank">{{item.pasajero.celular}}</a></td>
+			{%endif%}
+			<td style="text-align:center;">
+				<form action="{%url 'Viajes:eliminarReserva'%}" method="post">
+					{% csrf_token %}
+					<input type="hidden" name="id" value="{{item.id}}">
+					<input type="submit" value="Eliminar" class="btn btn-primary">
+				</form>
+			</td>
+		  </tr>
+		  {%endfor%}
+		</table>
+		</div>
+		{%else%}
+		<h3>No tienes reservas en este momento</h3>
+		{%endif%}
+	<p></p>
+	<p></p>
+	<form action="{%url 'Viajes:IniciarViaje'%}" method="post" style="text-align:center;">
+		{% csrf_token %}
+		<input type="hidden" name="id" value="{{viaje.id }}">
+		<input type="submit" value="Iniciar Viaje" class="btn btn-primary">
+	</form>
+	<p></p>
+	<p></p>
+	<p></p>
+	<p></p>
+
+{%endblock content%}

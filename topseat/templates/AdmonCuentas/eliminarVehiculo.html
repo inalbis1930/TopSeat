@@ -1,10 +1,10 @@
-{%extends "base.html"%}
+{%extends "baseApp.html"%}
 
 
 {%block content%}
-<div class = "log_in">
-<h1>Inicia Sesión</h1>
-<p> o <a href="{%url 'AdmonCuentas:signup'%}">crea una cuenta</a></p>
+
+
+
 
 {%if error%}
 <div class="alert">
@@ -24,9 +24,11 @@ for (i = 0; i < close.length; i++) {
   }
 }
 </script>
-<form class ="site-form" action="{%url 'AdmonCuentas:login'%}" method="post">
+
+<h1>Eliminar Vehiculo</h1>
+<form class ="site-form" action="{%url 'AdmonCuentas:eliminarVehiculo'%}" method="post">
 	{% csrf_token %}
-	{% for field in lgForm %}
+	{% for field in evForm %}
       <p class ="c1">
         {{ field.label_tag }}<br>
         {{ field }}
@@ -42,9 +44,8 @@ for (i = 0; i < close.length; i++) {
 		<input type="hidden" name="next" value="{{request.GET.next}}">
   {%endif%}
 <div class="buttons">
-	<input type="Submit" value="Iniciar Sesión">
+	<input type="Submit" value="Eliminar">
 </form>
 
-</div>
 </div>
 {%endblock content%}

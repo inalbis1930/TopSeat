@@ -15,6 +15,8 @@ urlpatterns = [
     url(r'^editarPerfil/', views.actualizarPerfil.as_view(),name='editar_perfil'),
     url(r'^actualizarContrasena/', views.actualizarContrasena.as_view(),name='actualizarContrasena'),
     url(r'^eliminarPerfil/', views.eliminarPerfil.as_view(),name='eliminarPerfil'),
+    url(r'^eliminarFotoPerfil/', views.eliminarFotoPerfil.as_view(),name='eliminarFotoPerfil'),
     url(r'^ReporteViajes/', views.ReporteViajes.as_view(),name='ReporteViajes'),
     url(r'^registro-v/$', views.registrov.as_view(),name='registro_vehiculo'),
+    url(r'^eliminarVehiculo/$', views.eliminarVehiculo.as_view(),name='eliminarVehiculo'),
 ]
