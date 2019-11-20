@@ -18,5 +18,6 @@ urlpatterns = [
     url(r'^eliminarReserva/$', views.eliminarReserva.as_view(),name='eliminarReserva'),
     url(r'^IniciarViaje/$', views.IniciarViaje.as_view(),name='IniciarViaje'),
     url(r'^ViajeEnCurso/$', views.ViajeEnCurso.as_view(),name='ViajeEnCurso'),
+    url(r'^verPasajeros/$', views.verPasajeros.as_view(),name='verPasajeros'),
     
 ]

@@ -62,6 +62,19 @@ class Viajes_homeView(View):
             viaje = Viaje.objects.filter(conductor__usuario =request.user,enCurso=True)
             if viaje.count() ==0: #Si no tiene ningun viaje en curso
                 v=Viaje.objects.filter(conductor__usuario =request.user,terminado=False)
+                puede =[]
+                now = datetime.datetime.now()
+                for i in v:
+                    r = False
+                    if i.fecha ==  now.date():
+                        delta =datetime.datetime.combine(datetime.date(1, 1, 1), i.hora) - datetime.datetime.combine(datetime.date(1, 1, 1), now.time())
+                        mins = delta.seconds/60
+                        if str(delta)[0] == '-':
+                            mins = abs(mins-1440)
+                        if mins < 15:
+                            r =True
+                    puede.append(r)
+                v = zip(v,puede)
                 datos['viajes']=v
                 r= Reserva.objects.filter(viaje__conductor__usuario=request.user,estado=True)
                 datos['reservas']=r
@@ -243,7 +256,7 @@ class editarViaje(View):
             
             rs = Reserva.objects.filter(viaje = viaje)
             subject = 'VIAJE ACTUALIZADO'
-            message = 'Hola \n El viaje del dia: '+ str(r.viaje.fecha) +" a las " + str(r.viaje.hora) +' Fue modificado, Ingresa a la plataforma para verificar los cambios.'
+            message = 'Hola \n El viaje del dia: '+ str(viaje.fecha) +" a las " + str(viaje.hora) +' Fue modificado, Ingresa a la plataforma para verificar los cambios.'
             recipient_list = [viaje.conductor.correo,]
             for r in rs:
                 recipient_list.append(r.pasajero.correo)
@@ -469,3 +482,31 @@ class ViajeEnCurso(View):
         datos['paradas']=json.dumps(list(paradas),cls=DjangoJSONEncoder)
         
         return render(request,'Viajes/ViajeEnCurso.html',datos)
+
+@method_decorator(login_required, name='dispatch')
+class verPasajeros(View):
+    def dispatch(self, request,*args, **kwargs):
+        return super(verPasajeros, self).dispatch(request,*args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        '''
+            Esta funcion recolecta toda la informacion sobre un viaje, con sus respectivas reservas y las envia a la plantilla
+            para informar al cliente justo antes de iniciar el viaje.
+        '''
+        datos={'usuario':request.user.first_name +" "+request.user.last_name,'rol':getRol(request)}
+        img = UsuarioTopSeat.objects.get(usuario=request.user).fotoPerfil
+        if img != None:
+            datos['img']=img
+        v= Viaje.objects.get(pk=request.GET.get('id',''))
+        datos['viaje']= v
+        datos['inicio']=v.ruta.inicio
+        datos['fin']=v.ruta.fin
+        r = Reserva.objects.filter(viaje=v)
+        datos['reservas']=r
+        paradas=[]
+        for re in r:
+            if re.parada != None:
+                paradas.append(re.parada)
+        datos['paradas']=json.dumps(list(paradas),cls=DjangoJSONEncoder)
+        
+        return render(request,'Viajes/verPasajeros.html',datos)
